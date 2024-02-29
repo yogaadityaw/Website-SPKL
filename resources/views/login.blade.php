@@ -19,7 +19,12 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app">'
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
         <section class="section">
             <div class="d-flex align-items-stretch flex-wrap">
                 <div class="col-lg-4 col-md-8 col-12 order-lg-1 min-vh-100 order-2 bg-white">
@@ -27,7 +32,7 @@
                         <img src="{{ asset('img/logo-pal.png') }}" alt="logo" width="100" class="shadow-light mb-2 mt-2">
                         <h4 class="text-dark font-weight-normal"> <span class="font-weight-bold">Selamat Datang</span>
                         </h4>
-                        <form method="post" action="{{route('login')}}" class="needs-validation" novalidate="">
+                        <form method="post" action="{{ route('login') }}" class="needs-validation" novalidate="">
                             @csrf
                             <div class="form-group">
                                 <label for="username">Username</label>
@@ -47,22 +52,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                                    <label class="custom-control-label" for="remember-me">Ingat saya</label>
-                                </div>
+                            @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
                             </div>
+                            @endif
 
                             <div class="form-group text-right">
-
                                 <button type="submit" class="btn btn-primary btn-lg btn-icon col-12" tabindex="4">
                                     Masuk
                                 </button>
                             </div>
 
                             <div class="mt-5 text-center">
-                                Tidak punya akun ? <a href="{{route('register')}}">Buat akun!</a>
+                                Tidak punya akun? <a href="{{ route('register') }}">Buat akun!</a>
                             </div>
                         </form>
                     </div>

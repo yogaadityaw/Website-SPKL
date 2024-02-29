@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('user_password');
             $table->string('user_telephone');
             $table->integer('user_age');
+            $table->integer('role_id');
             $table->timestamps();
         });
     }

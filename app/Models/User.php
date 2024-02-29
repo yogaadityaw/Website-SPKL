@@ -23,7 +23,8 @@ class User extends Authenticatable
         'username',
         'user_telephone',
         'user_age',
-        'user_password'
+        'user_password',
+        'role_id'
     ];
 
     // /**

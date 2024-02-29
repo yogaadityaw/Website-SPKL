@@ -27,6 +27,7 @@ class AuthController extends Controller
                 'user_fullname' => $request->input('fullname'),
                 'user_telephone' => $request->input('telephone'),
                 'user_age' => $request->input('age'),
+                'role_id' => 6,
                 'user_password' => Hash::make($request->input('password'))
             ]);
 
@@ -40,15 +41,30 @@ class AuthController extends Controller
     {
         try {
             $user = User::where('username', $request->input('username'))->first();
-
+    
             if ($user && Hash::check($request->input('password'), $user->user_password)) {
                 $request->session()->put('user', $user);
-                return redirect('/dashboard');
+    
+                switch ($user->role_id){
+                    case 1:
+                        return redirect('/dashboard_kabeng');
+                    case 2:
+                        return redirect('/dashboard_departemen');
+                    case 3:
+                        return redirect('/dashboard_kemenpro');
+                    case 4:
+                        return redirect('/dashboard_admin');
+                    case 5:
+                        return redirect('/dashboard_pegawai');
+                    case 6:
+                        return redirect('/dashboard_user');
+                }
             } else {
-                return redirect('/login');
+                return redirect('/login')->with('error', 'Username atau password salah');
             }
         } catch (\Exception $error) {
-            return dd($error);
+            return redirect('/login')->with('error', 'Terjadi kesalahan: ' . $error->getMessage());
         }
     }
+    
 }
