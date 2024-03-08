@@ -29,13 +29,13 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // Route::get('/dashboard', [DashboardController::class, 'index']);
 // Route::get('/dashboard_user', [AuthController::class, 'login']);
-Route::get('/dashboard_bengkel', [DashboardController::class ,'kabeng'])->middleware('auth');
-Route::get('/dashboard_departemen', [DashboardController::class ,'departemen'])->middleware('auth');
-Route::get('/dashboard_kemenpro', [DashboardController::class ,'kemenpro'])->middleware('auth');
-Route::get('/dashboard_admin', [DashboardController::class ,'admin'])->middleware('auth');
-Route::get('/dashboard_pegawai', [DashboardController::class ,'pegawai'])->middleware('auth');
+Route::get('/dashboard_bengkel', [DashboardController::class ,'kabeng']);
+Route::get('/dashboard_departemen', [DashboardController::class ,'departemen']);
+Route::get('/dashboard_kemenpro', [DashboardController::class ,'kemenpro']);
+Route::get('/dashboard_admin', [DashboardController::class ,'admin']);
+Route::get('/dashboard_pegawai', [DashboardController::class ,'pegawai']);
 Route::get('/dashboard_user', [DashboardController::class, 'user']);
 
 
 // Route::get('/dashboard_user', [])
-// Route::view('/dashboard_user', 'dashboard_user')->middleware('auth');
+// Route::view('/dashboard_user', 'dashboard_user');

@@ -35,8 +35,8 @@ class DashboardController extends Controller
 
     public function user()
     {
-        
-        return view ('dashboard_user');
+        $type_menu = 'dashboard_user'; 
+        return view ('dashboard_user', compact('type_menu'));
     
     }
 

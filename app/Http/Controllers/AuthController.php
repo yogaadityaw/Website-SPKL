@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+    
     public function showLogin()
     {
         return view('login');
@@ -41,13 +46,13 @@ class AuthController extends Controller
     {
         try {
             $user = User::where('username', $request->input('username'))->first();
-    
+
             if ($user && Hash::check($request->input('password'), $user->user_password)) {
                 $request->session()->put('user', $user);
-    
-                switch ($user->role_id){
+
+                switch ($user->role_id) {
                     case 1:
-                        return redirect('/dashboard_kabeng');
+                        return redirect('/dashboard_bengkel');
                     case 2:
                         return redirect('/dashboard_departemen');
                     case 3:
@@ -66,5 +71,4 @@ class AuthController extends Controller
             return redirect('/login')->with('error', 'Terjadi kesalahan: ' . $error->getMessage());
         }
     }
-    
 }
