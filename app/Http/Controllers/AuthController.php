@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-    
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
+
     public function showLogin()
     {
         return view('login');
@@ -70,5 +70,11 @@ class AuthController extends Controller
         } catch (\Exception $error) {
             return redirect('/login')->with('error', 'Terjadi kesalahan: ' . $error->getMessage());
         }
+    }
+
+    public function logout()
+    {
+        session()->forget('user');
+        return redirect('/login');
     }
 }

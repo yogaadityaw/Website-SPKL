@@ -15,22 +15,26 @@ class DashboardController extends Controller
 
     public function departemen()
     {
-        return view ('dashboard_departemen');
+        $type_menu = 'dashboard_departemen'; 
+        return view('dashboard_departemen', compact('type_menu'));
     }
-
+   
     public function kemenpro()
     {
-        return view ('dashboard_kemenpro');
+        $type_menu = 'dashboard_kemenpro'; 
+        return view('dashboard_kemenpro', compact('type_menu'));
     }
 
     public function admin()
     {
-        return view ('dashboard_admin');
+        $type_menu = 'dashboard_admin'; 
+        return view('dashboard_admin', compact('type_menu'));
     }
     
     public function pegawai()
     {
-        return view ('dashboard_pegawai');
+        $type_menu = 'dashboard_pegawai'; 
+        return view('dashboard_pegawai', compact('type_menu'));
     }
 
     public function user()

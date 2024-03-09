@@ -48,7 +48,7 @@
             @include('stisla.components.header')
 
             <!-- Sidebar -->
-            @include('stisla.components.sidebar')
+            <!-- @include('stisla.components.sidebar') -->
 
             <!-- Content -->
             @yield('main')

@@ -36,6 +36,6 @@ Route::get('/dashboard_admin', [DashboardController::class ,'admin']);
 Route::get('/dashboard_pegawai', [DashboardController::class ,'pegawai']);
 Route::get('/dashboard_user', [DashboardController::class, 'user']);
 
-
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // Route::get('/dashboard_user', [])
 // Route::view('/dashboard_user', 'dashboard_user');

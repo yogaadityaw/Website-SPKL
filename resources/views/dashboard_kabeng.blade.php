@@ -10,6 +10,9 @@
         href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
 
+
+@include('stisla.components.sidebar')
+
 @section('main')
     <div class="main-content">
         <section class="section">
