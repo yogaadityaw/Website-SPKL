@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_nip')->unique();
             $table->string('user_fullname');
             $table->string('username');
-            $table->string('user_password');
+            $table->string('password');
             $table->string('user_telephone');
             $table->integer('user_age');
             $table->integer('role_id');

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('guest');
-    // }
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
 
     public function showLogin()
     {
@@ -33,7 +34,7 @@ class AuthController extends Controller
                 'user_telephone' => $request->input('telephone'),
                 'user_age' => $request->input('age'),
                 'role_id' => 6,
-                'user_password' => Hash::make($request->input('password'))
+                'password' => Hash::make($request->input('password'))
             ]);
 
             return redirect('/login');
@@ -45,12 +46,33 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         try {
-            $user = User::where('username', $request->input('username'))->first();
+            // $user = User::where('username', $request->input('username'))->first();
 
-            if ($user && Hash::check($request->input('password'), $user->user_password)) {
-                $request->session()->put('user', $user);
+            // if ($user && Hash::check($request->input('password'), $user->user_password)) {
+            //     $request->session()->put('user', $user);
 
-                switch ($user->role_id) {
+            //     switch ($user->role_id) {
+            //         case 1:
+            //             return redirect('/dashboard_bengkel');
+            //         case 2:
+            //             return redirect('/dashboard_departemen');
+            //         case 3:
+            //             return redirect('/dashboard_kemenpro');
+            //         case 4:
+            //             return redirect('/dashboard_admin'); 
+            //         case 5:
+            //             return redirect('/dashboard_pegawai');
+            //         case 6:
+            //             return redirect('/dashboard_user');
+            //     }
+            $attributes = $request->validate([
+                'username' => 'required',
+                'password' => 'required|min:6'
+            ]);
+
+
+            if (Auth::attempt($attributes)) {
+                switch (auth()->user()->role_id) {
                     case 1:
                         return redirect('/dashboard_bengkel');
                     case 2:
@@ -62,7 +84,7 @@ class AuthController extends Controller
                     case 5:
                         return redirect('/dashboard_pegawai');
                     case 6:
-                        return redirect('/dashboard_user');
+                        return redirect('/dashboard_user')->with('user', auth()->user());
                 }
             } else {
                 return redirect('/login')->with('error', 'Username atau password salah');
@@ -74,7 +96,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-        session()->forget('user');
-        return redirect('/login');
+        Auth::logout();
+        dd("Logout bos");
+        // return redirect('/login');
     }
 }

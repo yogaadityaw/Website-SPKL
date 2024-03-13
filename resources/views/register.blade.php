@@ -7,8 +7,10 @@
 <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
 @endpush
 
+
 @section('main')
-<div class="card card-primary">
+
+<div class="card card-primary bg color" >
     <div class="card-header">
         <h4>Register</h4>
     </div>
@@ -70,6 +72,7 @@
         </form>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')

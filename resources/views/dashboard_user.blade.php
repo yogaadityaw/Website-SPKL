@@ -1,51 +1,40 @@
 @extends('stisla.layouts.app')
 
-@section('title' , 'User Dashboard')
+@section('title', 'User Dashboard')
 
 @push('style')
     <!-- CSS Libraries -->
-    <link rel="stylesheet"
-        href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
 
 @include('stisla.components.sidebar')
 
 
 @section('main')
-<div class="main-content">
-    <section class="section">
-        <div class="section-header d-flex justify-content-between align-items-center">
-            <h1>Default Layout</h1>
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="#">Layout</a></div>
-                <div class="breadcrumb-item">Default Layout</div>
+    <div class="main-content">
+        <section class="section">
+            <div class="section-header d-flex justify-content-between align-items-center margin: 0 auto">
+                <h1>Selamat Datang</h1>
             </div>
-        </div>
 
-        <div class="section-body">
-            <h2 class="section-title">This is Example Page</h2>
-            <p class="section-lead">This page is just an example for you to create your own page.</p>
-            <div class="card">
-                <div class="card-header">
-                    <h4>Example Card</h4>
-                </div>
-                <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-                <div class="card-footer bg-whitesmoke">
-                    This is card footer
+            <div class="section-body">
+                <div class="row">
+                    <div style="width:100%" class="card">
+
+                        <img class="img-responsive center-block" style="margin: 0 auto" width="35%"
+                            src="{{ asset('img/konfirmasi-akun.png') }}" alt="">
+                        <h2 class="text-center mt-2" style="color: blue"><b> Akun Anda Sedang Dikonfirmasi</b></h2>
+                        {{-- <p class="text-center">Hi {{ Auth::user()->user_fullname }},</p> --}}
+                        <p class="text-center">Anda Telah Melakukan Pendaftaran di Registrasi SPKL Online PT PAL.
+                            <br> 
+                                Akun anda sedang diproses mohon untuk menunggu
+                            <br>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 
 @endsection

@@ -1,8 +1,6 @@
-
-
 {{-- untuk mengambil session role id dari AuthController --}}
 @php
-    $role_id = session('user')->role_id;
+    $role_id = auth()->user()->role_id;
 @endphp
 
 
@@ -15,43 +13,44 @@
             <a href="index.html">St</a>
         </div>
         <ul class="sidebar-menu">
-            
+
             {{-- pengecekan untuk pembagian view sidebar --}}
 
-            {{-- tampilan sidebar berdasarkan role id 1 (Kabengkel)--}}
-            @if($role_id == 1)
-            <li class="menu-header">PELER</li>
-            <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>PELER</span></a>
-                <ul class="dropdown-menu">
-                <li class='{{ Request::is('PELER-general-PELER') ? 'active' : '' }}'>
-                        <a class="nav-link" href="{{ url('PELER-general-PELER') }}">General PELER</a>
-                    </li>
-                </ul>
-            </li>
+            {{-- tampilan sidebar berdasarkan role id 1 (Kabengkel) --}}
+            @if ($role_id == 1)
+                <li class="menu-header">PELER</li>
+                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
+                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>PELER</span></a>
+                    <ul class="dropdown-menu">
+                        <li class='{{ Request::is('PELER-general-PELER') ? 'active' : '' }}'>
+                            <a class="nav-link" href="{{ url('PELER-general-PELER') }}">General PELER</a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
-            @if($role_id == 2)
+            @if ($role_id == 2)
             @endif
-            @if($role_id == 3)
+            @if ($role_id == 3)
             @endif
-            @if($role_id == 4)
+            @if ($role_id == 4)
             @endif
-            @if($role_id == 5)
+            @if ($role_id == 5)
             @endif
-            
-    
+
+
             {{-- tampilan sidebar berdasarkan role id 1 (Kabengkel) --}}
-            @if($role_id == 6)
-            <li class="menu-header">Dashboard</li>
-            <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                <ul class="dropdown-menu">
-                <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
+            @if ($role_id == 6)
+                <li class="menu-header">Dashboard</li>
+                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
+                    <a href="#" class="nav-link has-dropdown"><i
+                            class="fas fa-fire"></i><span>Dashboard</span></a>
+                    <ul class="dropdown-menu">
+                        {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
                         <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                    </li>
-                </ul>
-            </li>
+                    </li> --}}
+                    </ul>
+                </li>
             @endif
 
             <!-- <li class="menu-header">Starter</li> -->
