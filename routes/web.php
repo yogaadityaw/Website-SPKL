@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,22 +21,26 @@ Route::get('/', function () {
     return view('login');
 });
 
-
+Route::get('test-view', function () {
+    return view('pages.auth-login2');
+});
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 
-// Route::get('/dashboard', [DashboardController::class, 'index']);
-// Route::get('/dashboard_user', [AuthController::class, 'login']);
-Route::get('/dashboard_bengkel', [DashboardController::class ,'kabeng']);
-Route::get('/dashboard_departemen', [DashboardController::class ,'departemen']);
-Route::get('/dashboard_kemenpro', [DashboardController::class ,'kemenpro']);
-Route::get('/dashboard_admin', [DashboardController::class ,'admin']);
-Route::get('/dashboard_pegawai', [DashboardController::class ,'pegawai']);
-Route::get('/dashboard_user', [DashboardController::class, 'user']);
+Route::get('/dashboard-bengkel', [DashboardController::class, 'dashboardKabeng']);
+Route::get('/dashboard-departemen', [DashboardController::class, 'dashboardDepartemen']);
+Route::get('/dashboard-kemenpro', [DashboardController::class, 'dashboardKemenpro']);
+Route::get('/dashboard-admin', [DashboardController::class, 'dashboardAdmin']);
+Route::get('/dashboard-pegawai', [DashboardController::class, 'dashboardPegawai']);
+Route::get('/dashboard-user', [DashboardController::class, 'dashboardUser']);
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-// Route::get('/dashboard_user', [])
-// Route::view('/dashboard_user', 'dashboard_user');
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+});
+
+Route::get('/unauthorized', function () {
+    return view('pages.error-403');
+})->name('unauthorized');
