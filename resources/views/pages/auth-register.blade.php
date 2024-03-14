@@ -1,4 +1,4 @@
-@extends('stisla.layouts.auth')
+@extends('layouts.auth')
 
 @section('title', 'Register')
 

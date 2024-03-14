@@ -37,13 +37,13 @@
                 <div class="row">
                     <div class="{{ Request::is('auth-register') ? 'col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2' : 'col-12 col-sm-8 offset-sm-2 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-12 offset-xl-0' }}">
                         <!-- Footer -->
-                        @include('stisla.components.auth-header')
+                        @include('components.auth-header')
 
                         <!-- Content -->
                         @yield('main')
 
                         <!-- Footer -->
-                        @include('stisla.components.auth-footer')
+                        @include('components.auth-footer')
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-@extends('stisla.layouts.app')
+@extends('layouts.app')
 
 @section('title', 'General Dashboard')
 
@@ -9,6 +9,9 @@
     <link rel="stylesheet"
         href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
+
+
+@include('components.sidebar')
 
 @section('main')
     <div class="main-content">

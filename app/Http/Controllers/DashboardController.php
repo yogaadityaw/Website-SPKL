@@ -7,39 +7,44 @@ use PhpParser\Node\Stmt\Return_;
 
 class DashboardController extends Controller
 {
-    public function kabeng()
+    public function __construct()
     {
-        $type_menu = 'dashboard_kabeng';
-        return view('dashboard_kabeng', compact('type_menu'));
+        $this->middleware('auth');
     }
 
-    public function departemen()
+    public function dashboardKabeng()
     {
-        $type_menu = 'dashboard_departemen';
-        return view('dashboard_departemen', compact('type_menu'));
+        $type_menu = 'dashboard-kabeng';
+        return view('dashboard-kabeng', compact('type_menu'));
     }
 
-    public function kemenpro()
+    public function dashboardDepartemen()
     {
-        $type_menu = 'dashboard_kemenpro';
-        return view('dashboard_kemenpro', compact('type_menu'));
+        $type_menu = 'dashboard-departemen';
+        return view('dashboard-departemen', compact('type_menu'));
     }
 
-    public function admin()
+    public function dashboardKemenpro()
     {
-        $type_menu = 'dashboard_admin';
-        return view('dashboard_admin', compact('type_menu'));
+        $type_menu = 'dashboar-kemenpro';
+        return view('dashboard-kemenpro', compact('type_menu'));
     }
 
-    public function pegawai()
+    public function dashboardAdmin()
     {
-        $type_menu = 'dashboard_pegawai';
-        return view('dashboard_pegawai', compact('type_menu'));
+        $type_menu = 'dashboard-admin';
+        return view('dashboard-admin', compact('type_menu'));
     }
 
-    public function user()
+    public function dashboardPegawai()
     {
-        $type_menu = 'dashboard_user';
-        return view('dashboard_user', compact('type_menu'));
+        $type_menu = 'dashboard-pegawai';
+        return view('dashboard-pegawai', compact('type_menu'));
+    }
+
+    public function dashboardUser()
+    {
+        $type_menu = 'dashboard-user';
+        return view('dashboard-user', compact('type_menu'));
     }
 }
