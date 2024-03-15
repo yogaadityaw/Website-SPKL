@@ -63,13 +63,13 @@ class AuthController extends Controller
             if (Auth::attempt($attributes)) {
                 switch (auth()->user()->role_id) {
                     case 1:
-                        return redirect('/dashboard-bengkel');
-                    case 2:
-                        return redirect('/dashboard-departemen');
-                    case 3:
-                        return redirect('/dashboard-kemenpro');
-                    case 4:
                         return redirect('/dashboard-admin');
+                    case 2:
+                        return redirect('/dashboard-kabeng');
+                    case 3:
+                        return redirect('/dashboard-departemen');
+                    case 4:
+                        return redirect('/dashboard-kemenpro');
                     case 5:
                         return redirect('/dashboard-pegawai');
                     case 6:

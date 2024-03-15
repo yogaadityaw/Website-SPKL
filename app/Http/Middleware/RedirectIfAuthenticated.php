@@ -21,7 +21,20 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                switch (auth()->user()->role_id) {
+                    case 1:
+                        return redirect('/dashboard-admin');
+                    case 2:
+                        return redirect('/dashboard-kabeng');
+                    case 3:
+                        return redirect('/dashboard-departemen');
+                    case 4:
+                        return redirect('/dashboard-kemenpro');
+                    case 5:
+                        return redirect('/dashboard-pegawai');
+                    case 6:
+                        return redirect('/dashboard-user')->with('user', auth()->user());
+                }
             }
         }
 

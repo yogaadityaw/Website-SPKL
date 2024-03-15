@@ -1,10 +1,15 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController\DashboardAdminController;
+use App\Http\Controllers\DashboardController\DashboardDepartemenController;
+use App\Http\Controllers\DashboardController\DashboardKabengController;
+use App\Http\Controllers\DashboardController\DashboardKemenproController;
+use App\Http\Controllers\DashboardController\DashboardPegawaiController;
+use App\Http\Controllers\DashboardController\DashboardUserController;
+use App\Http\Controllers\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +22,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
-
 Route::get('test-view', function () {
     return view('pages.auth-login2');
 });
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 
-Route::get('/dashboard-bengkel', [DashboardController::class, 'dashboardKabeng']);
-Route::get('/dashboard-departemen', [DashboardController::class, 'dashboardDepartemen']);
-Route::get('/dashboard-kemenpro', [DashboardController::class, 'dashboardKemenpro']);
-Route::get('/dashboard-admin', [DashboardController::class, 'dashboardAdmin']);
-Route::get('/dashboard-pegawai', [DashboardController::class, 'dashboardPegawai']);
-Route::get('/dashboard-user', [DashboardController::class, 'dashboardUser']);
+Route::get('/dashboard-admin', [DashboardAdminController::class, 'index']);
+Route::get('/dashboard-kabeng', [DashboardKabengController::class, 'index']);
+Route::get('/dashboard-departemen', [DashboardDepartemenController::class, 'index']);
+Route::get('/dashboard-kemenpro', [DashboardKemenproController::class, 'index']);
+Route::get('/dashboard-pegawai', [DashboardPegawaiController::class, 'index']);
+Route::get('/dashboard-user', [DashboardUserController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
