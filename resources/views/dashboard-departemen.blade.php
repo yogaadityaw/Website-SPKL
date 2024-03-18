@@ -10,11 +10,13 @@
         href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
 
+@include('components.sidebar')
+
 @section('main')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Dashboard</h1>
+                <h1>Dashboard Halo Departenen</h1>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">

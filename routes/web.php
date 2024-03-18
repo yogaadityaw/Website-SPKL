@@ -1,26 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController\DashboardAdminController;
-use App\Http\Controllers\DashboardController\DashboardDepartemenController;
-use App\Http\Controllers\DashboardController\DashboardKabengController;
-use App\Http\Controllers\DashboardController\DashboardKemenproController;
-use App\Http\Controllers\DashboardController\DashboardPegawaiController;
-use App\Http\Controllers\DashboardController\DashboardUserController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\DashboardUserController;
+use App\Http\Controllers\DashboardAdminController\DashboardAdminController;
+use App\Http\Controllers\DashboardKabengController\DashboardKabengController;
+use App\Http\Controllers\DashboardPegawaiController\DashboardPegawaiController;
+use App\Http\Controllers\DashboardKemenproController\DashboardKemenproController;
+use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenController;
+use App\Http\Controllers\DashboardKabengController\ManageSpklController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::get('test-view', function () {
     return view('pages.auth-login2');
@@ -31,12 +22,31 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 
-Route::get('/dashboard-admin', [DashboardAdminController::class, 'index']);
-Route::get('/dashboard-kabeng', [DashboardKabengController::class, 'index']);
-Route::get('/dashboard-departemen', [DashboardDepartemenController::class, 'index']);
-Route::get('/dashboard-kemenpro', [DashboardKemenproController::class, 'index']);
-Route::get('/dashboard-pegawai', [DashboardPegawaiController::class, 'index']);
-Route::get('/dashboard-user', [DashboardUserController::class, 'index']);
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
+});
+
+Route::prefix('kabeng')->group(function () {
+    Route::get('/dashboard', [DashboardKabengController::class, 'index'])->name('dashboard-kabeng');
+    Route::get('/create-spkl', [ManageSpklController::class, 'index'])->name('create-spkl');
+});
+
+Route::prefix('departemen')->group(function () {
+    Route::get('/dashboard', [DashboardDepartemenController::class, 'index'])->name('dashboard-departemen');
+});
+
+Route::prefix('kemenpro')->group(function () {
+    Route::get('/dashboard', [DashboardKemenproController::class, 'index'])->name('dashboard-kemenpro');
+});
+
+Route::prefix('pegawai')->group(function () {
+    Route::get('/dashboard', [DashboardPegawaiController::class, 'index'])->name('dashboard-pegawai');
+});
+
+Route::prefix('user')->group(function () {
+    Route::get('/dashboard', [DashboardUserController::class, 'index'])->name('dashboard-user');
+});
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');

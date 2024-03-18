@@ -23,17 +23,17 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 switch (auth()->user()->role_id) {
                     case 1:
-                        return redirect('/dashboard-admin');
+                        return redirect()->route('dashboard-admin');
                     case 2:
-                        return redirect('/dashboard-kabeng');
+                        return redirect()->route('dashboard-kabeng');
                     case 3:
-                        return redirect('/dashboard-departemen');
+                        return redirect()->route('dashboard-departemen');
                     case 4:
-                        return redirect('/dashboard-kemenpro');
+                        return redirect()->route('dashboard-kemenpro');
                     case 5:
-                        return redirect('/dashboard-pegawai');
+                        return redirect()->route('dashboard-pegawai');
                     case 6:
-                        return redirect('/dashboard-user')->with('user', auth()->user());
+                        return redirect()->route('dashboard-user')->with('user', auth()->user());
                 }
             }
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DashboardController;
+namespace App\Http\Controllers\DashboardKabengController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
