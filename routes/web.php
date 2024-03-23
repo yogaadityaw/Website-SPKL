@@ -15,10 +15,10 @@ use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenContro
 
 
 Route::get('test-view', function () {
-    return view('pages.forms-advanced-form');
+    return view('pages.bootstrap-modal');
 });
 
-Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [AuthController::class, 'showLogin'])->name('home');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
@@ -27,7 +27,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
     Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
-   
+
 });
 
 Route::prefix('kabeng')->group(function () {

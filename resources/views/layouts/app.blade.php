@@ -33,7 +33,6 @@
     </script>
     <!-- END GA -->
 </head>
-</head>
 
 <body>
     <div id="app">

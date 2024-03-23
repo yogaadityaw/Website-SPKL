@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
 @endpush
 
 
@@ -45,22 +46,33 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                        @foreach ($users as $user)
-                                            @php
-                                                $index = 1;
-                                            @endphp
-                                            <tr>
-                                                <td>{{ $index++ }}</td>
-                                                <td>{{ $user->user_nip }}</td>
-                                                <td>{{ $user->user_fullname }}</td>
-                                                <td>{{ $user->username }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->user_telephone }}</td>
-                                                <td>{{ $user->user_age }}</td>
-                                                <td>{{ $user->role->role_name }}</td>
-                                                <td><a href="#">Aksi</a></td>
-                                            </tr>
-                                        @endforeach
+                                    @foreach ($users as $user)
+                                        @php
+                                            $index = 1;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $index++ }}</td>
+                                            <td>{{ $user->user_nip }}</td>
+                                            <td>{{ $user->user_fullname }}</td>
+                                            <td>{{ $user->username }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->user_telephone }}</td>
+                                            <td>{{ $user->user_age }}</td>
+                                            <td>{{ $user->role->role_name }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning"
+                                                        data-toggle="modal"
+                                                        data-target="#userModal">
+                                                    Update
+                                                </button>
+
+                                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#userModal">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -72,6 +84,28 @@
     </div>
 @endsection
 
+<div class="col-12 col-md-6 col-lg-6">
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Update User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/simpleweather/jquery.simpleWeather.min.js') }}"></script>
@@ -81,6 +115,8 @@
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/page/bootstrap-modal.js') }}"></script>
+    <script src="{{ asset('library/prismjs/prism.js') }}"></script>
 
 
     <!-- Page Specific JS File -->
