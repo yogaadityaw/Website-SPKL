@@ -48,7 +48,7 @@ class AuthController extends Controller
                 'password' => Hash::make($request->input('password'))
             ]);
 
-            return redirect('/');
+            return route('home');
         } catch (\Exception $error) {
             return dd($error);
         }
@@ -79,10 +79,10 @@ class AuthController extends Controller
                         return redirect()->route('dashboard-user')->with('user', auth()->user());
                 }
             } else {
-                return redirect('/login')->with('error', 'Username atau password salah');
+                return redirect('/')->with('error', 'Username atau password salah');
             }
         } catch (\Exception $error) {
-            return redirect('/login')->with('error', 'Terjadi kesalahan: ' . $error->getMessage());
+            return redirect('/')->with('error', 'Terjadi kesalahan: ' . $error->getMessage());
         }
     }
 }
