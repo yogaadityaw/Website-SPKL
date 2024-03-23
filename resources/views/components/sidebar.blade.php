@@ -33,6 +33,10 @@
                         {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
                         <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
                     </li> --}}
+
+                        <li>
+                            <a class="nav-link" href="{{ route('change-role') }}">Rubah Role</a>
+                        </li>
                     </ul>
                 </li>
 @endif

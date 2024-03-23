@@ -4,17 +4,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\DashboardUserController;
+use App\Http\Controllers\DashboardAdminController\ChangeRoleController;
+use App\Http\Controllers\DashboardKabengController\ManageSpklController;
 use App\Http\Controllers\DashboardAdminController\DashboardAdminController;
 use App\Http\Controllers\DashboardKabengController\DashboardKabengController;
 use App\Http\Controllers\DashboardPegawaiController\DashboardPegawaiController;
 use App\Http\Controllers\DashboardKemenproController\DashboardKemenproController;
 use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenController;
-use App\Http\Controllers\DashboardKabengController\ManageSpklController;
 
 
 
 Route::get('test-view', function () {
-    return view('pages.auth-login2');
+    return view('pages.forms-advanced-form');
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
@@ -25,6 +26,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
+    Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
+   
 });
 
 Route::prefix('kabeng')->group(function () {

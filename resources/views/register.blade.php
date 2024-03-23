@@ -33,6 +33,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" class="form-control" name="email">
+                    <div class="invalid-feedback">
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="fullname">Fullname</label>
                     <input id="fullname" type="fullname" class="form-control" name="fullname">
                     <div class="invalid-feedback">
