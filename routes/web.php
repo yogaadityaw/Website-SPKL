@@ -15,7 +15,7 @@ use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenContro
 
 
 Route::get('test-view', function () {
-    return view('pages.bootstrap-modal');
+    return view('pages.bootstrap-dropdown');
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('home');
@@ -27,6 +27,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
     Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
+    Route::put('/change-role/{user}/update', [ChangeRoleController::class, 'updateRole'])->name('users.update');
 
 });
 

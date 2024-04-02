@@ -46,33 +46,32 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($users as $user)
-                                        @php
+                                        @foreach ($users as $user)
+                                            {{-- @php
                                             $index = 1;
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $index++ }}</td>
-                                            <td>{{ $user->user_nip }}</td>
-                                            <td>{{ $user->user_fullname }}</td>
-                                            <td>{{ $user->username }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->user_telephone }}</td>
-                                            <td>{{ $user->user_age }}</td>
-                                            <td>{{ $user->role->role_name }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-warning"
-                                                        data-toggle="modal"
-                                                        data-target="#userModal">
-                                                    Update
-                                                </button>
+                                        @endphp --}}
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $user->user_nip }}</td>
+                                                <td>{{ $user->user_fullname }}</td>
+                                                <td>{{ $user->username }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->user_telephone }}</td>
+                                                <td>{{ $user->user_age }}</td>
+                                                <td>{{ $user->role->role_name }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#edit">
+                                                        Update
+                                                    </button>
 
-                                                <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="#userModal">
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#delete">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -85,12 +84,46 @@
 @endsection
 
 <div class="col-12 col-md-6 col-lg-6">
-    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="userModalLabel">Update User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('users.update', $user->id_user) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label>Jabatan</label>
+                            <select class="form-control selectric">
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-6">
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">delete</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -105,6 +138,7 @@
         </div>
     </div>
 </div>
+
 
 @push('scripts')
     <!-- JS Libraies -->
