@@ -46,32 +46,32 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                        @foreach ($users as $user)
-                                            {{-- @php
-                                            $index = 1;
-                                        @endphp --}}
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $user->user_nip }}</td>
-                                                <td>{{ $user->user_fullname }}</td>
-                                                <td>{{ $user->username }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->user_telephone }}</td>
-                                                <td>{{ $user->user_age }}</td>
-                                                <td>{{ $user->role->role_name }}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                        data-target="#edit">
-                                                        Update
-                                                    </button>
+                                    @foreach ($users as $user)
+                                        {{-- @php
+                                        $index = 1;
+                                    @endphp --}}
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $user->user_nip }}</td>
+                                            <td>{{ $user->user_fullname }}</td>
+                                            <td>{{ $user->username }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->user_telephone }}</td>
+                                            <td>{{ $user->user_age }}</td>
+                                            <td>{{ $user->role->role_name }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#edit" data-user-id="{{$user->id_user}}">
+                                                    Update
+                                                </button>
 
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="#delete">
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#delete" data-user-id="{{$user->id_user}}">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -85,7 +85,7 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
@@ -95,23 +95,25 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('users.update', $user->id_user) }}" method="POST">
+                    <form id="updateUserForm" action="" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
                             <label>Jabatan</label>
-                            <select class="form-control selectric">
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
-                                @endforeach
-                            </select>
+                            <label>
+                                <select class="form-control selectric">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
+                                    @endforeach
+                                </select>
+                            </label>
                         </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
-                </form>
             </div>
         </div>
     </div>
@@ -119,7 +121,7 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
@@ -129,6 +131,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -151,8 +154,18 @@
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('js/page/bootstrap-modal.js') }}"></script>
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
-
-
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/index-0.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#edit').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget);
+                let userId = button.data('user-id');
+
+                let updateUserForm = $('#updateUserForm');
+                updateUserForm.attr('action', "{{ route('users-update', 'id_placeholder') }}".replace('id_placeholder', userId));
+            });
+        });
+    </script>
 @endpush

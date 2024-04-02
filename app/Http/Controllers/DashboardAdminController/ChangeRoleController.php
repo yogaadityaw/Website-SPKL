@@ -25,22 +25,17 @@ class ChangeRoleController extends Controller
 
     public function updateRole(Request $request, $id_user)
     {
-        // Ambil user dari database
-    $user = User::findOrFail($id_user);
+        $user = User::findOrFail($id_user);
 
-    // Validasi data yang dikirimkan dari form
-    $request->validate([
-        'role_id' => 'required|exists:roles,id',
-    ]);
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+        ]);
 
-    // Ambil data yang dikirimkan dari form
-    $data = $request->all();
+        $data = $request->all();
 
-    // Update role user
-    $user->role_id = $data['role_id'];
-    $user->save();
+        $user->role_id = $data['role_id'];
+        $user->save();
 
-    // Redirect ke halaman index user atau halaman lain sesuai kebutuhan
-    return redirect()->route('users.update')->with('success', 'User role has been updated successfully.');
+        return redirect()->route('users-update')->with('success', 'User role has been updated successfully.');
     }
 }

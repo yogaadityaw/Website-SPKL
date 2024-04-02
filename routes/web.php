@@ -27,7 +27,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
     Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
-    Route::put('/change-role/{user}/update', [ChangeRoleController::class, 'updateRole'])->name('users.update');
+    Route::put('/change-role/update/{id}', [ChangeRoleController::class, 'updateRole'])->name('users-update');
 
 });
 
