@@ -13,7 +13,6 @@ use App\Http\Controllers\DashboardKemenproController\DashboardKemenproController
 use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenController;
 
 
-
 Route::get('test-view', function () {
     return view('pages.bootstrap-dropdown');
 });
@@ -27,7 +26,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
     Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
-    Route::put('/change-role/update/{id}', [ChangeRoleController::class, 'updateRole'])->name('users-update');
+    Route::get('/change-role/edit/{id}', [ChangeRoleController::class, 'getUserData']);
+    Route::put('/change-role/update', [ChangeRoleController::class, 'updateRole'])->name('users-update');
 
 });
 
