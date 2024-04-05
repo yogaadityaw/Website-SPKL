@@ -70,8 +70,8 @@
                                                     Update
                                                 </button>
 
-                                                <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="#delete" data-user-id="{{$user->id_user}}">
+                                                <button type="button" class="btn btn-danger deleteButton"
+                                                        value="{{$user->id_user}}" data-toggle="modal">
                                                     Delete
                                                 </button>
                                             </td>
@@ -130,19 +130,24 @@
          aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Changes</button>
-                </div>
+                <form id="deleteUserForm" action="{{route('users-delete')}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="user_id" id="user_id" value="user_id">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userModalLabel">delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah anda yakin ingin menghapus user ini ? </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -173,6 +178,19 @@
                     url: "/admin/change-role/edit/" + userId,
                     success: function (response) {
                         $('#id_user').val(response.id_user);
+                        $('#role_id').val(response.role_id);
+                    }
+                })
+            });
+
+            $(document).on('click', '.deleteButton', function () {
+                let userId = $(this).val();
+                $('#deleteModal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/change-role/edit/" + userId,
+                    success: function (response) {
+                        $('#user_id').val(response.id_user);
                         $('#role_id').val(response.role_id);
                     }
                 })

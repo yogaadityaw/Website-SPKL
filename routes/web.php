@@ -28,7 +28,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
     Route::get('/change-role/edit/{id}', [ChangeRoleController::class, 'getUserData']);
     Route::put('/change-role/update', [ChangeRoleController::class, 'updateRole'])->name('users-update');
-
+    Route::delete('/change-role/delete', [ChangeRoleController::class, 'deleteUser'])->name('users-delete');
 });
 
 Route::prefix('kabeng')->group(function () {

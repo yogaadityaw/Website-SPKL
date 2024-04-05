@@ -42,4 +42,15 @@ class ChangeRoleController extends Controller
         return response()->json($user);
     }
 
+    public function deleteUser(Request $request)
+    {
+        try {
+            $user = User::findOrFail($request->user_id);
+            $user->delete();
+            return redirect()->route('change-role')->with('success', 'User berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('change-role')->with('error', 'User gagal dihapus');
+        }
+    }
+
 }
