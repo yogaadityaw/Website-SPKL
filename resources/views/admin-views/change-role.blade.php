@@ -24,13 +24,17 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>Daftar Personil</h4>
-                            {{-- <div class="card-header-action">
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-primary">Week</a>
-                                    <a href="#" class="btn">Month</a>
-                                </div>
-                            </div> --}}
                         </div>
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-bordered table">
@@ -60,8 +64,9 @@
                                             <td>{{ $user->user_age }}</td>
                                             <td>{{ $user->role->role_name }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                        data-target="#edit" data-user-id="{{$user->id_user}}">
+                                                <button type="button" value="{{$user->id_user}}"
+                                                        class="btn btn-warning editButton"
+                                                        data-toggle="modal">
                                                     Update
                                                 </button>
 
@@ -84,43 +89,44 @@
 @endsection
 
 <div class="col-12 col-md-6 col-lg-6">
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">Update User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="updateUserForm" action="" method="POST">
-                        @csrf
-                        @method('PUT')
+                <form id="updateUserForm" action="{{route('users-update')}}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id_user" id="id_user" value="id_user">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userModalLabel">Update User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
                             <label>Jabatan</label>
                             <label>
-                                <select class="form-control selectric">
+                                <select class="form-control selectric" name="id_role">
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
                                     @endforeach
                                 </select>
                             </label>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <div class="col-12 col-md-6 col-lg-6">
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -159,12 +165,17 @@
 
     <script>
         $(document).ready(function () {
-            $('#edit').on('show.bs.modal', function (event) {
-                let button = $(event.relatedTarget);
-                let userId = button.data('user-id');
-
-                let updateUserForm = $('#updateUserForm');
-                updateUserForm.attr('action', "{{ route('users-update', 'id_placeholder') }}".replace('id_placeholder', userId));
+            $(document).on('click', '.editButton', function () {
+                let userId = $(this).val();
+                $('#editModal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/change-role/edit/" + userId,
+                    success: function (response) {
+                        $('#id_user').val(response.id_user);
+                        $('#role_id').val(response.role_id);
+                    }
+                })
             });
         });
     </script>
