@@ -29,9 +29,9 @@ class ChangeRoleController extends Controller
             $user = User::findOrFail($request->id_user);
             $user->role_id = $request->id_role;
             $user->save();
-            return redirect()->route('change-role');
+            return redirect()->route('change-role')->with('success', 'Role berhasil diubah');
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            return redirect()->route('change-role')->with('error', 'Role gagal diubah');
         }
 
     }

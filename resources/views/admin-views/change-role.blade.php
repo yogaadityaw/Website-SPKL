@@ -24,13 +24,17 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>Daftar Personil</h4>
-                            {{-- <div class="card-header-action">
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-primary">Week</a>
-                                    <a href="#" class="btn">Month</a>
-                                </div>
-                            </div> --}}
                         </div>
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-bordered table">
