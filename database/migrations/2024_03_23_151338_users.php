@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('user_telephone');
             $table->integer('user_age');
             $table->integer('role_id');
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
 
             $table->foreign('role_id')->references('id_role')->on('role');
