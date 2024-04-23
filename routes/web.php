@@ -65,3 +65,7 @@ Route::get('/unauthorized', function () {
 Route::get('/qr-code', function (){
     return QrCode::generate(asset(''));
 });
+
+Route::get('test-document', function () {
+    return view('test-document');
+});
