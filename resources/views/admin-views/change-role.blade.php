@@ -67,12 +67,12 @@
                                                 <button type="button" value="{{$user->id_user}}"
                                                         class="btn btn-warning editButton"
                                                         data-toggle="modal">
-                                                    Update
+                                                    Edit
                                                 </button>
 
                                                 <button type="button" class="btn btn-danger deleteButton"
                                                         value="{{$user->id_user}}" data-toggle="modal">
-                                                    Delete
+                                                    Hapus
                                                 </button>
                                             </td>
                                         </tr>
@@ -90,7 +90,7 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="updateUserForm" action="{{route('users-update')}}" method="POST">
@@ -106,7 +106,6 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Jabatan</label>
-                            <label>
                                 <select class="form-control selectric" name="id_role">
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
@@ -127,7 +126,7 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="deleteUserForm" action="{{route('users-delete')}}" method="POST">

@@ -11,7 +11,7 @@ use App\Http\Controllers\DashboardKabengController\DashboardKabengController;
 use App\Http\Controllers\DashboardPegawaiController\DashboardPegawaiController;
 use App\Http\Controllers\DashboardKemenproController\DashboardKemenproController;
 use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenController;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('test-view', function () {
     return view('pages.bootstrap-dropdown');
@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/change-role/edit/{id}', [ChangeRoleController::class, 'getUserData']);
     Route::put('/change-role/update', [ChangeRoleController::class, 'updateRole'])->name('users-update');
     Route::delete('/change-role/delete', [ChangeRoleController::class, 'deleteUser'])->name('users-delete');
+
 });
 
 Route::prefix('kabeng')->group(function () {
@@ -59,3 +60,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/unauthorized', function () {
     return view('pages.error-403');
 })->name('unauthorized');
+
+
+Route::get('/qr-code', function (){
+    return QrCode::generate(asset(''));
+});
