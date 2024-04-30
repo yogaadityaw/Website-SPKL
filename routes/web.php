@@ -6,6 +6,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\DashboardAdminController\ChangeRoleController;
 use App\Http\Controllers\DashboardKabengController\ManageSpklController;
+use App\Http\Controllers\DashboardKabengController\PengajuanSpklController;
 use App\Http\Controllers\DashboardAdminController\DashboardAdminController;
 use App\Http\Controllers\DashboardKabengController\DashboardKabengController;
 use App\Http\Controllers\DashboardPegawaiController\DashboardPegawaiController;
@@ -14,7 +15,7 @@ use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenContro
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('test-view', function () {
-    return view('pages.bootstrap-dropdown');
+    return view('test-view');
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('home');
@@ -35,6 +36,7 @@ Route::prefix('admin')->group(function () {
 Route::prefix('kabeng')->group(function () {
     Route::get('/dashboard', [DashboardKabengController::class, 'index'])->name('dashboard-kabeng');
     Route::get('/create-spkl', [ManageSpklController::class, 'index'])->name('create-spkl');
+    Route::get('/pengajuan-spkl', [PengajuanSpklController::class, 'index'])->name('pengajuan-spkl');
 });
 
 Route::prefix('departemen')->group(function () {

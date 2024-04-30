@@ -21,10 +21,10 @@
                 <div class="row">
                     <div style="width:100%" class="card">
                         <img class="img-responsive center-block" style="margin: 0 auto" width="40%"
-                             src="{{ asset('img/image-wait.svg') }}" alt="">
+                            src="{{ asset('img/image-wait.svg') }}" alt="">
                         <h2 class="text-center">Akun Sedang Dikonfirmasi</h2>
-                        <p class="text-center">Mohon untuk menunggu akun Anda telah melakukan pendaftaran SPKL Online
-                            PT.PAL</p>
+                        <p class="text-center">Terimakasih telah melakukan pendaftaran akun SPKL Online
+                            PT PAL Indonesia</p>
                     </div>
                 </div>
             </div>

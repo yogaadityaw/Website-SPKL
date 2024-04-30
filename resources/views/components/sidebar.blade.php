@@ -3,7 +3,7 @@
 
 {{-- pengecekan untuk pembagian view sidebar --}}
 
-{{-- tampilan sidebar berdasarkan role id 1 (Kabengkel) --}}
+{{-- tampilan sidebar berdasarkan role id 1 (Admin) --}}
 @if (auth()->user()->role_id == 1)
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
@@ -33,7 +33,9 @@
     </div>
 @endif
 
-@if (auth()->user()->role_id == 2)
+
+{{-- side bar untuk user role kedua Kepala Bengkel --}}
+@if (auth()->user()->role_id == 2) 
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
@@ -54,6 +56,10 @@
                     </li> --}}
                         <li>
                             <a class="nav-link" href="{{ route('create-spkl') }}">Tambah Baru SPKL</a>
+                        </li>
+
+                        <li>
+                            <a class="nav-link" href="{{ route('pengajuan-spkl') }}">Pengajuan SPKL</a>
                         </li>
 
                     </ul>
