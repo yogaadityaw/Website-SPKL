@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\GenerateRandomSpklNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogoutController;
@@ -15,7 +16,7 @@ use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenContro
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('test-view', function () {
-    return view('test-view');
+    return GenerateRandomSpklNumber::generate();
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('home');
@@ -64,7 +65,7 @@ Route::get('/unauthorized', function () {
 })->name('unauthorized');
 
 
-Route::get('/qr-code', function (){
+Route::get('/qr-code', function () {
     return QrCode::generate(asset(''));
 });
 

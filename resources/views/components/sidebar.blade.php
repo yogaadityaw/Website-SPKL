@@ -8,25 +8,16 @@
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
-                <a>SPKL-PAL</a>
-            </div>
-            <div class="sidebar-brand sidebar-brand-sm">
-                <a href="dashboards_user">SPKL</a>
+                <a href="#">SPKL-PAL</a>
             </div>
             <ul class="sidebar-menu">
-
-                <li class="menu-header">Dashboard</li>
-                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                    <ul class="dropdown-menu">
-                        {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                        <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                    </li> --}}
-
-                        <li>
-                            <a class="nav-link" href="{{ route('change-role') }}">Rubah Role</a>
-                        </li>
-                    </ul>
+                <li class="menu-header">Ubah role</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard-admin') }}"><i
+                            class="fas fa-home"></i><span>Dashboard</span>
+                        <a class="nav-link" href="{{ route('change-role') }}"><i
+                                class="fas fa-user"></i><span>Ubah Role</span></a>
+                    </a>
                 </li>
             </ul>
         </aside>
@@ -35,35 +26,21 @@
 
 
 {{-- side bar untuk user role kedua Kepala Bengkel --}}
-@if (auth()->user()->role_id == 2) 
+@if (auth()->user()->role_id == 2)
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
-                <a>SPKL-PAL</a>
-            </div>
-            <div class="sidebar-brand sidebar-brand-sm">
-                <a href="dashboards_user">SPKL</a>
+                <a href="#">SPKL-PAL</a>
             </div>
             <ul class="sidebar-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard-kabeng') }}"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a>
+                    <a class="nav-link" href="{{ route('change-role') }}"><i
+                            class="fas fa-user"></i><span>List Pegawai</span></a>
+                    <a class="nav-link" href="{{ route('pengajuan-spkl') }}"><i
+                            class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
 
-                <li class="menu-header">Dashboard</li>
-                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i
-                            class="fas fa-fire"></i><span>Dashboard</span></a>
-                    <ul class="dropdown-menu">
-                        {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                        <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                    </li> --}}
-                        <li>
-                            <a class="nav-link" href="{{ route('create-spkl') }}">Tambah Baru SPKL</a>
-                        </li>
-
-                        <li>
-                            <a class="nav-link" href="{{ route('pengajuan-spkl') }}">Pengajuan SPKL</a>
-                        </li>
-
-                    </ul>
-                </li>
             </ul>
         </aside>
     </div>
@@ -73,22 +50,12 @@
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
-                <a>SPKL-PAL</a>
-            </div>
-            <div class="sidebar-brand sidebar-brand-sm">
-                <a href="dashboards_user">SPKL</a>
+                <a href="#">SPKL-PAL</a>
             </div>
             <ul class="sidebar-menu">
-
                 <li class="menu-header">Dashboard</li>
-                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i
-                            class="fas fa-fire"></i><span>Dashboard</span></a>
-                    <ul class="dropdown-menu">
-                        {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                    <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                </li> --}}
-                    </ul>
+                <li class="nav-item">
+                    <a href="{{route('dashboard-departemen')}}" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
                 </li>
             </ul>
         </aside>
@@ -99,22 +66,12 @@
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
-                <a>SPKL-PAL</a>
-            </div>
-            <div class="sidebar-brand sidebar-brand-sm">
-                <a href="dashboards_user">SPKL</a>
+                <a href="#">SPKL-PAL</a>
             </div>
             <ul class="sidebar-menu">
-
                 <li class="menu-header">Dashboard</li>
-                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i
-                            class="fas fa-fire"></i><span>Dashboard</span></a>
-                    <ul class="dropdown-menu">
-                        {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                        <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                    </li> --}}
-                    </ul>
+                <li class="nav-item">
+                    <a href="{{route('dashboard-kemenpro')}}" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
                 </li>
             </ul>
         </aside>
@@ -125,22 +82,13 @@
     <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
-                <a>SPKL-PAL</a>
-            </div>
-            <div class="sidebar-brand sidebar-brand-sm">
-                <a href="dashboards_user">SPKL</a>
+                <a href="#">SPKL-PAL</a>
             </div>
             <ul class="sidebar-menu">
-
                 <li class="menu-header">Dashboard</li>
-                <li class="nav-item dropdown {{ $type_menu === 'PELER' ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i
-                            class="fas fa-fire"></i><span>Dashboard</span></a>
-                    <ul class="dropdown-menu">
-                        {{-- <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                        <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                    </li> --}}
-                    </ul>
+                <li class="nav-item">
+                    <a href="{{route('dashboard-pegawai')}}" class="nav-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a>
                 </li>
             </ul>
         </aside>
@@ -158,7 +106,8 @@
             <ul class="sidebar-menu">
                 <li class="menu-header">Dashboard</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                    <a href="{{route('dashboard-user')}}" class="nav-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a>
                 </li>
             </ul>
         </aside>

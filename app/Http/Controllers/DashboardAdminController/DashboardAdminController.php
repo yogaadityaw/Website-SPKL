@@ -14,7 +14,6 @@ class DashboardAdminController extends Controller
 
     public function index()
     {
-        $type_menu = 'dashboard-admin';
-        return view('dashboard-admin', compact('type_menu'));
+        return view('dashboard-admin');
     }
 }

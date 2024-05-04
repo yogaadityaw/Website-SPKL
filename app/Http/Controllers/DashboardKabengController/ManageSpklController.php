@@ -14,7 +14,6 @@ class ManageSpklController extends Controller
 
     public function index()
     {
-        $type_menu = 'create-spkl';
-        return view('kabeng-views.create-spkl', compact('type_menu'));
+        return view('kabeng-views.create-spkl');
     }
 }

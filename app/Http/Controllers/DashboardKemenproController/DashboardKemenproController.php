@@ -14,7 +14,6 @@ class DashboardKemenproController extends Controller
 
     public function index()
     {
-        $type_menu = 'dashboard-kemenpro';
-        return view('dashboard-kemenpro', compact('type_menu'));
+        return view('dashboard-kemenpro');
     }
 }

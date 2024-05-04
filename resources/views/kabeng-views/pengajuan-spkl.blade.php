@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('css/multi-choice.css') }}">
-    <style>
-        td {}
-    </style>
+    <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
 @endpush
 
 @include('components.sidebar')
@@ -32,7 +31,8 @@
                         <div class="card-body">
                             <nav class="navbar navbar-expand-lg navbar-light bg-white">
                                 <button data-toggle="modal" data-target="#buatSPKLModal" type="button"
-                                    class="btn btn-primary mr-2">+ BUAT SPKL</button>
+                                        class="btn btn-primary mr-2">+ BUAT SPKL
+                                </button>
                                 <button type="button" class="btn btn-light">FILTER</button>
                             </nav>
                         </div>
@@ -45,7 +45,8 @@
 
 {{-- modal untuk input data spkl --}}
 
-<div id="buatSPKLModal" class="modal" tabindex="-1" role="dialog">
+<div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buatSPKLModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,10 +109,10 @@
                                 <p>Karyawan</p>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                                <div class="col-lg-4 col-md-12 d-flex justify-content-center align-items-center">
                                     <select class="js-select2" multiple="multiple">
                                         <option value="O1" data-badge="">Royhan Fathur</option>
-                                        <option value="O1" data-badge="">Fathur Rohman</option>
+                                        <option value="O2" data-badge="">Fathur Rohman</option>
                                     </select>
                                 </div>
                             </div>
@@ -129,20 +130,14 @@
 </div>
 
 @push('scripts')
-    <!-- JS Libraies -->
-    <script src="{{ asset('library/simpleweather/jquery.simpleWeather.min.js') }}"></script>
-    <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-    <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/index-0.js') }}"></script>
-
     <script>
-        $(document).ready(function() {
-            $('#buatSPKLModalButton').click(function() {
+        $(document).ready(function () {
+            $('#buatSPKLModalButton').click(function () {
                 $('#buatSPKLModal').modal('show');
             });
         });
@@ -151,8 +146,9 @@
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script>
-        (function($) {
+        (function ($) {
 
             "use strict";
 
@@ -177,7 +173,7 @@
             });
 
 
-            function iformat(icon, badge, ) {
+            function iformat(icon, badge,) {
                 var originalOption = icon.element;
                 var originalOptionBadge = $(originalOption).data('badge');
 

@@ -14,7 +14,6 @@ class DashboardKabengController extends Controller
 
     public function index()
     {
-        $type_menu = 'dashboard-kabeng';
-        return view('dashboard-kabeng', compact('type_menu'));
+        return view('dashboard-kabeng');
     }
 }

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bengkel', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_bengkel')->index()->autoIncrement();
+            $table->string('bengkel_name');
             $table->timestamps();
         });
     }

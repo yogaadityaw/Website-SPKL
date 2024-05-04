@@ -47,6 +47,9 @@
                                         <th scope="col">No Telp</th>
                                         <th scope="col">Umur</th>
                                         <th scope="col">Jabatan</th>
+                                        <th scope="col">PT</th>
+                                        <th scope="col">Departemen</th>
+                                        <th scope="col">Bengkel</th>
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
@@ -63,6 +66,15 @@
                                             <td>{{ $user->user_telephone }}</td>
                                             <td>{{ $user->user_age }}</td>
                                             <td>{{ $user->role->role_name }}</td>
+                                            <td>
+                                                {{ $user->pt ? $user->pt->pt_name : '' }}
+                                            </td>
+                                            <td>
+                                                {{ $user->departemen ? $user->departemen->departemen_name:'' }}
+                                            </td>
+                                            <td>
+                                                {{ $user->bengkel ? $user->bengkel->bengkel_name: '' }}
+                                            </td>
                                             <td>
                                                 <button type="button" value="{{$user->id_user}}"
                                                         class="btn btn-warning editButton"
@@ -90,7 +102,7 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="updateUserForm" action="{{route('users-update')}}" method="POST">
@@ -104,14 +116,24 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label>Jabatan</label>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Jabatan</label>
                                 <select class="form-control selectric" name="id_role">
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
                                     @endforeach
                                 </select>
-                            </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>PT</label>
+                                <select class="form-control selectric" name="id_pt">
+                                    @foreach ($pts as $pt)
+                                        <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -126,7 +148,7 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="deleteUserForm" action="{{route('users-delete')}}" method="POST">
@@ -134,7 +156,7 @@
                     @method('DELETE')
                     <input type="hidden" name="user_id" id="user_id" value="user_id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">delete</h5>
+                        <h5 class="modal-title" id="userModalLabel">Delete</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -144,7 +166,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-danger">Hapus</button>
                     </div>
                 </form>
             </div>
@@ -164,8 +186,6 @@
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('js/page/bootstrap-modal.js') }}"></script>
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
-    <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/index-0.js') }}"></script>
 
     <script>
         $(document).ready(function () {
@@ -178,6 +198,9 @@
                     success: function (response) {
                         $('#id_user').val(response.id_user);
                         $('#role_id').val(response.role_id);
+                        $('#pt_id').val(response.pt_id);
+                        $('#departemen_id').val(response.departemen_id);
+                        $('#bengkel_id').val(response.bengkel_id);
                     }
                 })
             });

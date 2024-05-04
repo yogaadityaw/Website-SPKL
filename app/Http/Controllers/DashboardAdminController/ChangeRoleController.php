@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\DashboardAdminController;
 
+use App\Models\Bengkel;
+use App\Models\Departemen;
+use App\Models\Pt;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,8 +22,10 @@ class ChangeRoleController extends Controller
 
         $users = User::with('role')->orderBy('user_nip', 'desc')->get();
         $roles = Role::all();
-        $type_menu = 'change-role';
-        return view('admin-views.change-role', compact('type_menu', 'users', 'roles'));
+        $pts = Pt::all();
+        $departemens = Departemen::all();
+        $bengkel = Bengkel::all();
+        return view('admin-views.change-role', compact('users', 'roles', 'pts', 'departemens', 'bengkel'));
     }
 
     public function updateRole(Request $request)
@@ -28,10 +33,13 @@ class ChangeRoleController extends Controller
         try {
             $user = User::findOrFail($request->id_user);
             $user->role_id = $request->id_role;
+            $user->pt_id = $request->id_pt;
+            $user->departemen_id = $request->id_departemen;
+            $user->bengkel_id = $request->id_bengkel;
             $user->save();
-            return redirect()->route('change-role')->with('success', 'Role berhasil diubah');
+            return redirect()->route('change-role')->with('success', 'Data pegawai berhasil diubah');
         } catch (\Exception $e) {
-            return redirect()->route('change-role')->with('error', 'Role gagal diubah');
+            return redirect()->route('change-role')->with('error', 'Data pegawai gagal diubah');
         }
 
     }

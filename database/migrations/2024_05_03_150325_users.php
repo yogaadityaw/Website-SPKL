@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,15 +15,21 @@ return new class extends Migration
             $table->string('user_nip')->unique();
             $table->string('user_fullname');
             $table->string('username');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('password');
             $table->string('user_telephone');
             $table->integer('user_age');
             $table->integer('role_id');
-            $table->boolean('is_active')->default(false);
+            $table->integer('pt_id')->nullable();
+            $table->integer('departemen_id')->nullable();
+            $table->integer('bengkel_id')->nullable();
             $table->timestamps();
 
+            $table->foreign('pt_id')->references('id_pt')->on('pt');
             $table->foreign('role_id')->references('id_role')->on('role');
+            $table->foreign('departemen_id')->references('id_departemen')->on('departemen');
+            $table->foreign('bengkel_id')->references('id_bengkel')->on('bengkel');
+
         });
     }
 

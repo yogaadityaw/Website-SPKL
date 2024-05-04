@@ -11,11 +11,10 @@ class DashboardUserController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
 
     public function index()
     {
-        $type_menu = 'dashboard-user';
-        return view('dashboard-user', compact('type_menu'));
+        return view('dashboard-user');
     }
 }

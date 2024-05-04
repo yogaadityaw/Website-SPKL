@@ -14,7 +14,6 @@ class DashboardDepartemenController extends Controller
 
     public function index()
     {
-        $type_menu = 'dashboard-departemen';
-        return view('dashboard-departemen', compact('type_menu'));
+        return view('dashboard-departemen');
     }
 }

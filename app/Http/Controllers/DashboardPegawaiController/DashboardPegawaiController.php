@@ -14,7 +14,6 @@ class DashboardPegawaiController extends Controller
 
     public function index()
     {
-        $type_menu = 'dashboard-pegawai';
-        return view('dashboard-pegawai', compact('type_menu'));
+        return view('dashboard-pegawai');
     }
 }

@@ -18,6 +18,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
     protected $primaryKey = 'id_user';
 
     protected $fillable = [
@@ -46,4 +47,27 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function spkl(): BelongsTo
+    {
+        return $this->belongsTo(Spkl::class, 'spkl_id');
+    }
+
+    public function pt(): BelongsTo
+    {
+        return $this->belongsTo(Pt::class, 'pt_id');
+    }
+
+    public function departemen(): BelongsTo
+    {
+        return $this->belongsTo(Departemen::class, 'departemen_id');
+    }
+
+    public function bengkel(): BelongsTo
+    {
+        return $this->belongsTo(Bengkel::class, 'bengkel_id');
+    }
+
+
+
 }

@@ -17,11 +17,10 @@ class UserSeeder extends Seeder
             'user_fullname' => "Admin",
             'username' => "admin",
             'email' => "admin@gmail.com",
-            "password" => bcrypt("admin"),
+            "password" => bcrypt("admin12345"),
             'user_telephone' => "081234567890",
             'user_age' => 30,
             'role_id' => 1,
-            'is_active' => true,
             "created_at" => now(),
             "updated_at" => now(),
         ]);

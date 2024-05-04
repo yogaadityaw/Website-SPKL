@@ -14,7 +14,6 @@ class PengajuanSpklController extends Controller
 
     public function index()
     {
-        $type_menu = 'pengajuan-spkl';
-        return view('kabeng-views.pengajuan-spkl', compact('type_menu'));
+        return view('kabeng-views.pengajuan-spkl');
     }
 }
