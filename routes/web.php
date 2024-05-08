@@ -38,6 +38,7 @@ Route::prefix('kabeng')->group(function () {
     Route::get('/dashboard', [DashboardKabengController::class, 'index'])->name('dashboard-kabeng');
     Route::get('/create-spkl', [ManageSpklController::class, 'index'])->name('create-spkl');
     Route::get('/pengajuan-spkl', [PengajuanSpklController::class, 'index'])->name('pengajuan-spkl');
+    Route::post('/pengajuan-spkl-post', [PengajuanSpklController::class, 'post'])->name('pengajuan-spkl-post');
 });
 
 Route::prefix('departemen')->group(function () {

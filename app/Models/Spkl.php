@@ -21,7 +21,12 @@ class Spkl extends Model
         'rencana',
         'pelaksanaan',
         'status',
-        'jam_realisasi'
+        'jam_realisasi',
+        'pt_id',
+        'proyek_id',
+        'departemen_id',
+        'bengkel_id',
+        'user_id',
     ];
 
     // /**

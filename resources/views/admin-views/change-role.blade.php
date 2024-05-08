@@ -133,6 +133,24 @@
                                         <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
                                     @endforeach
                                 </select>
+                                <div class="form-group">
+                                <label>Departemen</label>
+                                <select class="form-control selectric" name="id_departemen">
+                                    @foreach ($departemens as $departemen)
+                                        <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>
+                                    @endforeach
+                                </select>
+
+                                    <div class="form-group">
+                                        <label>Bengkel</label>
+                                        <select class="form-control selectric" name="id_bengkel">
+                                            @foreach ($bengkels as $bengkel)
+                                                <option value="{{ $bengkel->id_bengkel }}">{{ $bengkel->bengkel_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

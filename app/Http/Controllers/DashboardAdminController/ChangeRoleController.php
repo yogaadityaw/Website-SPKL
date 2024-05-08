@@ -24,8 +24,8 @@ class ChangeRoleController extends Controller
         $roles = Role::all();
         $pts = Pt::all();
         $departemens = Departemen::all();
-        $bengkel = Bengkel::all();
-        return view('admin-views.change-role', compact('users', 'roles', 'pts', 'departemens', 'bengkel'));
+        $bengkels = Bengkel::all();
+        return view('admin-views.change-role', compact('users', 'roles', 'pts', 'departemens', 'bengkels'));
     }
 
     public function updateRole(Request $request)

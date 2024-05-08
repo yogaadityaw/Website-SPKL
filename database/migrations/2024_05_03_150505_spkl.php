@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('rencana');
             $table->string('pelaksanaan');
             $table->dateTime('tanggal');
-            $table->integer('jam_realisasi');
+            $table->integer('jam_realisasi')->nullable();
             $table->enum('status', ['Reject', 'Pending', 'Approve'])->default('Pending');
             $table->integer('pt_id');
             $table->integer('proyek_id');

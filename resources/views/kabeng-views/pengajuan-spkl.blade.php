@@ -49,41 +49,52 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
+            <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
                     <div class="form-row">
+                        @csrf
+                        <div class="form-group">
+                            <label>Nomor Pengajuan</label>
+                            <input type="text" class="form-control" name="spkl_number" value="{{$spkl_id}}"
+                                   readonly>
+                        </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama PT</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Nama PT</option>
-                                <option>...</option>
+                            <select id="inputState" class="form-control"name="pt_id" >
+                                @foreach($pts as $pt)
+                                    <option value="{{$pt->id_pt}}">{{$pt->pt_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama Proyek</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Nama Proyek</option>
-                                <option>...</option>
+                            <select id="inputState" class="form-control" name="proyek_id">
+                                @foreach($proyeks as $proyek)
+                                    <option value="{{$proyek->id_proyek}}">{{$proyek->proyek_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Departemen</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Departemen</option>
-                                <option>...</option>
+                            <select id="inputState" class="form-control" name="departemen_id">
+                                @foreach($departemens as $departemen)
+                                    <option value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Bengkel</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Bengkel</option>
-                                <option>...</option>
+                            <select id="inputState" class="form-control" name="bengkel_id">
+                                @foreach($bengkels as $bengkel)
+                                    <option value="{{$bengkel->id_bengkel}}">{{$bengkel->bengkel_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -91,17 +102,17 @@
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputCity">pelaksanaan</label>
-                            <input type="text" class="form-control" id="inputPelaksanaan">
+                            <label for="inputCity">Pelaksanaan</label>
+                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Rencana</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rencana"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -109,21 +120,24 @@
                                 <p>Karyawan</p>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-lg-4 col-md-12 d-flex justify-content-center align-items-center">
-                                    <select class="js-select2" multiple="multiple">
-                                        <option value="O1" data-badge="">Royhan Fathur</option>
-                                        <option value="O2" data-badge="">Fathur Rohman</option>
+                                <div
+                                    class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
+                                    <select class="js-select2" multiple="multiple" name="user_id">
+                                        @foreach($users as $user)
+                                            <option value="{{$user->id_user}}" data-badge="">{{$user->user_fullname}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </section>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
