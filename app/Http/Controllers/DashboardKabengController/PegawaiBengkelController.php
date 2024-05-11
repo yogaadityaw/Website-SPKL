@@ -4,12 +4,13 @@ namespace App\Http\Controllers\DashboardKabengController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Spkl;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ManageSpklController extends Controller
+class PegawaiBengkelController extends Controller
 {
     public function __construct()
-
     {
         $this->middleware('auth');
     }
@@ -19,7 +20,7 @@ class ManageSpklController extends Controller
 
         $spkls = Spkl::all();
 
+        return view('kabeng-views.daftar-pegawai-bengkel', compact('spkls'));
 
-        return view('kabeng-views.create-spkl', compact('spkls'));
     }
 }

@@ -26,6 +26,6 @@ class Departemen extends Model
 
     public function spkl(): BelongsTo
     {
-        return $this->belongsTo(Spkl::class, 'spkl_id');
+        return $this->belongsTo(Spkl::class, 'departemen_id');
     }
 }

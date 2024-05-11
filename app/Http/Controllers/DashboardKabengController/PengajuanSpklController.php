@@ -27,12 +27,13 @@ class PengajuanSpklController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        return view('kabeng-views.pengajuan-spkl', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels'));
+        $spkls = Spkl::with('departemen')->get();
+
+        return view('kabeng-views.pengajuan-spkl', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }
 
     public function post(Request $request)
     {
-//   dd($request->all());
         try {
             $spkl = Spkl::create([
                 'spkl_number' => $request->input('spkl_number'),

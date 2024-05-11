@@ -40,6 +40,73 @@
                 </div>
             </div>
         </section>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>List SPKL</h4>
+                    </div>
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table-bordered table">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">No SPKL</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Departemen</th>
+                                    <th scope="col">Nama Proyek</th>
+                                    <th scope="col">Bengkel</th>
+                                    <th scope="col">Aksi</th>
+
+                                </tr>
+                                <tbody>
+                                @foreach ($spkls as $spkl)
+                                    @php
+                                        $index = 1;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td> {{ $spkl->spkl_number}} </td>
+                                        <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
+                                        <td> {{ $spkl->departemen->departemen_name}} </td>
+                                        <td> {{ $spkl->proyek->proyek_name}} </td>
+                                        <td> {{ $spkl->bengkel->bengkel_name}} </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger deleteButton fas fa-trash"
+                                                    value="{{$spkl->id_spkl}}" data-toggle="modal">
+                                            </button>
+
+                                            <button type="button" value="${{$spkl->id_spkl}}"
+                                                    class="btn btn-warning editButton fas fa-pencil"
+                                                    data-toggle="modal">
+                                            </button>
+                                            <button type="button" value="${{$spkl->id_spkl}}"
+                                                    class="btn btn-success fas fa-book"
+                                                    data-toggle="modal">
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
 
@@ -67,7 +134,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama PT</label>
-                            <select id="inputState" class="form-control"name="pt_id" >
+                            <select id="inputState" class="form-control" name="pt_id">
                                 @foreach($pts as $pt)
                                     <option value="{{$pt->id_pt}}">{{$pt->pt_name}}</option>
                                 @endforeach
@@ -85,7 +152,8 @@
                             <label for="inputState">Departemen</label>
                             <select id="inputState" class="form-control" name="departemen_id">
                                 @foreach($departemens as $departemen)
-                                    <option value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
+                                    <option
+                                        value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -108,11 +176,13 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="uraian_pekerjaan"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Rencana</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rencana"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="rencana"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -124,14 +194,14 @@
                                     class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
                                     <select class="js-select2" multiple="multiple" name="user_id">
                                         @foreach($users as $user)
-                                            <option value="{{$user->id_user}}" data-badge="">{{$user->user_fullname}}</option>
+                                            <option value="{{$user->id_user}}"
+                                                    data-badge="">{{$user->user_fullname}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </section>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

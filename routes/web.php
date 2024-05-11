@@ -1,6 +1,7 @@
 <?php
 
 use App\Helper\GenerateRandomSpklNumber;
+use App\Http\Controllers\DashboardKabengController\PegawaiBengkelController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogoutController;
@@ -36,9 +37,11 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('kabeng')->group(function () {
     Route::get('/dashboard', [DashboardKabengController::class, 'index'])->name('dashboard-kabeng');
+    Route::get('/pegawai-bengkel', [PegawaiBengkelController::class, 'index'])->name('pegawai-bengkel');
     Route::get('/create-spkl', [ManageSpklController::class, 'index'])->name('create-spkl');
     Route::get('/pengajuan-spkl', [PengajuanSpklController::class, 'index'])->name('pengajuan-spkl');
     Route::post('/pengajuan-spkl-post', [PengajuanSpklController::class, 'post'])->name('pengajuan-spkl-post');
+
 });
 
 Route::prefix('departemen')->group(function () {

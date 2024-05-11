@@ -36,28 +36,28 @@ class Spkl extends Model
     //  */
     protected $hidden = [];
 
-    public function pt(): HasOne
+    public function pt(): BelongsTo
     {
-        return $this->hasOne(Pt::class, 'pt_id');
+        return $this->belongsTo(Pt::class, 'pt_id');
     }
 
-    public function departemen(): HasOne
+    public function departemen(): BelongsTo
     {
-        return $this->hasOne(Departemen::class, 'departemen_id');
+        return $this->belongsTo(Departemen::class, 'departemen_id');
     }
 
-    public function bengkel(): HasOne
+    public function bengkel(): BelongsTo
     {
-        return $this->hasOne(Bengkel::class, 'bengkel_id');
+        return $this->belongsTo(Bengkel::class, 'bengkel_id');
     }
 
-    public function proyek(): HasOne
+    public function proyek(): BelongsTo
     {
-        return $this->hasOne(Proyek::class, 'bengkel_id');
+        return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class, 'spkl_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

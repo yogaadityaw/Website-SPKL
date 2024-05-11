@@ -36,8 +36,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard-kabeng') }}"><i
                             class="fas fa-home"></i><span>Dashboard</span></a>
-                    <a class="nav-link" href="{{ route('change-role') }}"><i
+                    <a class="nav-link" href="{{ route('pegawai-bengkel') }}"><i
                             class="fas fa-user"></i><span>List Pegawai</span></a>
+                    <a class="nav-link" href="{{ route('create-spkl') }}"><i
+                            class="fas fa-archive"></i><span>Detail SPKL</span></a>
                     <a class="nav-link" href="{{ route('pengajuan-spkl') }}"><i
                             class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
 
