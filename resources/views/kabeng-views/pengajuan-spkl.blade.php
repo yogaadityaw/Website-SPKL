@@ -91,10 +91,12 @@
                                                     class="btn btn-warning editButton fas fa-pencil"
                                                     data-toggle="modal">
                                             </button>
-                                            <button type="button" value="${{$spkl->id_spkl}}"
-                                                    class="btn btn-success fas fa-book"
-                                                    data-toggle="modal">
-                                            </button>
+                                            <a href="{{ route('detail-spkl', ['id' => $spkl->id_spkl]) }}">
+                                                <button type="button" value="${{$spkl->id_spkl}}"
+                                                        class="btn btn-success fas fa-book"
+                                                        data-toggle="modal">
+                                                </button>
+                                            </a>
 
                                         </td>
                                     </tr>
