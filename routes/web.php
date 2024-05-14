@@ -17,7 +17,7 @@ use App\Http\Controllers\DashboardDepartemenController\DashboardDepartemenContro
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('test-view', function () {
-    return GenerateRandomSpklNumber::generate();
+    return view('pages.bootstrap-card');
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('home');
