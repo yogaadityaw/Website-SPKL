@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DashboardKabengController;
+namespace App\Http\Controllers\KabengController;
 
 use App\Helper\GenerateRandomSpklNumber;
 use App\Http\Controllers\Controller;
@@ -12,7 +12,7 @@ use App\Models\Spkl;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class PengajuanSpklController extends Controller
+class PengajuanSpklKabengController extends Controller
 {
     public function __construct()
     {
@@ -34,7 +34,9 @@ class PengajuanSpklController extends Controller
 
     public function getDetailSpkl($id)
     {
-        $spkls = Spkl::findOrFail($id);
+
+        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl','desc')->findOrFail($id);
+//        dd($spkls);
 
         return view('kabeng-views.detail-spkl', compact('spkls'));
     }
@@ -61,4 +63,22 @@ class PengajuanSpklController extends Controller
             dd("Error $e");
         }
     }
+
+    public function deletespkl(Request $request)
+    {
+        try {
+            $spkls = Spkl::findOrFail($request->spkl_id);
+            $spkls->delete();
+            return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('pengajuan-spkl')->with('error', 'SPKL gagal dihapus');
+        }
+    }
+
+    public function getspklDelete($id_spkl)
+    {
+        $spkl = Spkl::findOrFail($id_spkl);
+        return response()->json($spkl);
+    }
+
 }

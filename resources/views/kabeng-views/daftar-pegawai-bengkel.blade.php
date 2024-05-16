@@ -52,29 +52,29 @@
                                         <th scope="col">Bengkel</th>
 
                                     </tr>
-{{--                                    <tbody>--}}
-{{--                                    @foreach ($users as $user)--}}
-{{--                                        --}}{{-- @php--}}
-{{--                                        $index = 1;--}}
-{{--                                    @endphp --}}
-{{--                                        <tr>--}}
-{{--                                            <td>{{ $loop->iteration }}</td>--}}
-{{--                                            <td>{{ $user->user_nip }}</td>--}}
-{{--                                            <td>{{ $user->user_fullname }}</td>--}}
-{{--                                            <td>{{ $user->username }}</td>--}}
-{{--                                            <td>{{ $user->email }}</td>--}}
-{{--                                            <td>{{ $user->user_telephone }}</td>--}}
-{{--                                            <td>{{ $user->user_age }}</td>--}}
-{{--                                            <td>{{ $user->role->role_name }}</td>--}}
-{{--                                            <td>--}}
-{{--                                                {{ $user->pt ? $user->pt->pt_name : '' }}--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                {{ $user->departemen ? $user->departemen->departemen_name:'' }}--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                {{ $user->bengkel ? $user->bengkel->bengkel_name: '' }}--}}
-{{--                                            </td>--}}
+                                    <tbody>
+                                    @foreach ($pegawaiBengkel as $pegawai)
+                                         @php
+                                        $index = 1;
+                                    @endphp
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $pegawai->user_nip }}</td>
+                                            <td>{{ $pegawai->user_fullname }}</td>
+                                            <td>{{ $pegawai->username }}</td>
+                                            <td>{{ $pegawai->email }}</td>
+                                            <td>{{ $pegawai->user_telephone }}</td>
+                                            <td>{{ $pegawai->user_age }}</td>
+                                            <td>{{ $pegawai->role->role_name }}</td>
+                                            <td>
+                                                {{ $pegawai->pt ? $pegawai->pt->pt_name : '' }}
+                                            </td>
+                                            <td>
+                                                {{ $pegawai->departemen ? $pegawai->departemen->departemen_name:'' }}
+                                            </td>
+                                            <td>
+                                                {{ $pegawai->bengkel ? $pegawai->bengkel->bengkel_name: '' }}
+                                            </td>
 {{--                                            <td>--}}
 {{--                                                <button type="button" value="{{$user->id_user}}"--}}
 {{--                                                        class="btn btn-warning editButton"--}}
@@ -87,9 +87,9 @@
 {{--                                                    Hapus--}}
 {{--                                                </button>--}}
 {{--                                            </td>--}}
-{{--                                        </tr>--}}
-{{--                                    @endforeach--}}
-{{--                                    </tbody>--}}
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

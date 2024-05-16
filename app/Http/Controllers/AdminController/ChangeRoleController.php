@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DashboardAdminController;
+namespace App\Http\Controllers\AdminController;
 
 use App\Models\Bengkel;
 use App\Models\Departemen;

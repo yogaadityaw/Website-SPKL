@@ -91,7 +91,7 @@
                                                     class="btn btn-warning editButton fas fa-pencil"
                                                     data-toggle="modal">
                                             </button>
-                                            <a href="{{ route('detail-spkl', ['id' => $spkl->id_spkl]) }}">
+                                            <a href="{{ route('detail-spkl-departemen', ['id' => $spkl->id_spkl]) }}">
                                                 <button type="button" value="${{$spkl->id_spkl}}"
                                                         class="btn btn-success fas fa-book"
                                                         data-toggle="modal">
@@ -253,7 +253,7 @@
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-{{--    script untuk modal buat spkl baru--}}
+    {{--    script untuk modal buat spkl baru--}}
     <script>
         $(document).ready(function () {
             $('#buatSPKLModalButton').click(function () {

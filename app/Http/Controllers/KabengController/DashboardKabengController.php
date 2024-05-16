@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\DashboardDepartemenController;
+namespace App\Http\Controllers\KabengController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardDepartemenController extends Controller
+class DashboardKabengController extends Controller
 {
     public function __construct()
     {
@@ -14,6 +14,6 @@ class DashboardDepartemenController extends Controller
 
     public function index()
     {
-        return view('dashboard-departemen');
+        return view('dashboard-kabeng');
     }
 }

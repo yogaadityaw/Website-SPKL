@@ -25,6 +25,9 @@ return new class extends Migration
             $table->integer('departemen_id');
             $table->integer('bengkel_id');
             $table->integer('user_id');
+            $table->boolean('is_kabeng_acc')->default(false);
+            $table->boolean('is_departemen_acc')->default(false);
+            $table->boolean('is_kemenpro_acc')->default(false);
             $table->timestamps();
 
             $table->foreign('pt_id')->references('id_pt')->on('pt');

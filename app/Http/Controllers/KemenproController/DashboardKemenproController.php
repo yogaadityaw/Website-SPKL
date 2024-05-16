@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\DashboardAdminController;
+namespace App\Http\Controllers\KemenproController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardAdminController extends Controller
+class DashboardKemenproController extends Controller
 {
     public function __construct()
     {
@@ -14,6 +14,6 @@ class DashboardAdminController extends Controller
 
     public function index()
     {
-        return view('dashboard-admin');
+        return view('dashboard-kemenpro');
     }
 }
