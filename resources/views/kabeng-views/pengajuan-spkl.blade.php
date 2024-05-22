@@ -217,6 +217,103 @@
 
 {{--modal untuk edit spkl--}}
 
+<div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Nama PT</label>
+                            <select id="inputState" class="form-control" name="pt_id">
+                                @foreach($pts as $pt)
+                                    <option value="{{$pt->id_pt}}">{{$pt->pt_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Nama Proyek</label>
+                            <select id="inputState" class="form-control" name="proyek_id">
+                                @foreach($proyeks as $proyek)
+                                    <option value="{{$proyek->id_proyek}}">{{$proyek->proyek_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Departemen</label>
+                            <select id="inputState" class="form-control" name="departemen_id">
+                                @foreach($departemens as $departemen)
+                                    <option
+                                        value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Bengkel</label>
+                            <select id="inputState" class="form-control" name="bengkel_id">
+                                @foreach($bengkels as $bengkel)
+                                    <option value="{{$bengkel->id_bengkel}}">{{$bengkel->bengkel_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal:</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">Pelaksanaan</label>
+                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="uraian_pekerjaan"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Rencana</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="rencana"></textarea>
+                    </div>
+                    <section class="ftco-section ftco-no-pt ftco-no-pb">
+                        <div class="container">
+                            <div class="text-start">
+                                <p>Karyawan</p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div
+                                    class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
+                                    <select class="js-select2" multiple="multiple" name="user_id">
+                                        @foreach($users as $user)
+                                            <option value="{{$user->id_user}}"
+                                                    data-badge="">{{$user->user_fullname}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
 {{--modal untuk delete spkl--}}
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"

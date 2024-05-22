@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\KabengController;
 
+use App\Helpers\GenerateQRCode;
 use App\Helper\GenerateRandomSpklNumber;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
 use App\Models\Bengkel;
 use App\Models\Departemen;
 use App\Models\Proyek;
 use App\Models\Pt;
 use App\Models\Spkl;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class PengajuanSpklKabengController extends Controller
 {
@@ -27,7 +31,7 @@ class PengajuanSpklKabengController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl','desc')->get();
+        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->get();
 
         return view('kabeng-views.pengajuan-spkl', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }
@@ -35,10 +39,10 @@ class PengajuanSpklKabengController extends Controller
     public function getDetailSpkl($id)
     {
 
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl','desc')->findOrFail($id);
+        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->findOrFail($id);
 //        dd($spkls);
 
-        return view('kabeng-views.detail-spkl', compact('spkls'));
+        return view('kabeng-views.detail-spkl-bengkel', compact('spkls'));
     }
 
     public function post(Request $request)
@@ -81,4 +85,44 @@ class PengajuanSpklKabengController extends Controller
         return response()->json($spkl);
     }
 
+    public function auditSpkl(Request $request)
+    {
+        if ($request->input('action') == 'approve') {
+
+            try {
+                $spkl = Spkl::findOrFail($request->spkl_id);
+                if ($spkl->is_kabeng_acc) {
+                    return redirect()->route('pengajuan-spkl')->with('error', 'SPKL sudah disetujui');
+                }
+                $spkl->update([
+                    'is_kabeng_acc' => true
+                ]);
+
+                $path = 'public/qrcodes';
+                $user_id = Auth::user()->user_nip;
+                $filename = $user_id . '-' . $spkl->spkl_number;
+                $qr = GenerateQRCode::generate(Auth::user()->user_nip);
+                $saved = Storage::disk($path)->put($filename . '.png', $qr->png());
+                dd($saved);
+
+                return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil disetujui');
+            } catch (\Exception $e) {
+                return redirect()->route('pengajuan-spkl')->with('error', $e->getMessage());
+            }
+        } else if ($request->input('action') == 'reject') {
+            try {
+                $spkl = Spkl::findOrFail($request->spkl_id);
+                $spkl->update([
+                    'is_kabeng_acc' => false,
+                    'status' => 'Reject'
+                ]);
+                return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil ditolak');
+            } catch (\Exception $e) {
+                return redirect()->route('pengajuan-spkl')->with('error', $e->getMessage());
+            }
+        } else {
+            return redirect()->route('pengajuan-spkl')->with('error', 'Action tidak ditemukan');
+        }
+    }
 }
+

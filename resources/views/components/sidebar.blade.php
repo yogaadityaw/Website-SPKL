@@ -17,6 +17,8 @@
                             class="fas fa-home"></i><span>Dashboard</span>
                         <a class="nav-link" href="{{ route('change-role') }}"><i
                                 class="fas fa-user"></i><span>Ubah Role</span></a>
+                        <a class="nav-link" href="{{ route('proyek-list') }}"><i
+                                class="fas fa-ship"></i><span>Proyek List</span></a>
                     </a>
                 </li>
             </ul>
@@ -78,6 +80,8 @@
                 <li class="menu-header">Dashboard</li>
                 <li class="nav-item">
                     <a href="{{route('dashboard-kemenpro')}}" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                    <a class="nav-link" href="{{ route('pengajuan-spkl-kemenpro') }}"><i
+                            class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
                 </li>
             </ul>
         </aside>

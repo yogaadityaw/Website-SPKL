@@ -1,8 +1,10 @@
 <?php
 
 use App\Helper\GenerateRandomSpklNumber;
+use App\Http\Controllers\AdminController\ProyekController;
 use App\Http\Controllers\DepartemenController\PengajuanSpklDepartemenController;
 use App\Http\Controllers\KabengController\PegawaiBengkelController;
+use App\Http\Controllers\KemenproController\PengajuanSpklKemenproController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogoutController;
@@ -18,7 +20,7 @@ use App\Http\Controllers\DepartemenController\DashboardDepartemenController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('test-view', function () {
-    return view('pages.bootstrap-card');
+    return view('pages.forms-advanced-form');
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('home');
@@ -33,7 +35,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/change-role/edit/{id}', [ChangeRoleController::class, 'getUserData']);
     Route::put('/change-role/update', [ChangeRoleController::class, 'updateRole'])->name('users-update');
     Route::delete('/change-role/delete', [ChangeRoleController::class, 'deleteUser'])->name('users-delete');
-
+    Route::get('/proyek-list',[ProyekController::class, 'index'])->name('proyek-list');
+    Route::post('/proyek-list/baru',[ProyekController::class, 'TambahProyek'])->name('proyek-baru-post');
+    Route::get('/proyek-list/edit/{id_proyek}',[ProyekController::class, 'getProyekData']);
+    Route::put('/poyek-list/update',[ProyekController::class, 'updateProyek'])->name('proyek-update'); // Menambahkan route untuk update proyek
+    Route::delete('/proyek-list/delete',[ProyekController::class, 'deleteProyek'])->name('proyek-delete');
 });
 
 Route::prefix('kabeng')->group(function () {
@@ -45,17 +51,21 @@ Route::prefix('kabeng')->group(function () {
     Route::get('/detail-spkl/{id}', [PengajuanSpklKabengController::class, 'getDetailSpkl'])->name('detail-spkl');
     Route::get('/deletespkl/{id}', [PengajuanSpklKabengController::class, 'getspklDelete'])->name('getidspkl');
     Route::delete('/pengajuan-spkl-delete', [PengajuanSpklKabengController::class, 'deleteSpkl'])->name('delete-spkl');
-
+    Route::put('/pengajuan-spkl-audit', [PengajuanSpklKabengController::class, 'auditSpkl'])->name('audit-spkl-kabeng');
 });
 
 Route::prefix('departemen')->group(function () {
     Route::get('/dashboard', [DashboardDepartemenController::class, 'index'])->name('dashboard-departemen');
     Route::get('/pengajuan-spkl-departemen', [PengajuanSpklDepartemenController::class, 'index'])->name('pengajuan-spkl-departemen');
     Route::get('/detail-spkl-departemen/{id}', [PengajuanSpklDepartemenController::class, 'getDetailSpkl'])->name('detail-spkl-departemen');
+    Route::put('/pengajuan-spkl-audit', [PengajuanSpklDepartemenController::class, 'auditSpkl'])->name('audit-spkl-departemen');
 });
 
 Route::prefix('kemenpro')->group(function () {
     Route::get('/dashboard', [DashboardKemenproController::class, 'index'])->name('dashboard-kemenpro');
+    Route::get('/pengajuan-spkl-kemenpro', [PengajuanSpklKemenproController::class, 'index'])->name('pengajuan-spkl-kemenpro');
+    Route::get('/detail-spkl-kemenpro/{id}', [PengajuanSpklKemenproController::class, 'getDetailSpkl'])->name('detail-spkl-kemenpro');
+    Route::put('/pengajuan-spkl-audit', [PengajuanSpklKemenproController::class, 'auditSpkl'])->name('audit-spkl-kemenpro');
 });
 
 Route::prefix('pegawai')->group(function () {

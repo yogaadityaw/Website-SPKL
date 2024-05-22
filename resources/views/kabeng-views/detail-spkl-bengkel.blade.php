@@ -10,7 +10,6 @@
 
 @include('components.sidebar')
 
-
 @section('main')
     <div class="main-content">
         <section class="section">
@@ -91,16 +90,13 @@
                                         <div class="col-4">
                                             <h5>Kepala Biro</h5>
                                             <p>Ahmad Budi Santoso, S.T.</p>
-                                            @if($spkls->is_kabeng_acc)
+                                            {{-- @if($spkls->is_kabeng_acc)
                                                 {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
-                                            @endif
+                                            @endif --}}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
                                             <p>Rizki Pratama, S.T.</p>
-                                            @if($spkls->is_departemen_acc)
-                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
-                                            @endif
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Kepala Manajemen</h5>
@@ -109,7 +105,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <form action="{{ route('audit-spkl-departemen')}}" method="post">
+                            <form action="{{route('audit-spkl-kabeng')}}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="spkl_id" value="{{ $spkls->id_spkl }}">

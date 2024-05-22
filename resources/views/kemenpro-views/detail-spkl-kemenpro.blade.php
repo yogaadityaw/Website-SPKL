@@ -91,26 +91,45 @@
                                         <div class="col-4">
                                             <h5>Kepala Biro</h5>
                                             <p>Ahmad Budi Santoso, S.T.</p>
+                                            @if($spkls->is_kabeng_acc)
+                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
+                                            @endif
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
                                             <p>Rizki Pratama, S.T.</p>
+                                            @if($spkls->is_departemen_acc)
+                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
+                                            @endif
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Kepala Manajemen</h5>
                                             <p>Indra Wijaya, S.T.</p>
+                                            @if($spkls->is_kemenpro_acc)
+                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row-12 mx-4 mb-4">
-                                <div class="d-flex justify-content-end">
-                                    <a href="#"
-                                       class="btn btn-outline-danger d-flex justify-content-end">Tolak</a>
-                                    <a href="#"
-                                       class="btn btn-primary d-flex justify-content-end ml-2">Setujui</a>
+                            <form action="{{ route('audit-spkl-kemenpro')}}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="spkl_id" value="{{ $spkls->id_spkl }}">
+                                <input type="hidden" name="action" value="approve">
+                                <div class="row-12 mx-4 mb-4">
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" name="action" value="reject"
+                                                class="btn btn-outline-danger d-flex justify-content-end ml-2">
+                                            Tolak
+                                        </button>
+                                        <button type="submit" name="action" value="approve"
+                                                class="btn btn-primary d-flex justify-content-end ml-2">
+                                            Setujui
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

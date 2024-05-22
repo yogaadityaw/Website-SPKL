@@ -19,7 +19,6 @@ class ManageSpklController extends Controller
 
         $spkls = Spkl::all();
 
-
         return view('kabeng-views.create-spkl', compact('spkls'));
     }
 }

@@ -27,6 +27,9 @@ class Spkl extends Model
         'departemen_id',
         'bengkel_id',
         'user_id',
+        'is_kabeng_acc',
+        'is_departemen_acc',
+        'is_kemenpro_acc',
     ];
 
     // /**
