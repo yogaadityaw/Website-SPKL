@@ -71,6 +71,7 @@ Route::prefix('kemenpro')->group(function () {
 Route::prefix('pegawai')->group(function () {
     Route::get('/dashboard', [DashboardPegawaiController::class, 'index'])->name('dashboard-pegawai');
     Route::get('/surat-pengajuan', [DashboardPegawaiController::class, 'listSpklPegawai'])->name('list-spkl-pegawai');
+    Route::post('/surat-pengajuan/absen', [DashboardPegawaiController::class, 'absen'])->name('absen-spkl-pegawai');
 });
 
 Route::prefix('user')->group(function () {

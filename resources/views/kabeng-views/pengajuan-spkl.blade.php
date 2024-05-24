@@ -218,7 +218,7 @@
 {{--modal untuk edit spkl--}}
 
 <div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">

@@ -35,8 +35,6 @@ class ProyekController extends Controller
     public function TambahProyek(Request $request)
     {
         try {
-            dd($request->all());
-            
             $proyek = Proyek::create([
 
                 'proyek_name' => $request->input('proyek'),

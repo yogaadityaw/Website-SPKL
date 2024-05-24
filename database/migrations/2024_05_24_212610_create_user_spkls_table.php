@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('spkl_id');
+            $table->string('image')->nullable();
+            $table->dateTime('check_in')->nullable();
+            $table->dateTime('check_out')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id_user')->on('users');

@@ -32,6 +32,8 @@ class Spkl extends Model
         'is_kemenpro_acc',
     ];
 
+    protected $dates = ['tanggal'];
+
     // /**
     //  * The attributes that should be hidden for serialization.
     //  *

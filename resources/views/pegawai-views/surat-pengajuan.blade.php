@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/multi-choice.css') }}">
     <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 @endpush
 
 @include('components.sidebar')
@@ -41,6 +42,29 @@
                                             <th scope="col">Tanggal Lembur</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
+                                        @foreach ($spkls as $spkl)
+                                            <tr>
+                                                <td scope="col">{{ $loop->index + 1 }}</td>
+                                                <td scope="col">{{ $spkl->spkl_number ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->proyek->proyek_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->departemen->departemen_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->bengkel->bengkel_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->tanggal ?? '' }}</td>
+                                                <td>
+                                                    <button type="button" value="{{ $spkl->id_spkl }}" data-spkl-id="{{ $spkl->id_spkl }}"
+                                                        class="btn btn-success checkinButton" data-toggle="modal"
+                                                        data-target="#checkinModal">
+                                                        Check-in
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-danger deleteButton"
+                                                        value="" data-toggle="modal">
+                                                        Check-out
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </table>
                                 </div>
                             </div>
@@ -88,57 +112,99 @@
     </div>
 @endsection
 
+{{-- modal untuk absen --}}
+<div class="col-12 col-md-6 col-lg-6">
+    <div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <form id="myForm" action="{{ route('absen-spkl-pegawai') }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="user_spkl_id" id="userSpklId">
+                    <input type="hidden" name="user_name" id="user_id" value="{{ Auth::user()->user_fullname }}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userModalLabel">Absen Foto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>kolom Foto</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="my_camera"></div>
+                        <br />
+                        <input type="hidden" name="image" class="image-tag">
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-primary" onClick="take_snapshot()">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @push('scripts')
     <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#buatSPKLModalButton').click(function() {
-                $('#buatSPKLModal').modal('show');
-            });
-        });
     </script>
     <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+
     <script>
-        (function($) {
-
-            "use strict";
-
-            $(".js-select2").select2({
-                closeOnSelect: false,
-                placeholder: "Click to select an option",
-                allowHtml: true,
-                allowClear: true,
-                tags: true
+        $(document).ready(function() {
+            $('.checkinButton').click(function() {
+                var spklId = $(this).data('spkl-id');
+                $('#userSpklId').val(spklId);
+                $('#checkinModal').modal('show');
             });
+        });
+    </script>
+    <script language="JavaScript">
+        Webcam.set({
+            width: 490,
+            height: 350,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
 
-            $('.icons_select2').select2({
-                width: "100%",
-                templateSelection: iformat,
-                templateResult: iformat,
-                allowHtml: true,
-                placeholder: "Click to select an option",
-                dropdownParent: $('.select-icon'),
-                allowClear: true,
-                multiple: false,
+        Webcam.attach('#my_camera');
+
+        function take_snapshot() {
+            Webcam.snap(function(data_uri) {
+                $(".image-tag").val(data_uri);
+                $('#image_preview').html('<img src="' + data_uri + '"/>');
+                submitForm();
             });
+        }
 
+        function submitForm() {
+            $('#myForm').submit();
+        }
 
-            function iformat(icon, badge, ) {
-                var originalOption = icon.element;
-                var originalOptionBadge = $(originalOption).data('badge');
+        document.getElementById('image_file').onchange = function(evt) {
+            var tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
 
-                return $('<span><i class="fa ' + $(originalOption).data('icon') + '"></i> ' + icon.text +
-                    '<span class="badge">' + originalOptionBadge + '</span></span>');
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function() {
+                    $(".image-tag").val(fr.result);
+                    $('#image_preview').html('<img src="' + fr.result + '"/>');
+                    submitForm();
+                }
+                fr.readAsDataURL(files[0]);
             }
-
-        })(jQuery);
+        };
     </script>
 @endpush
