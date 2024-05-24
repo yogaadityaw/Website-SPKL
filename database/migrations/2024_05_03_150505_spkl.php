@@ -21,10 +21,9 @@ return new class extends Migration
             $table->integer('jam_realisasi')->nullable();
             $table->enum('status', ['Reject', 'Pending', 'Approve'])->default('Pending');
             $table->integer('pt_id');
-            $table->integer('proyek_id');
+            $table->integer('proyek_id');   
             $table->integer('departemen_id');
             $table->integer('bengkel_id');
-            $table->integer('user_id');
             $table->boolean('is_kabeng_acc')->default(false);
             $table->boolean('is_departemen_acc')->default(false);
             $table->boolean('is_kemenpro_acc')->default(false);
@@ -34,7 +33,6 @@ return new class extends Migration
             $table->foreign('proyek_id')->references('id_proyek')->on('proyek');
             $table->foreign('departemen_id')->references('id_departemen')->on('departemen');
             $table->foreign('bengkel_id')->references('id_bengkel')->on('bengkel');
-            $table->foreign('user_id')->references('id_user')->on('users');
         });
     }
 

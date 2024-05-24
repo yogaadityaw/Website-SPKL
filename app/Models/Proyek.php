@@ -15,6 +15,7 @@ class Proyek extends Model
 
     protected $fillable = [
         'proyek_name',
+        'pj_proyek',
     ];
 
     // /**
@@ -27,5 +28,9 @@ class Proyek extends Model
     public function spkl(): BelongsTo
     {
         return $this->belongsTo(Spkl::class, 'spkl_id');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'pj_proyek', 'id_user');
     }
 }

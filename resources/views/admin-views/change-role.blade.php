@@ -120,6 +120,7 @@
                             <div class="form-group col-md-6">
                                 <label>Jabatan</label>
                                 <select class="form-control selectric" name="id_role">
+                                    <option value="" selected disabled>Select Jabatan</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
                                     @endforeach
@@ -129,6 +130,7 @@
                             <div class="form-group">
                                 <label>PT</label>
                                 <select class="form-control selectric" name="id_pt">
+                                    <option value="" selected disabled>Select PT</option>
                                     @foreach ($pts as $pt)
                                         <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
                                     @endforeach
@@ -136,6 +138,7 @@
                                 <div class="form-group">
                                 <label>Departemen</label>
                                 <select class="form-control selectric" name="id_departemen">
+                                    <option value="" selected disabled>Select PT</option>
                                     @foreach ($departemens as $departemen)
                                         <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>
                                     @endforeach
@@ -144,6 +147,7 @@
                                     <div class="form-group">
                                         <label>Bengkel</label>
                                         <select class="form-control selectric" name="id_bengkel">
+                                            <option value="" selected disabled>Select Bengkel</option>
                                             @foreach ($bengkels as $bengkel)
                                                 <option value="{{ $bengkel->id_bengkel }}">{{ $bengkel->bengkel_name }}</option>
                                             @endforeach

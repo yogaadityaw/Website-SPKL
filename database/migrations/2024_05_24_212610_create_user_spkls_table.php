@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bengkel', function (Blueprint $table) {
-            $table->integer('id_bengkel')->index()->autoIncrement();
-            $table->string('bengkel_name');
-            $table->integer('bengkel_head');
+        Schema::create('user_spkls', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->integer('spkl_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id_user')->on('users');
+            $table->foreign('spkl_id')->references('id_spkl')->on('spkl');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bengkel');
+        Schema::dropIfExists('user_spkls');
     }
 };

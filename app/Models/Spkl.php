@@ -59,8 +59,8 @@ class Spkl extends Model
         return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
-    public function user(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasOne(UserSpkl::class, 'spkl_id', 'id_spkl');
     }
 }

@@ -15,6 +15,8 @@ use App\Models\Proyek;
 use App\Models\Pt;
 use App\Models\Spkl;
 use App\Models\User;
+use App\Models\UserSpkl;
+use App\Models\QRCode;
 
 class PengajuanSpklKabengController extends Controller
 {
@@ -25,8 +27,10 @@ class PengajuanSpklKabengController extends Controller
 
     public function index()
     {
+        $logged_user = Auth::user();
+
         $spkl_id = GenerateRandomSpklNumber::generate();
-        $users = User::all();
+        $users = User::where('bengkel_id', $logged_user->kabeng->id_bengkel)->get();
         $pts = Pt::all();
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
@@ -40,9 +44,9 @@ class PengajuanSpklKabengController extends Controller
     {
 
         $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->findOrFail($id);
-//        dd($spkls);
+        $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
-        return view('kabeng-views.detail-spkl-bengkel', compact('spkls'));
+        return view('kabeng-views.detail-spkl-bengkel', compact('spkls', 'qr'));
     }
 
     public function post(Request $request)
@@ -58,8 +62,25 @@ class PengajuanSpklKabengController extends Controller
                 'pt_id' => $request->input('pt_id'),
                 'proyek_id' => $request->input('proyek_id'),
                 'departemen_id' => $request->input('departemen_id'),
-                'bengkel_id' => $request->input('bengkel_id'),
-                'user_id' => $request->input('user_id'),
+                'bengkel_id' => $request->input('bengkel_id')
+            ]);
+
+            foreach ($request->user_id as $user_id) {
+                UserSpkl::create([
+                    'spkl_id' => $spkl->id_spkl,
+                    'user_id' => $user_id
+                ]);
+            }
+
+            $departemen = Departemen::findOrFail($request->departemen_id);
+            $workshop = Bengkel::findOrFail($request->bengkel_id);
+            $project = Proyek::findOrFail($request->proyek_id);
+
+            QRCode::create([
+                'spkl_id' => $spkl->id_spkl,
+                'workshop_head_id' => $workshop->bengkel_head,
+                'department_head_id' => $departemen->departemen_head,
+                'pj_proyek_id' => $project->pj_proyek,
             ]);
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
@@ -88,7 +109,7 @@ class PengajuanSpklKabengController extends Controller
     public function auditSpkl(Request $request)
     {
         if ($request->input('action') == 'approve') {
-
+            
             try {
                 $spkl = Spkl::findOrFail($request->spkl_id);
                 if ($spkl->is_kabeng_acc) {
@@ -98,12 +119,11 @@ class PengajuanSpklKabengController extends Controller
                     'is_kabeng_acc' => true
                 ]);
 
-                $path = 'public/qrcodes';
-                $user_id = Auth::user()->user_nip;
-                $filename = $user_id . '-' . $spkl->spkl_number;
                 $qr = GenerateQRCode::generate(Auth::user()->user_nip);
-                $saved = Storage::disk($path)->put($filename . '.png', $qr->png());
-                dd($saved);
+                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+                $qr_data->update([
+                    'workshop_head_qr_code' => $qr
+                ]);
 
                 return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil disetujui');
             } catch (\Exception $e) {

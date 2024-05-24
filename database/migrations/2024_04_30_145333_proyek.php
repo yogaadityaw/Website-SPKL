@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('proyek', function (Blueprint $table) {
             $table->integer('id_proyek')->index()->autoIncrement();
             $table->string('proyek_name');
+            $table->integer('pj_proyek');
             $table->timestamps();
         });
     }

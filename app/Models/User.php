@@ -48,9 +48,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function spkl(): BelongsTo
+    public function spkl()
     {
-        return $this->belongsTo(Spkl::class, 'spkl_id');
+        return $this->hasOne(UserSpkl::class, 'user_id', 'id_user');
     }
 
     public function pt(): BelongsTo
@@ -68,6 +68,8 @@ class User extends Authenticatable
         return $this->belongsTo(Bengkel::class, 'bengkel_id');
     }
 
-
-
+    public function kabeng()
+    {
+        return $this->hasOne(Bengkel::class, 'bengkel_head', 'id_user');
+    }
 }

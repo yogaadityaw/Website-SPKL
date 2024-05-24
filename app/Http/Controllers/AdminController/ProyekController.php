@@ -21,7 +21,8 @@ class ProyekController extends Controller
     public function index()
     {
         $proyeks = Proyek::orderBy('id_proyek', 'desc')->get();
-        return view('admin-views.list-proyek', compact('proyeks'));
+        $roles = User::where('role_id',4)->get();
+        return view('admin-views.list-proyek', compact('proyeks','roles'));
     }
 
     public function getProyekData($id_proyek)
@@ -34,9 +35,12 @@ class ProyekController extends Controller
     public function TambahProyek(Request $request)
     {
         try {
+            dd($request->all());
+            
             $proyek = Proyek::create([
 
                 'proyek_name' => $request->input('proyek'),
+                'pj_proyek' => $request->input('id_role'),
 
             ]);
 
@@ -48,9 +52,11 @@ class ProyekController extends Controller
 
     public function updateProyek(Request $request)
     {
+//        dd($request->all());
 
-        $proyek = Proyek::findOrFail($request->id_proyek);
-        $proyek= $request->input('proyek_id');
+        $proyek = Proyek::findOrFail($request->proyek_id);
+        $proyek->proyek_name = $request->input('proyek_name');
+        $proyek->pj_proyek = $request->input('id_role');
         $proyek->save();
 
         return redirect()->route('proyek-list')->with('success', 'Nama proyek berhasil diperbarui.');
@@ -58,6 +64,12 @@ class ProyekController extends Controller
 
     }
 
+    public function deleteProyek(Request $request)
+    {
+        $proyek = Proyek::findOrFail($request->proyek_id);
+        $proyek->delete();
+
+        return redirect()->route('proyek-list')->with('success', 'Proyek berhasil dihapus.') ;
+    }
 
 }
-

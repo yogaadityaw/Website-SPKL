@@ -17,6 +17,7 @@ class BengkelSeeder extends Seeder
         for ($i = 1; $i < count($bengkel); $i++) {
             DB::table('bengkel')->insert([
                 'bengkel_name' => $bengkel[$i - 1],
+                'bengkel_head' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

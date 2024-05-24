@@ -90,25 +90,19 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <h5>Kepala Biro</h5>
-                                            <p>Ahmad Budi Santoso, S.T.</p>
-                                            @if($spkls->is_kabeng_acc)
-                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
-                                            @endif
+                                            <p>{{ $qr->workshopHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            {!! $qr->workshop_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>Rizki Pratama, S.T.</p>
-                                            @if($spkls->is_departemen_acc)
-                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
-                                            @endif
+                                            <p>{{ $qr->departmentHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
-                                            <h5>Kepala Kepala Manajemen</h5>
-                                            <p>Indra Wijaya, S.T.</p>
-                                            @if($spkls->is_kemenpro_acc)
-                                                {{\App\Helpers\GenerateQRCode::generate(\Illuminate\Support\Facades\Auth::user()->user_nip)}}
-                                            @endif
-                                        </div>
+                                            <h5>Kepala Manajemen</h5>
+                                            <p>{{ $qr->ptHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            {!! $qr->pj_proyek_qr_code ?? '' !!}
+                                        </div>  
                                     </div>
                                 </div>
                             </div>

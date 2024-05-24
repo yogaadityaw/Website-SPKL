@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('q_r_codes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('spkl_id');
-            $table->unsignedBigInteger('workshop_head_id');
-            $table->unsignedBigInteger('department_head_id');
-            $table->unsignedBigInteger('pt_head_id');
+            $table->integer('spkl_id')->nullable();
+            $table->integer('workshop_head_id')->nullable();
+            $table->integer('department_head_id')->nullable();
+            $table->integer('pj_proyek_id')->nullable();
+            $table->text('workshop_head_qr_code')->nullable();
+            $table->text('department_head_qr_code')->nullable();
+            $table->text('pj_proyek_qr_code')->nullable();
             $table->timestamps();
 
             $table->foreign('spkl_id')->references('id_spkl')->on('spkl');
             $table->foreign('workshop_head_id')->references('id_user')->on('users');
             $table->foreign('department_head_id')->references('id_user')->on('users');
-            $table->foreign('pt_head_id')->references('id_user')->on('users');
         });
     }
 

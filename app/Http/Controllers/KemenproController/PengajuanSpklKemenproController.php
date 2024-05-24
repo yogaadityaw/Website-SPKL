@@ -3,7 +3,10 @@
 
 namespace App\Http\Controllers\KemenproController;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Helper\GenerateRandomSpklNumber;
+use App\Helpers\GenerateQRCode;
 use App\Http\Controllers\Controller;
 use App\Models\Bengkel;
 use App\Models\Departemen;
@@ -11,7 +14,7 @@ use App\Models\Proyek;
 use App\Models\Pt;
 use App\Models\Spkl;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\QRCode;
 
 class PengajuanSpklKemenproController extends Controller
 {
@@ -37,7 +40,9 @@ class PengajuanSpklKemenproController extends Controller
     {
 
         $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->findOrFail($id);
-        return view('kemenpro-views.detail-spkl-kemenpro', compact('spkls'));
+        $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
+
+        return view('kemenpro-views.detail-spkl-kemenpro', compact('spkls', 'qr'));
     }
 
     public function auditSpkl(Request $request)
@@ -51,6 +56,13 @@ class PengajuanSpklKemenproController extends Controller
                 $spkl->update([
                     'is_kemenpro_acc' => true
                 ]);
+
+                $qr = GenerateQRCode::generate(Auth::user()->user_nip);
+                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+                $qr_data->update([
+                    'pj_proyek_qr_code' => $qr
+                ]);
+
                 return redirect()->route('pengajuan-spkl-kemenpro')->with('success', 'SPKL berhasil disetujui');
             } catch (\Exception $e) {
                 return redirect()->route('pengajuan-spkl-kemenpro')->with('error', $e->getMessage());

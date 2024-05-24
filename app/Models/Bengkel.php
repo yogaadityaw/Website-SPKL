@@ -15,6 +15,7 @@ class Bengkel extends Model
 
     protected $fillable = [
         'bengkel_name',
+        'bengkel_head',
     ];
 
     // /**
@@ -27,5 +28,10 @@ class Bengkel extends Model
     public function spkl(): BelongsTo
     {
         return $this->belongsTo(Spkl::class, 'spkl_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'bengkel_head', 'id_user');
     }
 }

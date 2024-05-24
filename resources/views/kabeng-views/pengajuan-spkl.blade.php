@@ -194,7 +194,7 @@
                             <div class="row justify-content-center">
                                 <div
                                     class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
-                                    <select class="js-select2" multiple="multiple" name="user_id">
+                                    <select class="js-select2" multiple="multiple" name="user_id[]">
                                         @foreach($users as $user)
                                             <option value="{{$user->id_user}}"
                                                     data-badge="">{{$user->user_fullname}}</option>
@@ -378,6 +378,7 @@
             // });
 
             $(document).on('click', '.deleteButton', function () {
+
                 let spklId = $(this).val();
                 $('#deleteModal').modal('show');
                 $.ajax({
@@ -392,10 +393,6 @@
         });
     </script>
 
-
-
-
-
     <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -405,7 +402,6 @@
         (function ($) {
 
             "use strict";
-
 
             $(".js-select2").select2({
                 closeOnSelect: false,
@@ -425,7 +421,6 @@
                 allowClear: true,
                 multiple: false,
             });
-
 
             function iformat(icon, badge,) {
                 var originalOption = icon.element;
