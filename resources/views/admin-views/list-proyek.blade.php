@@ -15,7 +15,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center margin: 0 auto">
-                <h1>Proyek list coba</h1>
+                <h1>Proyek list</h1>
             </div>
             <div class="section-body">
                 <div class="row">
@@ -128,7 +128,7 @@
                         <input type="text" class="form-control" id="editProyekName" name="proyek_name">
                     </div>
 
-                    <div class="form-group col-md-12">
+                    <div class="form-group">
                         <label>Kepala Manajer Proyek</label>
                         <select class="form-control selectric" name="id_role">
                             @foreach ($roles as $role)
@@ -158,7 +158,7 @@
                     @method('DELETE')
                     <input type="hidden" name="proyek_id" id="delete_proyek_id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">Delete</h5>
+                        <h5 class="modal-title" id="userModalLabel">Hapus Proyek</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -167,7 +167,7 @@
                         <p>Apakah anda yakin ingin menghapus proyek ini ? </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </div>
                 </form>

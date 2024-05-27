@@ -31,7 +31,7 @@ class PengajuanSpklKemenproController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->get();
+        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->where('is_kabeng_acc', true)->where('is_departemen_acc', true)->orderBy('id_spkl', 'desc')->get();
 
         return view('kemenpro-views.pengajuan-spkl-kemenpro', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }

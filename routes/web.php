@@ -2,6 +2,7 @@
 
 use App\Helper\GenerateRandomSpklNumber;
 use App\Http\Controllers\AdminController\ProyekController;
+use App\Http\Controllers\AdminController\PtController;
 use App\Http\Controllers\DepartemenController\PengajuanSpklDepartemenController;
 use App\Http\Controllers\KabengController\PegawaiBengkelController;
 use App\Http\Controllers\KemenproController\PengajuanSpklKemenproController;
@@ -40,6 +41,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/proyek-list/edit/{id_proyek}',[ProyekController::class, 'getProyekData']);
     Route::put('/poyek-list/update',[ProyekController::class, 'updateProyek'])->name('proyek-update'); // Menambahkan route untuk update proyek
     Route::delete('/proyek-list/delete',[ProyekController::class, 'deleteProyek'])->name('proyek-delete');
+    Route::get('/pt-list',[PtController::class, 'index'])->name('pt-list');
+    Route::post('/pt-list/baru',[PtController::class, 'TambahPt'])->name('pt-baru-post');
+    Route::get('/pt-list/edit/{id_pt}',[PtController::class,'getPtData']);
+    Route::put('/pt-list/update',[PtController::class,'updatePt'])->name('pt-update');
+    Route::delete('/pt-list/delete',[PtController::class, 'deletePt'])->name('pt-delete');
 });
 
 Route::prefix('kabeng')->group(function () {
@@ -72,6 +78,8 @@ Route::prefix('pegawai')->group(function () {
     Route::get('/dashboard', [DashboardPegawaiController::class, 'index'])->name('dashboard-pegawai');
     Route::get('/surat-pengajuan', [DashboardPegawaiController::class, 'listSpklPegawai'])->name('list-spkl-pegawai');
     Route::post('/surat-pengajuan/absen', [DashboardPegawaiController::class, 'absen'])->name('absen-spkl-pegawai');
+    Route::post('/surat-pengajuan/checkout', [DashboardPegawaiController::class, 'checkout'])->name('checkout-spkl-pegawai');
+    Route::get('/detail-spkl-pegawai/{id}', [DashboardPegawaiController::class, 'getDetailSpkl'])->name('detail-spkl-pegawai');
 });
 
 Route::prefix('user')->group(function () {

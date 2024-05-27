@@ -24,6 +24,6 @@ class UserSpkl extends Model
 
     public function spkl()
     {
-        return $this->belongsTo(Spkl::class, 'spkl_id', 'id_spkl');
+        return $this->belongsTo(Spkl::class, 'spkl_id');
     }
 }

@@ -31,7 +31,7 @@ class PengajuanSpklDepartemenController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->get();
+        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->where('is_kabeng_acc', true)->orderBy('id_spkl', 'desc')->get();
 
         return view('departemen-views.pengajuan-spkl-dep', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }

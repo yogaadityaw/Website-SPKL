@@ -17,6 +17,8 @@
                             class="fas fa-home"></i><span>Dashboard</span>
                         <a class="nav-link" href="{{ route('change-role') }}"><i
                                 class="fas fa-user"></i><span>Ubah Role</span></a>
+                        <a class="nav-link" href="{{ route('pt-list') }}"><i
+                                class="fas fa-building"></i><span>PT List</span></a>
                         <a class="nav-link" href="{{ route('proyek-list') }}"><i
                                 class="fas fa-ship"></i><span>Proyek List</span></a>
                     </a>

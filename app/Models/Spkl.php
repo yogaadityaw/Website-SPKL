@@ -63,6 +63,11 @@ class Spkl extends Model
 
     public function user()
     {
-        return $this->hasOne(UserSpkl::class, 'spkl_id', 'id_spkl');
+        return $this->hasMany(UserSpkl::class, 'spkl_id', 'id_spkl');
+    }
+
+    public function qr()
+    {
+        return $this->hasOne(QRCode::class, 'spkl_id', 'id_spkl');
     }
 }

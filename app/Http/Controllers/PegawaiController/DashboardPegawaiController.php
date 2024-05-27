@@ -24,16 +24,31 @@ class DashboardPegawaiController extends Controller
     public function listSpklPegawai()
     {
         $logged_user = Auth::user();
-        $userspkls = UserSpkl::where('user_id', $logged_user->id_user)->get();
+        $unfinishedSpkls = UserSpkl::where('user_id', $logged_user->id_user)
+            ->where('check_out', null)
+            ->get();
 
-        if (!$userspkls) {
+        $filteredSpkls = [];
+
+        foreach ($unfinishedSpkls as $userSpkl) {
+            if ($userSpkl->spkl->is_kabeng_acc && $userSpkl->spkl->is_departemen_acc && $userSpkl->spkl->is_kemenpro_acc) {
+                $filteredSpkls[] = $userSpkl;
+            }
+        }
+
+        $finishedSpkls = UserSpkl::where('user_id', $logged_user->id_user)
+            ->where('check_out', '!=', null)
+            ->with('spkl')
+            ->get();
+
+        if (!$unfinishedSpkls) {
             return view('pegawai-views.surat-pengajuan')->with('error', 'gagal menampilkan data spkl');
         }
-        $spkls = $userspkls->map(function ($userspkl) {
-            return Spkl::findOrFail($userspkl->spkl_id);
-        });
+        if (!$finishedSpkls) {
+            return view('pegawai-views.surat-pengajuan')->with('error', 'gagal menampilkan data spkl');
+        }
 
-        return view('pegawai-views.surat-pengajuan', compact('spkls'));
+        return view('pegawai-views.surat-pengajuan', compact('filteredSpkls', 'finishedSpkls'));
     }
 
     public function absen(Request $request)
@@ -43,7 +58,7 @@ class DashboardPegawaiController extends Controller
         if ($userSpkl->check_in && $userSpkl->image) {
             return redirect()->route('list-spkl-pegawai')->with('error', 'Anda sudah absen');
         }
-        
+
         $base64ImageData = $request->image;
         $decodedImageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64ImageData));
         $file_name = time() . '_' . $request->user_name . '.png';
@@ -56,5 +71,23 @@ class DashboardPegawaiController extends Controller
         ]);
 
         return redirect()->route('list-spkl-pegawai')->with('success', 'Data proyek baru berhasil ditambahkan');;
+    }
+
+    public function checkout(Request $request)
+    {
+        $userSpkl = UserSpkl::findOrFail($request->user_spkl_id);
+
+        $userSpkl->update([
+            'check_out' => now(),
+        ]);
+
+        return redirect()->route('list-spkl-pegawai')->with('success', 'Berhasil Checkout');
+    }
+
+    public function getDetailSpkl($id)
+    {
+        $spkl = Spkl::findOrFail($id);
+
+        return view('pegawai-views.detail-spkl-pegawai', compact('spkl'));
     }
 }

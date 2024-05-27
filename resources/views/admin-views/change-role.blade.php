@@ -120,7 +120,7 @@
                             <div class="form-group col-md-6">
                                 <label>Jabatan</label>
                                 <select class="form-control selectric" name="id_role">
-                                    <option value="" selected disabled>Select Jabatan</option>
+                                    <option value="" selected disabled>Pilih Jabatan</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
                                     @endforeach
@@ -130,7 +130,7 @@
                             <div class="form-group">
                                 <label>PT</label>
                                 <select class="form-control selectric" name="id_pt">
-                                    <option value="" selected disabled>Select PT</option>
+                                    <option value="" selected disabled>Pilih PT</option>
                                     @foreach ($pts as $pt)
                                         <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
                                     @endforeach
@@ -138,7 +138,7 @@
                                 <div class="form-group">
                                 <label>Departemen</label>
                                 <select class="form-control selectric" name="id_departemen">
-                                    <option value="" selected disabled>Select PT</option>
+                                    <option value="" selected disabled>Pilih PT</option>
                                     @foreach ($departemens as $departemen)
                                         <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>
                                     @endforeach
@@ -147,7 +147,7 @@
                                     <div class="form-group">
                                         <label>Bengkel</label>
                                         <select class="form-control selectric" name="id_bengkel">
-                                            <option value="" selected disabled>Select Bengkel</option>
+                                            <option value="" selected disabled>Pilih Bengkel</option>
                                             @foreach ($bengkels as $bengkel)
                                                 <option value="{{ $bengkel->id_bengkel }}">{{ $bengkel->bengkel_name }}</option>
                                             @endforeach
@@ -159,8 +159,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -178,7 +178,7 @@
                     @method('DELETE')
                     <input type="hidden" name="user_id" id="user_id" value="user_id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">Delete</h5>
+                        <h5 class="modal-title" id="userModalLabel">Hapus User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -187,7 +187,6 @@
                         <p>Apakah anda yakin ingin menghapus user ini ? </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </div>
                 </form>

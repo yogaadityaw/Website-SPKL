@@ -42,25 +42,41 @@
                                             <th scope="col">Tanggal Lembur</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
-                                        @foreach ($spkls as $spkl)
+                                        @foreach ($filteredSpkls as $spkl)
                                             <tr>
                                                 <td scope="col">{{ $loop->index + 1 }}</td>
-                                                <td scope="col">{{ $spkl->spkl_number ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->proyek->proyek_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->departemen->departemen_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->bengkel->bengkel_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->tanggal ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->departemen->departemen_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                                 <td>
-                                                    <button type="button" value="{{ $spkl->id_spkl }}" data-spkl-id="{{ $spkl->id_spkl }}"
+                                                    <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
+                                                        <button type="button"
+                                                                class="btn btn-success fas fa-book"
+                                                                data-toggle="modal">
+                                                        </button>
+                                                    </a>
+                                                    <button type="button" value="{{ $spkl->id }}"
+                                                        data-spkl-id="{{ $spkl->id }}"
                                                         class="btn btn-success checkinButton" data-toggle="modal"
                                                         data-target="#checkinModal">
                                                         Check-in
                                                     </button>
 
                                                     <button type="button" class="btn btn-danger deleteButton"
-                                                        value="" data-toggle="modal">
+                                                        value=""
+                                                        onclick="event.preventDefault();
+                                                        document.getElementById('checkout-form').submit();">
                                                         Check-out
                                                     </button>
+
+                                                    <form id="checkout-form" action="{{ route('checkout-spkl-pegawai') }}"
+                                                        method="POST" class="d-none">
+                                                        @csrf
+                                                        <input type="hidden" name="user_spkl_id"
+                                                            value="{{ $spkl->id }}">
+                                                    </form>
 
                                                 </td>
                                             </tr>
@@ -102,6 +118,23 @@
                                     <th scope="col">Tanggal Lembur</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
+                                @foreach ($finishedSpkls as $spkl)
+                                    <tr>
+                                        <td scope="col">{{ $loop->index + 1 }}</td>
+                                        <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->departemen->departemen_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
+                                        <td>
+                                            <button type="button" value="{{ $spkl->id }}"
+                                                data-spkl-id="{{ $spkl->id }}" class="btn btn-success checkinButton"
+                                                >
+                                                detail
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </table>
                         </div>
                     </div>
@@ -122,7 +155,8 @@
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="user_spkl_id" id="userSpklId">
-                    <input type="hidden" name="user_name" id="user_id" value="{{ Auth::user()->user_fullname }}">
+                    <input type="hidden" name="user_name" id="user_id"
+                        value="{{ Auth::user()->user_fullname }}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="userModalLabel">Absen Foto</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -155,11 +189,11 @@
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
     </script>
-    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+    {{--    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script> --}}
+    {{--    <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script> --}}
+    {{--    <script src="{{ asset('js/bootstrap.min.js') }}"></script> --}}
+    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> --}}
+    {{--    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script> --}}
 
     <script>
         $(document).ready(function() {
