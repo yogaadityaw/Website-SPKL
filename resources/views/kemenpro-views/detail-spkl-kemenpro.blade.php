@@ -10,7 +10,6 @@
 
 @include('components.sidebar')
 
-
 @section('main')
     <div class="main-content">
         <section class="section">
@@ -39,8 +38,16 @@
                                             <p>{{$spkls->bengkel->bengkel_name}}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Jam Mulai Lembur</h5>
-                                            <p>-</p>
+                                            <h5>Pelaksanaan</h5>
+                                            @foreach ($spkls->userSpkls as $pegawai)
+                                                @if ($pegawai->check_in && $pegawai->check_out)
+                                                    <p>{{ $pegawai->user->user_fullname }} :
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                    </p>
+                                                @else
+                                                    <p>belum lembur</p>
+                                                @endif
+                                            @endforeach
                                         </div>
                                         <div class="col-3">
                                             <h5>Rencana</h5>
@@ -54,15 +61,27 @@
                                         </div>
                                         <div class="col-3">
                                             <h5>Departemen</h5>
-                                            <p>{{$spkls->departemen->departemen_name}}</p>
+                                            <p>{{$spkls->bengkel->departemen->departemen_name}}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Jam Akhir Lembur</h5>
-                                            <p>-</p>
+                                            <h5>Tanggal</h5>
+                                            <p> {{$spkls->tanggal}} </p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Jam Realisasi</h5>
+                                            @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
+                                                <p>{!! $spkls->jam_realisasi !!}</p>
+                                            @else
+                                                <p>belum acc</p>
+                                            @endif 
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
                                             <p>{{$spkls->uraian_pekerjaan}}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Progress</h5>
+                                            <p> {{$spkls->progres}} </p>
                                         </div>
                                         <div class="row ml-1 mr-1">
                                             <div class="col-9">
@@ -70,13 +89,11 @@
                                                 <textarea
                                                     class="form-control"
                                                     data-height="150"
-                                                    required=""></textarea>
-                                            </div>
-                                            <div class="col-3">
-                                                <h5>Progress</h5>
-                                                <p>Kami telah mencapai 50% dari target pengujian dan menemukan beberapa
-                                                    potensi perbaikan yang dapat meningkatkan kinerja sistem secara
-                                                    keseluruhan.</p>
+                                                    required="">
+                                                    @foreach ($spkls->userSpkls as $karyawan)
+                                                        {{ $karyawan->user->user_fullname }},
+                                                    @endforeach
+                                                </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -89,24 +106,24 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-4">
-                                            <h5>Kepala Biro</h5>
-                                            <p>{{ $qr->workshopHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <h5>Kepala Biro/Kabeng</h5>
+                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->workshop_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->departmentHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Manajemen</h5>
-                                            <p>{{ $qr->ptHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->pj_proyek_qr_code ?? '' !!}
-                                        </div>  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <form action="{{ route('audit-spkl-kemenpro')}}" method="post">
+                            <form action="{{route('audit-spkl-kemenpro')}}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="spkl_id" value="{{ $spkls->id_spkl }}">

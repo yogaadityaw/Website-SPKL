@@ -3,13 +3,11 @@
 @section('title', 'User Dashboard')
 
 @push('style')
-    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
 
 @include('components.sidebar')
-
 
 @section('main')
     <div class="main-content">
@@ -23,7 +21,7 @@
                         <div class="card-body">
                             <nav class="navbar navbar-expand-lg navbar-light bg-white">
                                 <button data-toggle="modal" data-target="#buatPtModal" type="button"
-                                        class="btn btn-primary mr-2">+ Tambah PT
+                                    class="btn btn-primary mr-2">+ Tambah PT
                                 </button>
                             </nav>
                             <div class="table-responsive">
@@ -34,22 +32,22 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($pts as $pt)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $pt->pt_name }}</td>
-                                            <td>
-                                                <button type="button" value="{{ $pt->id_pt }}"
-                                                        class="btn btn-warning editButton"
-                                                        data-target="#editPtModal" data-toggle="modal">Edit
-                                                </button>
-                                                <button type="button" class="btn btn-danger deleteButton"
+                                        @foreach ($pts as $pt)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $pt->pt_name }}</td>
+                                                <td>
+                                                    <button type="button" value="{{ $pt->id_pt }}"
+                                                        class="btn btn-warning editButton" data-target="#editPtModal"
+                                                        data-toggle="modal">Edit
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger deleteButton"
                                                         value="{{ $pt->id_pt }}" data-toggle="modal"
                                                         data-target="#deleteModal">Hapus
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
                                 </table>
                             </div>
@@ -61,10 +59,10 @@
     </div>
 
 @endsection
-{{--modal untuk tambah proyek--}}
+{{-- modal untuk tambah proyek --}}
 
 <div id="buatPtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pt-baru-post') }}" enctype="multipart/form-data" method="POST">
@@ -96,17 +94,14 @@
         </div>
     </div>
 </div>
-</div>
 
-
-{{--<!-- Modal for Editing Project -->--}}
-
-<div id="editPtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editProyekModalLabel" aria-hidden="true">
+<div id="editPtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editProyekModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pt-update') }}" method="post">
                 @csrf
-                @method('PUT') <!-- karena Anda melakukan update, Anda mungkin perlu menggunakan method PUT pada form -->
+                @method('PUT')
 
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Proyek</h5>
@@ -115,7 +110,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="pt_id" id="edit_pt_id"> <!-- ini untuk menyimpan ID proyek yang akan diubah -->
+                    <input type="hidden" name="pt_id" id="edit_pt_id">
 
                     <div class="form-group">
                         <label for="editPtName">Nama Proyek</label>
@@ -133,14 +128,12 @@
     </div>
 </div>
 
-{{-- delete modal proyek--}}
-
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form id="deleteUserForm" action="{{route('pt-delete')}}" method="POST">
+                <form id="deleteUserForm" action="{{ route('pt-delete') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="pt_id" id="delete_pt_id">
@@ -181,43 +174,39 @@
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            $('#tambahPtModalButton').click(function () {
+        $(document).ready(function() {
+            $('#tambahPtModalButton').click(function() {
                 $('#buatPtModal').modal('show');
             });
         });
     </script>
 
     <script>
-        $(document).on('click', '.editButton', function () {
+        $(document).on('click', '.editButton', function() {
             let ptId = $(this).val();
             $('#editPtModal').modal('show');
 
-            // Mengambil data proyek yang akan diedit melalui AJAX
             $.ajax({
                 type: "GET",
                 url: "/admin/pt-list/edit/" + ptId,
-                success: function (response) {
-                    // Mengisikan nilai data proyek ke dalam form edit
+                success: function(response) {
                     $('#edit_pt_id').val(response.id_pt);
                     $('#editPtName').val(response.pt_name);
-                    // $('#editProyekRole').val(response.id_role);
                 }
             })
         });
 
 
-        $(document).on('click', '.deleteButton', function () {
+        $(document).on('click', '.deleteButton', function() {
             let ptId = $(this).val();
             $('#deleteModal').modal('show');
             $.ajax({
                 type: "GET",
                 url: "/admin/pt-list/edit/" + ptId,
-                success: function (response) {
+                success: function(response) {
                     $('#delete_pt_id').val(response.id_pt);
                 }
             })
         });
-
     </script>
 @endpush

@@ -18,7 +18,7 @@ class DepartemenSeeder extends Seeder
         for ($i = 0; $i < count($departemen); $i++) {
             DB::table('departemen')->insert([
                 'departemen_name' => $departemen[$i],
-                'departemen_head' => 1,
+                'departemen_head' => 3,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

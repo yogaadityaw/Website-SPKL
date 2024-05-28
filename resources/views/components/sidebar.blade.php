@@ -21,6 +21,10 @@
                                 class="fas fa-building"></i><span>PT List</span></a>
                         <a class="nav-link" href="{{ route('proyek-list') }}"><i
                                 class="fas fa-ship"></i><span>Proyek List</span></a>
+                                <a class="nav-link" href="{{ route('bengkel-list') }}"><i
+                                        class="fas fa-wrench"></i><span>Bengkel List</span></a>
+                        <a class="nav-link" href="{{ route('departemen-list') }}"><i
+                                class="fas fa-black-tie"></i><span>Departemen List</span></a>
                     </a>
                 </li>
             </ul>

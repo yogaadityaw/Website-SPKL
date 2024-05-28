@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('spkl', function (Blueprint $table) {
             $table->integer('id_spkl')->index()->autoIncrement();
+            $table->integer('pt_id');
+            $table->integer('proyek_id');
+            $table->integer('bengkel_id');
             $table->string('spkl_number');
             $table->string('uraian_pekerjaan');
+            $table->string('pelaksanaan')->nullable();
+            $table->string('progres')->nullable();
             $table->string('rencana');
-            $table->string('pelaksanaan');
             $table->dateTime('tanggal');
-            $table->integer('jam_realisasi')->nullable();
-            $table->enum('status', ['Reject', 'Pending', 'Approve'])->default('Pending');
-            $table->integer('pt_id');
-            $table->integer('proyek_id');   
-            $table->integer('departemen_id');
-            $table->integer('bengkel_id');
+            $table->text('jam_realisasi')->nullable();
             $table->boolean('is_kabeng_acc')->default(false);
             $table->boolean('is_departemen_acc')->default(false);
             $table->boolean('is_kemenpro_acc')->default(false);
@@ -31,7 +30,6 @@ return new class extends Migration
 
             $table->foreign('pt_id')->references('id_pt')->on('pt');
             $table->foreign('proyek_id')->references('id_proyek')->on('proyek');
-            $table->foreign('departemen_id')->references('id_departemen')->on('departemen');
             $table->foreign('bengkel_id')->references('id_bengkel')->on('bengkel');
         });
     }

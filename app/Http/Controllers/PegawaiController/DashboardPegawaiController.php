@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Spkl;
 use App\Models\UserSpkl;
+use App\Models\QRCode;
 
 class DashboardPegawaiController extends Controller
 {
@@ -86,8 +87,9 @@ class DashboardPegawaiController extends Controller
 
     public function getDetailSpkl($id)
     {
-        $spkl = Spkl::findOrFail($id);
+        $spkls = Spkl::findOrFail($id);
+        $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
-        return view('pegawai-views.detail-spkl-pegawai', compact('spkl'));
+        return view('pegawai-views.detail-spkl-pegawai', compact('spkls', 'qr'));
     }
 }

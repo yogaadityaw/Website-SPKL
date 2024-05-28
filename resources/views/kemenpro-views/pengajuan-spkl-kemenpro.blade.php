@@ -79,7 +79,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td> {{ $spkl->spkl_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
-                                        <td> {{ $spkl->departemen->departemen_name}} </td>
+                                        <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
                                         <td>

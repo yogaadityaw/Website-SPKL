@@ -47,7 +47,7 @@
                                                 <td scope="col">{{ $loop->index + 1 }}</td>
                                                 <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->spkl->departemen->departemen_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                                 <td>
@@ -123,15 +123,16 @@
                                         <td scope="col">{{ $loop->index + 1 }}</td>
                                         <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
-                                        <td scope="col">{{ $spkl->spkl->departemen->departemen_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                         <td>
-                                            <button type="button" value="{{ $spkl->id }}"
-                                                data-spkl-id="{{ $spkl->id }}" class="btn btn-success checkinButton"
-                                                >
-                                                detail
-                                            </button>
+                                            <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
+                                                <button type="button"
+                                                        class="btn btn-success fas fa-book">
+                                                        detail
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

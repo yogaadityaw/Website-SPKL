@@ -22,8 +22,6 @@ class PegawaiBengkelController extends Controller
     public function index()
     {
         $bengkelId = Auth::user();
-
-        // Mengambil data pegawai yang memiliki id_bengkel yang sama
         $pegawaiBengkel = User::where('bengkel_id', $bengkelId->kabeng->id_bengkel)->orderBy('id_user', 'desc')->get();
 
         $roles = Role::all();

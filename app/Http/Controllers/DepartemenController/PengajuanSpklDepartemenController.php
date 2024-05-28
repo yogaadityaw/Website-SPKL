@@ -31,7 +31,7 @@ class PengajuanSpklDepartemenController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->where('is_kabeng_acc', true)->orderBy('id_spkl', 'desc')->get();
+        $spkls = Spkl::where('is_kabeng_acc', true)->orderBy('id_spkl', 'desc')->get();
 
         return view('departemen-views.pengajuan-spkl-dep', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }
@@ -39,7 +39,7 @@ class PengajuanSpklDepartemenController extends Controller
     public function getDetailSpkl($id)
     {
 
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->findOrFail($id);
+        $spkls = Spkl::orderBy('id_spkl', 'desc')->findOrFail($id);
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('departemen-views.detail-spkl-departemen', compact('spkls', 'qr'));

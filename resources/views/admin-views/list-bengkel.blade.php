@@ -3,7 +3,6 @@
 @section('title', 'User Dashboard')
 
 @push('style')
-    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
@@ -22,29 +21,32 @@
                     <div style="width:100%" class="card">
                         <div class="card-body">
                             <nav class="navbar navbar-expand-lg navbar-light bg-white">
-                                <button data-toggle="modal" data-target="#buatProyekModal" type="button"
-                                        class="btn btn-primary mr-2">+ Tambah Bengkel Baru
+                                <button data-toggle="modal" data-target="#buatBengkelModal" type="button"
+                                    class="btn btn-primary mr-2">
+                                    + Tambah Bengkel Baru
                                 </button>
                             </nav>
                             <div class="table-responsive">
                                 <table class="table-bordered table">
                                     <tr>
                                         <th scope="col">No</th>
+                                        <th scope="col">Departemen</th>
                                         <th scope="col">Nama Bengkel</th>
                                         <th scope="col">Kepala Bengkel</th>
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($proyeks as $proyek)
+                                    @foreach ($bengkels as $bengkel)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $proyek->proyek_name }}</td>
-                                            <td> {{ $proyek->user->user_fullname }} </td>
+                                            <td>{{ $bengkel->departemen->departemen_name }}</td>
+                                            <td>{{ $bengkel->bengkel_name }}</td>
+                                            <td> {{ $bengkel->user->user_fullname }} </td>
                                             <td>
-                                                <button type="button" value="{{ $proyek->id_proyek }}" class="btn btn-warning editButton"
-                                                        data-target="#updateSPKLModal" data-toggle="modal">Edit</button>
+                                                <button type="button" value="{{ $bengkel->id_bengkel }}" class="btn btn-warning editButton"
+                                                        data-target="#editBengkelModal" data-toggle="modal">Edit</button>
                                                 <button type="button" class="btn btn-danger deleteButton"
-                                                        value="{{ $proyek->id_proyek }}" data-toggle="modal"
+                                                        value="{{ $bengkel->id_bengkel }}" data-toggle="modal"
                                                         data-target="#deleteModal">Hapus
                                                 </button>
                                             </td>
@@ -63,15 +65,15 @@
 @endsection
 {{--modal untuk tambah proyek--}}
 
-<div id="buatProyekModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
-     aria-hidden="true">
+<div id="buatBengkelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ route('proyek-baru-post') }}" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('bengkel-baru-post') }}" enctype="multipart/form-data" method="POST">
                 @csrf
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Proyek Baru</h5>
+                    <h5 class="modal-title">Tambah Bengkel Baru</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -81,15 +83,24 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-12">
-                            <label for="inputCity">Tambah Proyek Baru</label>
-                            <input type="text" class="form-control" id="inputProyek" name="proyek">
+                            <label>Departemen</label>
+                            <select class="form-control selectric" name="departemen_id">
+                                @foreach ($departemens as $departemen)
+                                    <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label>Kepala Manajer Proyek</label>
+                            <label for="inputCity">Tambah Bengkel Baru</label>
+                            <input type="text" class="form-control" id="inputBengkel" name="bengkel">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label>Kepala Bengkel</label>
                             <select class="form-control selectric" name="id_role">
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id_user }}">{{ $role->user_fullname }}</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id_user }}">{{ $user->user_fullname }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -106,33 +117,41 @@
 </div>
 
 <!-- Modal for Editing Project -->
-
-<div id="editProyekModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editProyekModalLabel" aria-hidden="true">
+<div id="editBengkelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editProyekModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ route('proyek-update') }}" method="post">
+            <form action="{{ route('bengkel-update') }}" method="post">
                 @csrf
                 @method('PUT') <!-- karena Anda melakukan update, Anda mungkin perlu menggunakan method PUT pada form -->
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Proyek</h5>
+                    <h5 class="modal-title">Edit Bengkel</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="proyek_id" id="edit_proyek_id"> <!-- ini untuk menyimpan ID proyek yang akan diubah -->
+                    <input type="hidden" name="bengkel_id" id="edit_bengkel_id"> <!-- ini untuk menyimpan ID proyek yang akan diubah -->
 
                     <div class="form-group">
-                        <label for="editProyekName">Nama Proyek</label>
-                        <input type="text" class="form-control" id="editProyekName" name="proyek_name">
+                        <label>Departemen</label>
+                        <select class="form-control selectric" name="departemen_id">
+                            @foreach ($departemens as $departemen)
+                                <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Kepala Manajer Proyek</label>
+                        <label for="editBengkelName">Nama Bengkel</label>
+                        <input type="text" class="form-control" id="editBengkelName" name="bengkel_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kepala Bengkel</label>
                         <select class="form-control selectric" name="id_role">
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->id_user }}">{{ $role->user_fullname }}</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id_user }}">{{ $user->user_fullname }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -150,21 +169,21 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form id="deleteUserForm" action="{{route('proyek-delete')}}" method="POST">
+                <form id="deleteUserForm" action="{{route('bengkel-delete')}}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <input type="hidden" name="proyek_id" id="delete_proyek_id">
+                    <input type="hidden" name="bengkel_id" id="delete_bengkel_id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">Hapus Proyek</h5>
+                        <h5 class="modal-title" id="userModalLabel">Hapus Bengkel</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus proyek ini ? </p>
+                        <p>Apakah anda yakin ingin menghapus data bengkel ini ? </p>
                     </div>
                     <div class="modal-footer">
 
@@ -195,38 +214,38 @@
 
     <script>
         $(document).ready(function () {
-            $('#tambahProyekModalButton').click(function () {
-                $('#buatProyekModal').modal('show');
+            $('#tambahBengkelModalButton').click(function () {
+                $('#buatBengkelModal').modal('show');
             });
         });
     </script>
 
     <script>
         $(document).on('click', '.editButton', function () {
-            let proyekId = $(this).val();
-            $('#editProyekModal').modal('show');
+            let bengkelId = $(this).val();
+            $('#editBengkelModal').modal('show');
 
             // Mengambil data proyek yang akan diedit melalui AJAX
             $.ajax({
                 type: "GET",
-                url: "/admin/proyek-list/edit/" + proyekId,
+                url: "/admin/bengkel-list/edit/" + bengkelId,
                 success: function (response) {
                     // Mengisikan nilai data proyek ke dalam form edit
-                    $('#edit_proyek_id').val(response.id_proyek);
-                    $('#editProyekName').val(response.proyek_name);
-                    $('#editProyekRole').val(response.id_role);
+                    $('#edit_bengkel_id').val(response.id_bengkel);
+                    $('#editBengkelName').val(response.bengkel_name);
+                    $('#editBengkelRole').val(response.id_role);
                 }
             })
         });
 
         $(document).on('click', '.deleteButton', function () {
-            let proyekId = $(this).val();
+            let bengkelId = $(this).val();
             $('#deleteModal').modal('show');
             $.ajax({
                 type: "GET",
-                url: "/admin/proyek-list/edit/" + proyekId,
+                url: "/admin/bengkel-list/edit/" + bengkelId,
                 success: function (response) {
-                    $('#delete_proyek_id').val(response.id_proyek);
+                    $('#delete_bengkel_id').val(response.id_bengkel);
                 }
             })
         });

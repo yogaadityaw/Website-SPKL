@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Spkl extends Model
 {
@@ -13,10 +11,10 @@ class Spkl extends Model
 
     protected $table = 'spkl';
     protected $primaryKey = 'id_spkl';
-
     protected $fillable = [
         'spkl_number',
         'uraian_pekerjaan',
+        'progres',
         'tanggal',
         'rencana',
         'pelaksanaan',
@@ -24,44 +22,30 @@ class Spkl extends Model
         'jam_realisasi',
         'pt_id',
         'proyek_id',
-        'departemen_id',
         'bengkel_id',
         'user_id',
         'is_kabeng_acc',
         'is_departemen_acc',
         'is_kemenpro_acc',
     ];
-
     protected $dates = ['tanggal'];
 
-    // /**
-    //  * The attributes that should be hidden for serialization.
-    //  *
-    //  * @var array<int, string>
-    //  */
-    protected $hidden = [];
-
-    public function pt(): BelongsTo
+    public function pt()
     {
         return $this->belongsTo(Pt::class, 'pt_id');
     }
 
-    public function departemen(): BelongsTo
-    {
-        return $this->belongsTo(Departemen::class, 'departemen_id');
-    }
-
-    public function bengkel(): BelongsTo
+    public function bengkel()
     {
         return $this->belongsTo(Bengkel::class, 'bengkel_id');
     }
 
-    public function proyek(): BelongsTo
+    public function proyek()
     {
         return $this->belongsTo(Proyek::class, 'proyek_id');
     }
 
-    public function user()
+    public function userSpkls()
     {
         return $this->hasMany(UserSpkl::class, 'spkl_id', 'id_spkl');
     }

@@ -31,51 +31,87 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nama PT</h5>
-                                            <p>{{$spkls->pt->pt_name}}</p>
+                                            <p>{{ $spkls->pt->pt_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Bengkel</h5>
-                                            <p>{{$spkls->bengkel->bengkel_name}}</p>
+                                            <p>{{ $spkls->bengkel->bengkel_name }}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Jam Mulai Lembur</h5>
-                                            <p>-</p>
+                                            <h5>Pelaksanaan</h5>
+                                            @foreach ($spkls->userSpkls as $pegawai)
+                                                @if ($pegawai->check_in && $pegawai->check_out)
+                                                    <p>{{ $pegawai->user->user_fullname }} :
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                    </p>
+                                                @else
+                                                    <p>belum lembur</p>
+                                                @endif
+                                            @endforeach
                                         </div>
                                         <div class="col-3">
                                             <h5>Rencana</h5>
-                                            <p>{{$spkls->rencana}}</p>
+                                            <p>{{ $spkls->rencana }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nomor Pengajuan</h5>
-                                            <p>{{$spkls->spkl_number}}</p>
+                                            <p>{{ $spkls->spkl_number }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Departemen</h5>
-                                            <p>{{$spkls->departemen->departemen_name}}</p>
+                                            <p>{{ $spkls->bengkel->departemen->departemen_name }}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Jam Akhir Lembur</h5>
-                                            <p>-</p>
+                                            <h5>Tanggal</h5>
+                                            <p>{{ date('d-m-Y', strtotime($spkls->tanggal)) }}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Jam Realisasi</h5>
+                                            @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
+                                                <p>{!! $spkls->jam_realisasi !!}</p>
+                                            @elseif (!$spkls->is_kemenpro_acc)
+                                                <p>belum acc</p>
+                                            @else
+                                                <form
+                                                    action="{{ route('input-jam-realisasi', ['id' => $spkls->id_spkl]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <table>
+                                                        @foreach ($spkls->userSpkls as $pegawai)
+                                                            <tr>
+                                                                <td>{{ $pegawai->user->user_fullname }}</td>
+                                                                <td>
+                                                                    <input type="text"
+                                                                        name="jam_realisasi_{{ $pegawai->user->id_user }}">
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </table>
+                                                    <input type="submit" value="Simpan">
+                                                </form>
+                                            @endif 
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
-                                            <p>{{$spkls->uraian_pekerjaan}}</p>
+                                            <p>{{ $spkls->uraian_pekerjaan }}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Progress</h5>
+                                            <p> {{ $spkls->progres }} </p>
                                         </div>
                                         <div class="row ml-1 mr-1">
                                             <div class="col-9">
-                                                <label><h5>Karyawan</h5></label>
-                                                <textarea
-                                                    class="form-control"
-                                                    data-height="150"
-                                                    required=""></textarea>
-                                            </div>
-                                            <div class="col-3">
-                                                <h5>Progress</h5>
-                                                <p>Kami telah mencapai 50% dari target pengujian dan menemukan beberapa
-                                                    potensi perbaikan yang dapat meningkatkan kinerja sistem secara
-                                                    keseluruhan.</p>
+                                                <label>
+                                                    <h5>Karyawan</h5>
+                                                </label>
+                                                <textarea class="form-control" data-height="150" required="">
+                                                    @foreach ($spkls->userSpkls as $karyawan)
+                                                        {{ $karyawan->user->user_fullname }},
+                                                    @endforeach
+                                                </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -88,24 +124,24 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-4">
-                                            <h5>Kepala Biro</h5>
-                                            <p>{{ $qr->workshopHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <h5>Kepala Biro/Kabeng</h5>
+                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->workshop_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->departmentHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Manajemen</h5>
-                                            <p>{{ $qr->ptHead->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->pj_proyek_qr_code ?? '' !!}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <form action="{{route('audit-spkl-kabeng')}}" method="post">
+                            <form action="{{ route('audit-spkl-kabeng') }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="spkl_id" value="{{ $spkls->id_spkl }}">
@@ -113,11 +149,11 @@
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">
                                         <button type="submit" name="action" value="reject"
-                                                class="btn btn-outline-danger d-flex justify-content-end ml-2">
+                                            class="btn btn-outline-danger d-flex justify-content-end ml-2">
                                             Tolak
                                         </button>
                                         <button type="submit" name="action" value="approve"
-                                                class="btn btn-primary d-flex justify-content-end ml-2">
+                                            class="btn btn-primary d-flex justify-content-end ml-2">
                                             Setujui
                                         </button>
                                     </div>
@@ -128,4 +164,4 @@
                 </div>
             </div>
         </section>
-@endsection
+    @endsection

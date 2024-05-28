@@ -16,4 +16,9 @@ class DashboardKabengController extends Controller
     {
         return view('dashboard-kabeng');
     }
+
+    public function printSpkl()
+    {
+        return view('kabeng-views.print-spkl');
+    }
 }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Bengkel extends Model
 {
@@ -12,26 +11,24 @@ class Bengkel extends Model
 
     protected $table = 'bengkel';
     protected $primaryKey = 'id_bengkel';
-
     protected $fillable = [
+        'departemen_id',
         'bengkel_name',
         'bengkel_head',
     ];
 
-    // /**
-    //  * The attributes that should be hidden for serialization.
-    //  *
-    //  * @var array<int, string>
-    //  */
-    protected $hidden = [];
-
-    public function spkl(): BelongsTo
+    public function spkls()
     {
-        return $this->belongsTo(Spkl::class, 'spkl_id');
+        return $this->hasMany(Spkl::class, 'bengkel_id', 'id_bengkel');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'bengkel_head', 'id_user');
+    }
+
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'departemen_id', 'id_departemen');
     }
 }

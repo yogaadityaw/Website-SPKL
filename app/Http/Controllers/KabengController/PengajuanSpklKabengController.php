@@ -35,7 +35,7 @@ class PengajuanSpklKabengController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->get();
+        $spkls = Spkl::orderBy('id_spkl', 'desc')->get();
 
         return view('kabeng-views.pengajuan-spkl', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }
@@ -43,7 +43,7 @@ class PengajuanSpklKabengController extends Controller
     public function getDetailSpkl($id)
     {
 
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->findOrFail($id);
+        $spkls = Spkl::orderBy('id_spkl', 'desc')->findOrFail($id);
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('kabeng-views.detail-spkl-bengkel', compact('spkls', 'qr'));
@@ -52,17 +52,20 @@ class PengajuanSpklKabengController extends Controller
     public function post(Request $request)
     {
         try {
+            $logged_user = Auth::user();
+            $bengkel = Bengkel::where('bengkel_head', $logged_user->id_user)->first();
+            $countSpklThisMonth = Spkl::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
+            $spkl_number = $countSpklThisMonth+1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
             $spkl = Spkl::create([
-                'spkl_number' => $request->input('spkl_number'),
+                'spkl_number' => $spkl_number,
                 'uraian_pekerjaan' => $request->input('uraian_pekerjaan'),
                 'rencana' => $request->input('rencana'),
-                'pelaksanaan' => $request->input('pelaksanaan'),
+                'progres' => $request->input('progres'),
                 'tanggal' => $request->input('tanggal'),
                 'jam_realisasi' => $request->input('jam_realisasi'),
                 'pt_id' => $request->input('pt_id'),
                 'proyek_id' => $request->input('proyek_id'),
-                'departemen_id' => $request->input('departemen_id'),
-                'bengkel_id' => $request->input('bengkel_id')
+                'bengkel_id' => $bengkel->id_bengkel
             ]);
 
             foreach ($request->user_id as $user_id) {
@@ -72,15 +75,8 @@ class PengajuanSpklKabengController extends Controller
                 ]);
             }
 
-            $departemen = Departemen::findOrFail($request->departemen_id);
-            $workshop = Bengkel::findOrFail($request->bengkel_id);
-            $project = Proyek::findOrFail($request->proyek_id);
-
             QRCode::create([
                 'spkl_id' => $spkl->id_spkl,
-                'workshop_head_id' => $workshop->bengkel_head,
-                'department_head_id' => $departemen->departemen_head,
-                'pj_proyek_id' => $project->pj_proyek,
             ]);
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
@@ -109,7 +105,7 @@ class PengajuanSpklKabengController extends Controller
     public function auditSpkl(Request $request)
     {
         if ($request->input('action') == 'approve') {
-            
+
             try {
                 $spkl = Spkl::findOrFail($request->spkl_id);
                 if ($spkl->is_kabeng_acc) {
@@ -144,5 +140,27 @@ class PengajuanSpklKabengController extends Controller
             return redirect()->route('pengajuan-spkl')->with('error', 'Action tidak ditemukan');
         }
     }
-}
 
+    public function inputJamRealisasi(Request $request, $id) {
+        try {
+            $combinedResults = '';
+            $inputData = $request->except(['_token', '_method']);
+            foreach ($inputData as $key => $value) {
+                if (strpos($key, 'jam_realisasi_') === 0) {
+                    $userId = str_replace('jam_realisasi_', '', $key);
+                    $user = User::findOrFail($userId);
+                    $var = $user->user_fullname . ' : ' . $value;
+                    $combinedResults .= $var . "<br/>";
+                }
+            }
+            $spkl = Spkl::findOrFail($id);
+            $spkl->update([
+                'jam_realisasi' => $combinedResults
+            ]);
+
+            return redirect()->route('pengajuan-spkl')->with('success', 'Jam realisasi berhasil diinput');
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+}

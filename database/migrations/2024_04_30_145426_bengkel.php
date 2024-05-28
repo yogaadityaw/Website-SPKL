@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bengkel', function (Blueprint $table) {
             $table->integer('id_bengkel')->index()->autoIncrement();
+            $table->integer('departemen_id');
             $table->string('bengkel_name');
             $table->integer('bengkel_head');
             $table->timestamps();

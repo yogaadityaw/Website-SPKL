@@ -12,6 +12,9 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->integer('id_user')->index()->autoIncrement();
+            $table->integer('bengkel_id')->nullable();
+            $table->integer('role_id');
+            $table->integer('pt_id')->nullable();
             $table->string('user_nip')->unique()->nullable();
             $table->string('user_fullname');
             $table->string('username');
@@ -19,15 +22,10 @@ return new class extends Migration {
             $table->string('password');
             $table->string('user_telephone');
             $table->integer('user_age');
-            $table->integer('role_id');
-            $table->integer('pt_id')->nullable();
-            $table->integer('departemen_id')->nullable();
-            $table->integer('bengkel_id')->nullable();
             $table->timestamps();
 
             $table->foreign('pt_id')->references('id_pt')->on('pt');
             $table->foreign('role_id')->references('id_role')->on('role');
-            $table->foreign('departemen_id')->references('id_departemen')->on('departemen');
             $table->foreign('bengkel_id')->references('id_bengkel')->on('bengkel');
 
         });

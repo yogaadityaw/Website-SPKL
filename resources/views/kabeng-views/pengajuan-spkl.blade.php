@@ -79,7 +79,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td> {{ $spkl->spkl_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
-                                        <td> {{ $spkl->departemen->departemen_name}} </td>
+                                        <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
                                         <td>
@@ -87,8 +87,9 @@
                                                     value="{{$spkl->id_spkl}}" data-toggle="modal">
                                             </button>
 
-                                            <button type="button" value="${{$spkl->id_spkl}}"
-                                                    class="btn btn-warning editButton fas fa-pencil"
+                                            <a href="{{ route('print-spkl')}}">
+                                            <button type="button" value=''
+                                                    class="btn btn-primary fas fa-print"
                                                     data-toggle="modal">
                                             </button>
                                             <a href="{{ route('detail-spkl', ['id' => $spkl->id_spkl]) }}">
@@ -129,11 +130,6 @@
 
                     <div class="form-row">
                         @csrf
-                        <div class="form-group">
-                            <label>Nomor Pengajuan</label>
-                            <input type="text" class="form-control" name="spkl_number" value="{{$spkl_id}}"
-                                   readonly>
-                        </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama PT</label>
                             <select id="inputState" class="form-control" name="pt_id">
@@ -150,41 +146,24 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputState">Departemen</label>
-                            <select id="inputState" class="form-control" name="departemen_id">
-                                @foreach($departemens as $departemen)
-                                    <option
-                                        value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputState">Bengkel</label>
-                            <select id="inputState" class="form-control" name="bengkel_id">
-                                @foreach($bengkels as $bengkel)
-                                    <option value="{{$bengkel->id_bengkel}}">{{$bengkel->bengkel_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label for="tanggal">Tanggal:</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputCity">Pelaksanaan</label>
-                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">
+                            <label for="inputCity">Rencana</label>
+                            <input type="text" class="form-control" id="inputRencana" name="rencana">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="uraian_pekerjaan"></textarea>
+                                name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Rencana</label>
+                        <label for="exampleFormControlTextarea1">Progres</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="rencana"></textarea>
+                                name="progres"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -271,19 +250,19 @@
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputCity">Pelaksanaan</label>
-                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">
+                            <label for="inputCity">Rencana</label>
+                            <input type="text" class="form-control" id="inputRencana" name="rencana">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="uraian_pekerjaan"></textarea>
+                                name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Rencana</label>
+                        <label for="exampleFormControlTextarea1">Progres</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="rencana"></textarea>
+                                name="progres"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
