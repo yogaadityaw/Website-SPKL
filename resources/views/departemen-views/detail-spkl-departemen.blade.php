@@ -70,7 +70,9 @@
                                         <div class="col-3">
                                             <h5>Jam Realisasi</h5>
                                             @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
-                                                <p>{!! $spkls->jam_realisasi !!}</p>
+                                                @foreach ($spkls->userSpkls as $karyawan)
+                                                    {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
+                                                @endforeach
                                             @else
                                                 <p>belum acc</p>
                                             @endif 

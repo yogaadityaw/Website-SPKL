@@ -10,7 +10,7 @@ class GenerateQRCode
     public static function generate($value)
     {
         try {
-            return QrCode::size(150)->generate($value);
+            return QrCode::size(100)->generate($value);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

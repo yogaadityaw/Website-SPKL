@@ -41,9 +41,7 @@
                                             <h5>Pelaksanaan</h5>
                                             @foreach ($spkls->userSpkls as $pegawai)
                                                 @if ($pegawai->check_in && $pegawai->check_out)
-                                                    <p>{{ $pegawai->user->user_fullname }} :
-                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
-                                                    </p>
+                                                    {{ $pegawai->user->user_fullname }} : {{ $pegawai->jam_realisasi }} <br>
                                                 @else
                                                     <p>belum lembur</p>
                                                 @endif

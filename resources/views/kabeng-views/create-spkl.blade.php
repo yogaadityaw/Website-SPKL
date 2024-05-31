@@ -9,13 +9,13 @@
     {{-- <link rel="stylesheet" href="{{ asset('public/css/tabel-spkl.css') }}"> --}}
     <style>
         td {
-            
+
         }
     </style>
 @endpush
 
 
-{{-- @include('components.sidebar') --}}
+ @include('components.sidebar')
 
 @section('main')
     <div class="main-content">

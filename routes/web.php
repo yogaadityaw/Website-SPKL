@@ -31,6 +31,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
+Route::get('/print-spkl/{id_spkl}', [DashboardKabengController::class, 'printSpkl'])->name('print-spkl');
+
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
@@ -71,7 +73,6 @@ Route::prefix('kabeng')->group(function () {
     Route::delete('/pengajuan-spkl-delete', [PengajuanSpklKabengController::class, 'deleteSpkl'])->name('delete-spkl');
     Route::put('/pengajuan-spkl-audit', [PengajuanSpklKabengController::class, 'auditSpkl'])->name('audit-spkl-kabeng');
     Route::put('/input-jam-realisasi/{id}', [PengajuanSpklKabengController::class, 'inputJamRealisasi'])->name('input-jam-realisasi');
-    Route::get('/print-spkl', [DashboardKabengController::class, 'printSpkl'])->name('print-spkl');
 });
 
 Route::prefix('departemen')->group(function () {

@@ -3,7 +3,6 @@
 @section('title', 'General Dashboard')
 
 @push('style')
-    <!-- CSS Libraries -->
     <link rel="stylesheet"
         href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet"

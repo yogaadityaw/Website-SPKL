@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Jobs\sendSpkl;
 
 use App\Models\Bengkel;
 use App\Models\Departemen;
@@ -42,7 +43,6 @@ class PengajuanSpklKabengController extends Controller
 
     public function getDetailSpkl($id)
     {
-
         $spkls = Spkl::orderBy('id_spkl', 'desc')->findOrFail($id);
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
@@ -56,13 +56,16 @@ class PengajuanSpklKabengController extends Controller
             $bengkel = Bengkel::where('bengkel_head', $logged_user->id_user)->first();
             $countSpklThisMonth = Spkl::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
             $spkl_number = $countSpklThisMonth+1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
+            $spklRandNumber = GenerateRandomSpklNumber::generate();
+            $qrSpkl = GenerateQRCode::generate($spklRandNumber);
+
             $spkl = Spkl::create([
                 'spkl_number' => $spkl_number,
+                'qr_code' => $qrSpkl,
                 'uraian_pekerjaan' => $request->input('uraian_pekerjaan'),
                 'rencana' => $request->input('rencana'),
                 'progres' => $request->input('progres'),
                 'tanggal' => $request->input('tanggal'),
-                'jam_realisasi' => $request->input('jam_realisasi'),
                 'pt_id' => $request->input('pt_id'),
                 'proyek_id' => $request->input('proyek_id'),
                 'bengkel_id' => $bengkel->id_bengkel
@@ -78,6 +81,8 @@ class PengajuanSpklKabengController extends Controller
             QRCode::create([
                 'spkl_id' => $spkl->id_spkl,
             ]);
+
+            
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
         } catch (\Exception $e) {
@@ -121,6 +126,10 @@ class PengajuanSpklKabengController extends Controller
                     'workshop_head_qr_code' => $qr
                 ]);
 
+                if ($spkl->bengkel->departemen->user->email) {
+                    sendSpkl::dispatch($spkl);
+                }
+
                 return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil disetujui');
             } catch (\Exception $e) {
                 return redirect()->route('pengajuan-spkl')->with('error', $e->getMessage());
@@ -143,20 +152,16 @@ class PengajuanSpklKabengController extends Controller
 
     public function inputJamRealisasi(Request $request, $id) {
         try {
-            $combinedResults = '';
             $inputData = $request->except(['_token', '_method']);
             foreach ($inputData as $key => $value) {
                 if (strpos($key, 'jam_realisasi_') === 0) {
-                    $userId = str_replace('jam_realisasi_', '', $key);
-                    $user = User::findOrFail($userId);
-                    $var = $user->user_fullname . ' : ' . $value;
-                    $combinedResults .= $var . "<br/>";
+                    $userSpklId = str_replace('jam_realisasi_', '', $key);
+                    $userSpkl = UserSpkl::findOrFail($userSpklId);
+                    $userSpkl->update([
+                        'jam_realisasi' => $value
+                    ]);
                 }
             }
-            $spkl = Spkl::findOrFail($id);
-            $spkl->update([
-                'jam_realisasi' => $combinedResults
-            ]);
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Jam realisasi berhasil diinput');
         } catch (\Throwable $th) {

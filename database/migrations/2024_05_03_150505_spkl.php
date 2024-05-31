@@ -17,12 +17,12 @@ return new class extends Migration
             $table->integer('proyek_id');
             $table->integer('bengkel_id');
             $table->string('spkl_number');
+            $table->text('qr_code')->nullable();
             $table->string('uraian_pekerjaan');
             $table->string('pelaksanaan')->nullable();
             $table->string('progres')->nullable();
             $table->string('rencana');
             $table->dateTime('tanggal');
-            $table->text('jam_realisasi')->nullable();
             $table->boolean('is_kabeng_acc')->default(false);
             $table->boolean('is_departemen_acc')->default(false);
             $table->boolean('is_kemenpro_acc')->default(false);

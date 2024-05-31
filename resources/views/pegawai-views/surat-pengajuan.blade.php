@@ -47,14 +47,15 @@
                                                 <td scope="col">{{ $loop->index + 1 }}</td>
                                                 <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
+                                                <td scope="col">
+                                                    {{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                                 <td>
-                                                    <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
-                                                        <button type="button"
-                                                                class="btn btn-success fas fa-book"
-                                                                data-toggle="modal">
+                                                    <a
+                                                        href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
+                                                        <button type="button" class="btn btn-success fas fa-book"
+                                                            data-toggle="modal">
                                                         </button>
                                                     </a>
                                                     <button type="button" value="{{ $spkl->id }}"
@@ -63,20 +64,19 @@
                                                         data-target="#checkinModal">
                                                         Check-in
                                                     </button>
-
-                                                    <button type="button" class="btn btn-danger deleteButton"
-                                                        value=""
-                                                        onclick="event.preventDefault();
-                                                        document.getElementById('checkout-form').submit();">
+                                                    <button type="button" value="{{ $spkl->id }}"
+                                                        data-spkl-id="{{ $spkl->id }}"
+                                                        class="btn btn-danger checkoutButton" data-toggle="modal"
+                                                        data-target="#checkoutModal">
                                                         Check-out
                                                     </button>
 
-                                                    <form id="checkout-form" action="{{ route('checkout-spkl-pegawai') }}"
+                                                    {{-- <form id="checkout-form" action="{{ route('checkout-spkl-pegawai') }}"
                                                         method="POST" class="d-none">
                                                         @csrf
                                                         <input type="hidden" name="user_spkl_id"
                                                             value="{{ $spkl->id }}">
-                                                    </form>
+                                                    </form> --}}
 
                                                 </td>
                                             </tr>
@@ -123,14 +123,14 @@
                                         <td scope="col">{{ $loop->index + 1 }}</td>
                                         <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
-                                        <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}
+                                        </td>
                                         <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                         <td>
                                             <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
-                                                <button type="button"
-                                                        class="btn btn-success fas fa-book">
-                                                        detail
+                                                <button type="button" class="btn btn-success fas fa-book">
+                                                    detail
                                                 </button>
                                             </a>
                                         </td>
@@ -146,42 +146,67 @@
     </div>
 @endsection
 
-{{-- modal untuk absen --}}
-<div class="col-12 col-md-6 col-lg-6">
-    <div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <form id="myForm" action="{{ route('absen-spkl-pegawai') }}" method="post"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="user_spkl_id" id="userSpklId">
-                    <input type="hidden" name="user_name" id="user_id"
-                        value="{{ Auth::user()->user_fullname }}">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">Absen Foto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>kolom Foto</p>
-                    </div>
+<div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="checkinForm" action="{{ route('absen-spkl-pegawai') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="user_spkl_id" id="checkinUserSpklId">
+                <input type="hidden" name="user_name" id="checkinUserName" value="{{ Auth::user()->user_fullname }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkinModalLabel">Absen Foto Check-in</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Foto checkin</p>
                     <div class="col-md-6">
-                        <div id="my_camera"></div>
+                        <div id="checkinCamera"></div>
                         <br />
                         <input type="hidden" name="image" class="image-tag">
                     </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="submit" class="btn btn-primary" onClick="take_snapshot()">Simpan</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary" onClick="take_snapshot('checkinCamera', '#checkinForm')">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="checkoutForm" action="{{ route('checkout-spkl-pegawai') }}" method="post"
+                enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="user_spkl_id" id="checkoutUserSpklId">
+                <input type="hidden" name="user_name" id="checkoutUserName"
+                    value="{{ Auth::user()->user_fullname }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">Absen Foto Check-out</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Foto Check out</p>
+                    <div class="col-md-6">
+                        <div id="checkoutCamera"></div>
+                        <br />
+                        <input type="hidden" name="image" class="image-tag">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary"
+                        onClick="take_snapshot('checkoutCamera', '#checkoutForm')">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @push('scripts')
     <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
@@ -189,22 +214,21 @@
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-    </script>
-    {{--    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script> --}}
-    {{--    <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script> --}}
-    {{--    <script src="{{ asset('js/bootstrap.min.js') }}"></script> --}}
-    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> --}}
-    {{--    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script> --}}
-
     <script>
         $(document).ready(function() {
             $('.checkinButton').click(function() {
                 var spklId = $(this).data('spkl-id');
-                $('#userSpklId').val(spklId);
+                $('#checkinUserSpklId').val(spklId);
                 $('#checkinModal').modal('show');
+            });
+            $('.checkoutButton').click(function() {
+                var spklId = $(this).data('spkl-id');
+                $('#checkoutUserSpklId').val(spklId);
+                $('#checkoutModal').modal('show');
             });
         });
     </script>
+
     <script language="JavaScript">
         Webcam.set({
             width: 490,
@@ -213,18 +237,19 @@
             jpeg_quality: 90
         });
 
-        Webcam.attach('#my_camera');
+        Webcam.attach('#checkinCamera');
+        Webcam.attach('#checkoutCamera');
 
-        function take_snapshot() {
+        function take_snapshot(cameraId, formId) {
             Webcam.snap(function(data_uri) {
-                $(".image-tag").val(data_uri);
+                $(formId + " .image-tag").val(data_uri);
                 $('#image_preview').html('<img src="' + data_uri + '"/>');
-                submitForm();
+                submitForm(formId);
             });
         }
 
-        function submitForm() {
-            $('#myForm').submit();
+        function submitForm(formId) {
+            $(formId).submit();
         }
 
         document.getElementById('image_file').onchange = function(evt) {
@@ -236,7 +261,7 @@
                 fr.onload = function() {
                     $(".image-tag").val(fr.result);
                     $('#image_preview').html('<img src="' + fr.result + '"/>');
-                    submitForm();
+                    submitForm('#myForm');
                 }
                 fr.readAsDataURL(files[0]);
             }

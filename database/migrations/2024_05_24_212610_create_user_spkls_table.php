@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('spkl_id');
-            $table->string('image')->nullable();
+            $table->text('jam_realisasi')->nullable();
+            $table->string('foto_check_in')->nullable();
+            $table->string('foto_check_out')->nullable();
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
             $table->timestamps();

@@ -69,8 +69,10 @@
                                         </div>
                                         <div class="col-3">
                                             <h5>Jam Realisasi</h5>
-                                            @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
-                                                <p>{!! $spkls->jam_realisasi !!}</p>
+                                            @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->jam_realisasi != null))
+                                                @foreach ($spkls->userSpkls as $karyawan)
+                                                    {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
+                                                @endforeach
                                             @elseif (!$spkls->is_kemenpro_acc)
                                                 <p>belum acc</p>
                                             @else
@@ -85,14 +87,14 @@
                                                                 <td>{{ $pegawai->user->user_fullname }}</td>
                                                                 <td>
                                                                     <input type="text"
-                                                                        name="jam_realisasi_{{ $pegawai->user->id_user }}">
+                                                                        name="jam_realisasi_{{ $pegawai->id }}">
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                     </table>
                                                     <input type="submit" value="Simpan">
                                                 </form>
-                                            @endif 
+                                            @endif
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>

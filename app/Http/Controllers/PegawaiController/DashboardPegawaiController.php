@@ -67,7 +67,7 @@ class DashboardPegawaiController extends Controller
         Storage::disk('local')->put($filePath, $decodedImageData);
 
         $userSpkl->update([
-            'image' => $file_name,
+            'foto_check_in' => $file_name,
             'check_in' => now(),
         ]);
 
@@ -78,7 +78,18 @@ class DashboardPegawaiController extends Controller
     {
         $userSpkl = UserSpkl::findOrFail($request->user_spkl_id);
 
+        if ($userSpkl->check_out && $userSpkl->image) {
+            return redirect()->route('list-spkl-pegawai')->with('error', 'Anda sudah checkout');
+        }
+
+        $base64ImageData = $request->image;
+        $decodedImageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64ImageData));
+        $file_name = time() . '_' . $request->user_name . '.png';
+        $filePath = 'public/images/' . $file_name;
+        Storage::disk('local')->put($filePath, $decodedImageData);
+
         $userSpkl->update([
+            'foto_check_out' => $file_name,
             'check_out' => now(),
         ]);
 

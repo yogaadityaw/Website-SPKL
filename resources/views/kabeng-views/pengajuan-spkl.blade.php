@@ -87,7 +87,7 @@
                                                     value="{{$spkl->id_spkl}}" data-toggle="modal">
                                             </button>
 
-                                            <a href="{{ route('print-spkl')}}">
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
                                             <button type="button" value=''
                                                     class="btn btn-primary fas fa-print"
                                                     data-toggle="modal">

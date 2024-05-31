@@ -13,13 +13,13 @@ class Spkl extends Model
     protected $primaryKey = 'id_spkl';
     protected $fillable = [
         'spkl_number',
+        'qr_code',
         'uraian_pekerjaan',
         'progres',
         'tanggal',
         'rencana',
         'pelaksanaan',
         'status',
-        'jam_realisasi',
         'pt_id',
         'proyek_id',
         'bengkel_id',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\KabengController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Spkl;
 use Illuminate\Http\Request;
 
 class DashboardKabengController extends Controller
@@ -17,8 +18,11 @@ class DashboardKabengController extends Controller
         return view('dashboard-kabeng');
     }
 
-    public function printSpkl()
+    public function printSpkl($id_spkl)
     {
-        return view('kabeng-views.print-spkl');
+        $spkl = Spkl::findOrFail($id_spkl);
+
+        return view('print-spkl', compact('spkl'));
     }
+
 }

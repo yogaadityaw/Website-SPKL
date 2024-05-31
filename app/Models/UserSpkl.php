@@ -12,7 +12,9 @@ class UserSpkl extends Model
     protected $fillable = [
         'user_id',
         'spkl_id',
-        'image',
+        'jam_realisasi',
+        'foto_check_in',
+        'foto_check_out',
         'check_in',
         'check_out',
     ];
