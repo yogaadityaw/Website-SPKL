@@ -60,6 +60,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/departemen-list/edit/{id_departemen}',[DepartemenController::class,'getDepartemenData']);
     Route::put('/departemen-list/update',[DepartemenController::class,'updateDepartemen'])->name('departemen-update');
     Route::delete('/departemen-list/delete',[DepartemenController::class, 'deleteDepartemen'])->name('departemen-delete');
+    Route::get('/list-spkl-admin', [DashboardAdminController::class, 'listSpklAdmin'])->name('list-spkl-admin');
+    Route::get('/view-spkl-admin/{id}', [DashboardAdminController::class, 'viewSpklAdmin'])->name('view-spkl-admin');
+    Route::get('/getChart', [DashboardAdminController::class, 'getChart'])->name('get-admin-chart');
 });
 
 Route::prefix('kabeng')->group(function () {

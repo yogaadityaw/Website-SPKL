@@ -31,11 +31,11 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nama PT</h5>
-                                            <p>{{$spkls->pt->pt_name}}</p>
+                                            <p>{{ $spkls->pt->pt_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Bengkel</h5>
-                                            <p>{{$spkls->bengkel->bengkel_name}}</p>
+                                            <p>{{ $spkls->bengkel->bengkel_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Pelaksanaan</h5>
@@ -51,17 +51,17 @@
                                         </div>
                                         <div class="col-3">
                                             <h5>Rencana</h5>
-                                            <p>{{$spkls->rencana}}</p>
+                                            <p>{{ $spkls->rencana }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nomor Pengajuan</h5>
-                                            <p>{{$spkls->spkl_number}}</p>
+                                            <p>{{ $spkls->spkl_number }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Departemen</h5>
-                                            <p>{{$spkls->bengkel->departemen->departemen_name}}</p>
+                                            <p>{{ $spkls->bengkel->departemen->departemen_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Tanggal</h5>
@@ -73,28 +73,55 @@
                                                 <p>{!! $spkls->jam_realisasi !!}</p>
                                             @else
                                                 <p>belum acc</p>
-                                            @endif 
+                                            @endif
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
-                                            <p>{{$spkls->uraian_pekerjaan}}</p>
+                                            <p>{{ $spkls->uraian_pekerjaan }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Progress</h5>
-                                            <p> {{$spkls->progres}} </p>
+                                            <p> {{ $spkls->progres }} </p>
                                         </div>
                                         <div class="row ml-1 mr-1">
                                             <div class="col-9">
-                                                <label><h5>Karyawan</h5></label>
-                                                <textarea
-                                                    class="form-control"
-                                                    data-height="150"
-                                                    required="">
+                                                <label>
+                                                    <h5>Karyawan</h5>
+                                                </label>
+                                                <textarea class="form-control" data-height="150" required="">
                                                     @foreach ($spkls->userSpkls as $karyawan)
                                                         {{ $karyawan->user->user_fullname }},
                                                     @endforeach
                                                 </textarea>
                                             </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <h5>Lokasi :</h5>
+                                            @foreach ($spkls->userSpkls as $detail)
+                                                <p>
+                                                    {{ $detail->user->user_fullname }}
+                                                    @if ($detail->lokasi_check_in)
+                                                        @php
+                                                            $location = json_decode($detail->lokasi_check_in, true);
+                                                        @endphp
+                                                        <p>Lokasi Check In</p>
+                                                        <p>Longitude: {{ $location['longitude'] }}</p>
+                                                        <p>Latitude: {{ $location['latitude'] }}</p>
+                                                    @else
+                                                        <p>Tidak ada lokasi Check In.</p>
+                                                    @endif
+                                                    @if ($detail->lokasi_check_out)
+                                                        @php
+                                                            $location = json_decode($detail->lokasi_check_out, true);
+                                                        @endphp
+                                                        <p>Lokasi Check Out</p>
+                                                        <p>Longitude: {{ $location['longitude'] }}</p>
+                                                        <p>Latitude: {{ $location['latitude'] }}</p>
+                                                    @else
+                                                        <p>Tidak ada lokasi Check Out.</p>
+                                                    @endif
+                                                </p>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +139,8 @@
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}
+                                            </p>
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
@@ -128,4 +156,4 @@
                 </div>
             </div>
         </section>
-@endsection
+    @endsection

@@ -15,10 +15,12 @@ class sendSpkl implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $spkl;
+    protected $email;
 
-    public function __construct($spkl)
+    public function __construct($spkl, $email)
     {
         $this->spkl = $spkl;
+        $this->email = $email;
     }
 
     /**
@@ -26,6 +28,6 @@ class sendSpkl implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->spkl->bengkel->departemen->user->email)->send(new sendEmail($this->spkl));
+        Mail::to($this->email)->send(new sendEmail($this->spkl));
     }
 }

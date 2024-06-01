@@ -94,6 +94,34 @@
                                                 </textarea>
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                            <h5>Lokasi :</h5>
+                                            @foreach ($spkls->userSpkls as $detail)
+                                                <p>
+                                                    {{ $detail->user->user_fullname }}
+                                                    @if ($detail->lokasi_check_in)
+                                                        @php
+                                                            $location = json_decode($detail->lokasi_check_in, true);
+                                                        @endphp
+                                                        <p>Lokasi Check In</p>
+                                                        <p>Longitude: {{ $location['longitude'] }}</p>
+                                                        <p>Latitude: {{ $location['latitude'] }}</p>
+                                                    @else
+                                                        <p>Tidak ada lokasi Check In.</p>
+                                                    @endif
+                                                    @if ($detail->lokasi_check_out)
+                                                        @php
+                                                            $location = json_decode($detail->lokasi_check_out, true);
+                                                        @endphp
+                                                        <p>Lokasi Check Out</p>
+                                                        <p>Longitude: {{ $location['longitude'] }}</p>
+                                                        <p>Latitude: {{ $location['latitude'] }}</p>
+                                                    @else
+                                                        <p>Tidak ada lokasi Check Out.</p>
+                                                    @endif
+                                                </p>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DepartemenController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Jobs\sendSpkl;
 use App\Helper\GenerateRandomSpklNumber;
 use App\Helpers\GenerateQRCode;
 use App\Http\Controllers\Controller;
@@ -62,6 +63,11 @@ class PengajuanSpklDepartemenController extends Controller
                 $qr_data->update([
                     'department_head_qr_code' => $qr
                 ]);
+
+                if ($spkl->bengkel->departemen->user->email) {
+                    $email = $spkl->proyek->user->email;
+                    sendSpkl::dispatch($spkl, $email);
+                }
 
                 return redirect()->route('pengajuan-spkl-departemen')->with('success', 'SPKL berhasil disetujui');
             } catch (\Exception $e) {

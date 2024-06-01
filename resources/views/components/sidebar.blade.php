@@ -25,6 +25,8 @@
                                         class="fas fa-wrench"></i><span>Bengkel List</span></a>
                         <a class="nav-link" href="{{ route('departemen-list') }}"><i
                                 class="fas fa-black-tie"></i><span>Departemen List</span></a>
+                        <a class="nav-link" href="{{ route('list-spkl-admin') }}"><i
+                                class="fas fa-archive"></i><span>Rekap-SPKL</span></a>
                     </a>
                 </li>
             </ul>

@@ -31,15 +31,15 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nama PT</h5>
-                                            <p>{{ $spkls->pt->pt_name }}</p>
+                                            <p>{{ $spkl->pt->pt_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Bengkel</h5>
-                                            <p>{{ $spkls->bengkel->bengkel_name }}</p>
+                                            <p>{{ $spkl->bengkel->bengkel_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Pelaksanaan</h5>
-                                            @foreach ($spkls->userSpkls as $pegawai)
+                                            @foreach ($spkl->userSpkls as $pegawai)
                                                 @if ($pegawai->check_in && $pegawai->check_out)
                                                     <p>{{ $pegawai->user->user_fullname }} :
                                                         {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
@@ -51,39 +51,58 @@
                                         </div>
                                         <div class="col-3">
                                             <h5>Rencana</h5>
-                                            <p>{{ $spkls->rencana }}</p>
+                                            <p>{{ $spkl->rencana }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nomor Pengajuan</h5>
-                                            <p>{{ $spkls->spkl_number }}</p>
+                                            <p>{{ $spkl->spkl_number }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Departemen</h5>
-                                            <p>{{ $spkls->bengkel->departemen->departemen_name }}</p>
+                                            <p>{{ $spkl->bengkel->departemen->departemen_name }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Tanggal</h5>
-                                            <p> {{ $spkls->tanggal }} </p>
+                                            <p>{{ date('d-m-Y', strtotime($spkl->tanggal)) }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Jam Realisasi</h5>
-                                            @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
-                                                @foreach ($spkls->userSpkls as $karyawan)
+                                            @if ($spkl->userSpkls->every(fn($pegawai) => $pegawai->jam_realisasi != null))
+                                                @foreach ($spkl->userSpkls as $karyawan)
                                                     {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
                                                 @endforeach
-                                            @else
+                                            @elseif (!$spkl->is_kemenpro_acc)
                                                 <p>belum acc</p>
-                                            @endif 
+                                            @else
+                                                <form
+                                                    action="{{ route('input-jam-realisasi', ['id' => $spkl->id_spkl]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <table>
+                                                        @foreach ($spkl->userSpkls as $pegawai)
+                                                            <tr>
+                                                                <td>{{ $pegawai->user->user_fullname }}</td>
+                                                                <td>
+                                                                    <input type="text"
+                                                                        name="jam_realisasi_{{ $pegawai->id }}">
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </table>
+                                                    <input type="submit" value="Simpan">
+                                                </form>
+                                            @endif
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
-                                            <p>{{ $spkls->uraian_pekerjaan }}</p>
+                                            <p>{{ $spkl->uraian_pekerjaan }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Progress</h5>
-                                            <p> {{ $spkls->progres }} </p>
+                                            <p> {{ $spkl->progres }} </p>
                                         </div>
                                         <div class="row ml-1 mr-1">
                                             <div class="col-9">
@@ -91,7 +110,7 @@
                                                     <h5>Karyawan</h5>
                                                 </label>
                                                 <textarea class="form-control" data-height="150" required="">
-                                                    @foreach ($spkls->userSpkls as $karyawan)
+                                                    @foreach ($spkl->userSpkls as $karyawan)
                                                         {{ $karyawan->user->user_fullname }},
                                                     @endforeach
                                                 </textarea>
@@ -99,7 +118,7 @@
                                         </div>
                                         <div class="col-12">
                                             <h5>Lokasi :</h5>
-                                            @foreach ($spkls->userSpkls as $detail)
+                                            @foreach ($spkl->userSpkls as $detail)
                                                 <p>
                                                     {{ $detail->user->user_fullname }}
                                                     @if ($detail->lokasi_check_in)
@@ -141,8 +160,7 @@
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}
-                                            </p>
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
@@ -153,10 +171,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <form action="{{ route('audit-spkl-departemen') }}" method="post">
+                            <form action="{{ route('audit-spkl-kabeng') }}" method="post">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" name="spkl_id" value="{{ $spkls->id_spkl }}">
+                                <input type="hidden" name="spkl_id" value="{{ $spkl->id_spkl }}">
                                 <input type="hidden" name="action" value="approve">
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">

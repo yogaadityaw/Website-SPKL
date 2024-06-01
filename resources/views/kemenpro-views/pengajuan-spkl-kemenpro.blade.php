@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/multi-choice.css') }}">
     <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <nav class="navbar navbar-expand-lg navbar-light bg-white">
                                 <button data-toggle="modal" data-target="#buatSPKLModal" type="button"
-                                        class="btn btn-primary mr-2">+ BUAT SPKL
+                                    class="btn btn-primary mr-2">+ BUAT SPKL
                                 </button>
                                 <button type="button" class="btn btn-light">FILTER</button>
                             </nav>
@@ -71,36 +71,36 @@
 
                                 </tr>
                                 <tbody>
-                                @foreach ($spkls as $spkl)
-                                    @php
-                                        $index = 1;
-                                    @endphp
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td> {{ $spkl->spkl_number}} </td>
-                                        <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
-                                        <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
-                                        <td> {{ $spkl->proyek->proyek_name}} </td>
-                                        <td> {{ $spkl->bengkel->bengkel_name}} </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger deleteButton fas fa-trash"
-                                                    value="{{$spkl->id_spkl}}" data-toggle="modal">
-                                            </button>
-
-                                            <button type="button" value="${{$spkl->id_spkl}}"
-                                                    class="btn btn-warning editButton fas fa-pencil"
-                                                    data-toggle="modal">
-                                            </button>
-                                            <a href="{{ route('detail-spkl-kemenpro', ['id' => $spkl->id_spkl]) }}">
-                                                <button type="button" value="${{$spkl->id_spkl}}"
-                                                        class="btn btn-success fas fa-book"
-                                                        data-toggle="modal">
+                                    @foreach ($spkls as $spkl)
+                                        @php
+                                            $index = 1;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td> {{ $spkl->spkl_number }} </td>
+                                            <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
+                                            <td> {{ $spkl->bengkel->departemen->departemen_name }} </td>
+                                            <td> {{ $spkl->proyek->proyek_name }} </td>
+                                            <td> {{ $spkl->bengkel->bengkel_name }} </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger deleteButton fas fa-trash"
+                                                    value="{{ $spkl->id_spkl }}" data-toggle="modal">
                                                 </button>
-                                            </a>
 
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                                <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
+                                                    <button type="button" value=''
+                                                            class="btn btn-primary fas fa-print"
+                                                            data-toggle="modal">
+                                                    </button>
+                                                <a href="{{ route('detail-spkl-kemenpro', ['id' => $spkl->id_spkl]) }}">
+                                                    <button type="button" value="${{ $spkl->id_spkl }}"
+                                                        class="btn btn-success fas fa-book" data-toggle="modal">
+                                                    </button>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -115,7 +115,7 @@
 {{-- modal untuk input data spkl --}}
 
 <div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buatSPKLModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
@@ -131,39 +131,39 @@
                         @csrf
                         <div class="form-group">
                             <label>Nomor Pengajuan</label>
-                            <input type="text" class="form-control" name="spkl_number" value="{{$spkl_id}}"
-                                   readonly>
+                            <input type="text" class="form-control" name="spkl_number" value="{{ $spkl_id }}"
+                                readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama PT</label>
                             <select id="inputState" class="form-control" name="pt_id">
-                                @foreach($pts as $pt)
-                                    <option value="{{$pt->id_pt}}">{{$pt->pt_name}}</option>
+                                @foreach ($pts as $pt)
+                                    <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama Proyek</label>
                             <select id="inputState" class="form-control" name="proyek_id">
-                                @foreach($proyeks as $proyek)
-                                    <option value="{{$proyek->id_proyek}}">{{$proyek->proyek_name}}</option>
+                                @foreach ($proyeks as $proyek)
+                                    <option value="{{ $proyek->id_proyek }}">{{ $proyek->proyek_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Departemen</label>
                             <select id="inputState" class="form-control" name="departemen_id">
-                                @foreach($departemens as $departemen)
-                                    <option
-                                        value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
+                                @foreach ($departemens as $departemen)
+                                    <option value="{{ $departemen->id_departemen }}">
+                                        {{ $departemen->departemen_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Bengkel</label>
                             <select id="inputState" class="form-control" name="bengkel_id">
-                                @foreach($bengkels as $bengkel)
-                                    <option value="{{$bengkel->id_bengkel}}">{{$bengkel->bengkel_name}}</option>
+                                @foreach ($bengkels as $bengkel)
+                                    <option value="{{ $bengkel->id_bengkel }}">{{ $bengkel->bengkel_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -178,13 +178,11 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="uraian_pekerjaan"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Rencana</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="rencana"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rencana"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -195,9 +193,9 @@
                                 <div
                                     class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
                                     <select class="js-select2" multiple="multiple" name="user_id">
-                                        @foreach($users as $user)
-                                            <option value="{{$user->id_user}}"
-                                                    data-badge="">{{$user->user_fullname}}</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id_user }}" data-badge="">
+                                                {{ $user->user_fullname }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -215,15 +213,15 @@
 </div>
 </div>
 
-{{--modal untuk edit spkl--}}
+{{-- modal untuk edit spkl --}}
 
-{{--modal untuk delete spkl--}}
+{{-- modal untuk delete spkl --}}
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form id="deleteUserForm" action="{{route('delete-spkl')}}" method="POST">
+                <form id="deleteUserForm" action="{{ route('delete-spkl') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="spkl_id" id="spkl_id" value="spkl_id">
@@ -253,17 +251,17 @@
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-    {{--    script untuk modal buat spkl baru--}}
+    {{--    script untuk modal buat spkl baru --}}
     <script>
-        $(document).ready(function () {
-            $('#buatSPKLModalButton').click(function () {
+        $(document).ready(function() {
+            $('#buatSPKLModalButton').click(function() {
                 $('#buatSPKLModal').modal('show');
             });
         });
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // $(document).on('click', '.editButton', function () {
             //     let userId = $(this).val();
             //     $('#editModal').modal('show');
@@ -280,13 +278,13 @@
             //     })
             // });
 
-            $(document).on('click', '.deleteButton', function () {
+            $(document).on('click', '.deleteButton', function() {
                 let spklId = $(this).val();
                 $('#deleteModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url:"/kabeng/deletespkl/" + spklId,
-                    success: function (response) {
+                    url: "/kabeng/deletespkl/" + spklId,
+                    success: function(response) {
                         $('#spkl_id').val(response.id_spkl);
                         // $('#role_id').val(response.role_id);
                     }
@@ -305,7 +303,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script>
-        (function ($) {
+        (function($) {
 
             "use strict";
 
@@ -330,7 +328,7 @@
             });
 
 
-            function iformat(icon, badge,) {
+            function iformat(icon, badge, ) {
                 var originalOption = icon.element;
                 var originalOptionBadge = $(originalOption).data('badge');
 

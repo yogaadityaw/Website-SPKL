@@ -67,6 +67,7 @@ class DashboardPegawaiController extends Controller
         Storage::disk('local')->put($filePath, $decodedImageData);
 
         $userSpkl->update([
+            'lokasi_check_in' => $request->lokasi_check_in,
             'foto_check_in' => $file_name,
             'check_in' => now(),
         ]);
@@ -89,6 +90,7 @@ class DashboardPegawaiController extends Controller
         Storage::disk('local')->put($filePath, $decodedImageData);
 
         $userSpkl->update([
+            'lokasi_check_out' => $request->lokasi_check_out,
             'foto_check_out' => $file_name,
             'check_out' => now(),
         ]);

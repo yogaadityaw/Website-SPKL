@@ -133,6 +133,10 @@
                                                     detail
                                                 </button>
                                             </a>
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->id_spkl]) }}">
+                                                <button type="button" value='' class="btn btn-primary fas fa-print"
+                                                    data-toggle="modal">
+                                                </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -146,13 +150,17 @@
     </div>
 @endsection
 
-<div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel" aria-hidden="true">
+<div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <form id="checkinForm" action="{{ route('absen-spkl-pegawai') }}" method="post" enctype="multipart/form-data">
+            <form id="checkinForm" action="{{ route('absen-spkl-pegawai') }}" method="post"
+                enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_spkl_id" id="checkinUserSpklId">
-                <input type="hidden" name="user_name" id="checkinUserName" value="{{ Auth::user()->user_fullname }}">
+                <input type="hidden" name="user_name" id="checkinUserName"
+                    value="{{ Auth::user()->user_fullname }}">
+                <input type="hidden" name="lokasi_check_in" id="lokasi_check_in">
                 <div class="modal-header">
                     <h5 class="modal-title" id="checkinModalLabel">Absen Foto Check-in</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -168,7 +176,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="submit" class="btn btn-primary" onClick="take_snapshot('checkinCamera', '#checkinForm')">Simpan</button>
+                    <button type="submit" class="btn btn-primary"
+                        onClick="take_snapshot('checkinCamera', '#checkinForm')">Simpan</button>
                 </div>
             </form>
         </div>
@@ -185,6 +194,7 @@
                 <input type="hidden" name="user_spkl_id" id="checkoutUserSpklId">
                 <input type="hidden" name="user_name" id="checkoutUserName"
                     value="{{ Auth::user()->user_fullname }}">
+                <input type="hidden" name="lokasi_check_out" id="lokasi_check_out">
                 <div class="modal-header">
                     <h5 class="modal-title" id="checkoutModalLabel">Absen Foto Check-out</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -266,5 +276,49 @@
                 fr.readAsDataURL(files[0]);
             }
         };
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                } else {
+                    lokasi_check_in.value = "Geolocation is not supported by this browser.";
+                }
+            }
+
+            function showPosition(position) {
+                const locationData = {
+                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude
+                };
+                lokasi_check_in.value = JSON.stringify(locationData);
+                lokasi_check_out.value = JSON.stringify(locationData);
+            }
+
+            function showError(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        lokasi_check_in.value = "User denied the request for Geolocation.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        lokasi_check_in.value = "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        lokasi_check_in.value = "The request to get user location timed out.";
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        lokasi_check_in.value = "An unknown error occurred.";
+                        break;
+                }
+            }
+
+            $('#checkinModal').on('shown.bs.modal', function() {
+                getLocation();
+            });
+            $('#checkoutModal').on('shown.bs.modal', function() {
+                getLocation();
+            });
+        });
     </script>
 @endpush

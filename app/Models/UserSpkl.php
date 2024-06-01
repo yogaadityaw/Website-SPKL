@@ -13,6 +13,8 @@ class UserSpkl extends Model
         'user_id',
         'spkl_id',
         'jam_realisasi',
+        'lokasi_check_in',
+        'lokasi_check_out',
         'foto_check_in',
         'foto_check_out',
         'check_in',

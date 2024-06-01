@@ -127,7 +127,8 @@ class PengajuanSpklKabengController extends Controller
                 ]);
 
                 if ($spkl->bengkel->departemen->user->email) {
-                    sendSpkl::dispatch($spkl);
+                    $email = $spkl->bengkel->departemen->user->email;
+                    sendSpkl::dispatch($spkl, $email);
                 }
 
                 return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil disetujui');
