@@ -64,23 +64,23 @@
                                                 <td>{{ $user->user_age }}</td>
                                                 <td>{{ $user->role->role_name }}</td>
                                                 <td>
-                                                    {{ $user->pt->pt_name ?? 'belum ada pt'}}
+                                                    {{ $user->pt->pt_name ?? ' '}}
                                                 </td>
                                                 <td>
-                                                    {{ $user->bengkel->departemen->departemen_name ?? 'belum ada departemen' }}
+                                                    {{ $user->bengkel->departemen->departemen_name ?? ' ' }}
                                                 </td>
                                                 <td>
-                                                    {{ $user->bengkel ? $user->bengkel->bengkel_name : 'belum ada bengkel' }}
+                                                    {{ $user->bengkel ? $user->bengkel->bengkel_name : ' ' }}
                                                 </td>
                                                 <td>
                                                     <button type="button" value="{{ $user->id_user }}"
-                                                        class="btn btn-warning editButton" data-toggle="modal">
-                                                        Edit
+                                                        class="btn btn-warning editButton fas fa-pencil" data-toggle="modal">
+
                                                     </button>
 
-                                                    <button type="button" class="btn btn-danger deleteButton"
+                                                    <button type="button" class="btn btn-danger deleteButton fas fa-trash"
                                                         value="{{ $user->id_user }}" data-toggle="modal">
-                                                        Hapus
+
                                                     </button>
                                                 </td>
                                             </tr>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label>Jabatan</label>
                                 <select class="form-control selectric" name="id_role">
                                     <option value="" selected disabled>Pilih Jabatan</option>
@@ -123,7 +123,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label>PT</label>
                                 <select class="form-control selectric" name="id_pt">
                                     <option value="" selected disabled>Pilih PT</option>
@@ -131,7 +131,8 @@
                                         <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="form-group">
+                            </div>
+                                <div class="form-group col-md-12">
                                     <div class="form-group">
                                         <label>Bengkel</label>
                                         <select class="form-control selectric" name="id_bengkel">

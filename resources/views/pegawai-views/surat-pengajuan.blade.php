@@ -21,7 +21,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Jadwal Lembur Hari Ini</h1>
+                <h1>Jadwal Lembur</h1>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
@@ -94,7 +94,7 @@
             <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>List SPKL</h4>
+                        <h4>Riwayat SPKL</h4>
                     </div>
                     @if (session('error'))
                         <div class="alert alert-danger">
@@ -130,7 +130,7 @@
                                         <td>
                                             <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
                                                 <button type="button" class="btn btn-success fas fa-book">
-                                                    detail
+
                                                 </button>
                                             </a>
                                             <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->id_spkl]) }}">
@@ -169,8 +169,8 @@
                 </div>
                 <div class="modal-body">
                     <p>Foto checkin</p>
-                    <div class="col-md-6">
-                        <div id="checkinCamera"></div>
+                    <div class="justify-content-center d-flex align-items-center">
+                        <div  id="checkinCamera" ></div>
                         <br />
                         <input type="hidden" name="image" class="image-tag">
                     </div>
@@ -203,7 +203,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Foto Check out</p>
-                    <div class="col-md-6">
+                    <div class="justify-content-center d-flex align-items-center">
                         <div id="checkoutCamera"></div>
                         <br />
                         <input type="hidden" name="image" class="image-tag">

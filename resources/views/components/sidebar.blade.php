@@ -47,9 +47,9 @@
                     <a class="nav-link" href="{{ route('dashboard-kabeng') }}"><i
                             class="fas fa-home"></i><span>Dashboard</span></a>
                     <a class="nav-link" href="{{ route('pegawai-bengkel') }}"><i
-                            class="fas fa-user"></i><span>List Pegawai</span></a>
-                    <a class="nav-link" href="{{ route('create-spkl') }}"><i
-                            class="fas fa-archive"></i><span>Create SPKL</span></a>
+                            class="fas fa-user"></i><span>List Pegawai Bengkel</span></a>
+{{--                    <a class="nav-link" href="{{ route('create-spkl') }}"><i--}}
+{{--                            class="fas fa-archive"></i><span>Create SPKL</span></a>--}}
                     <a class="nav-link" href="{{ route('pengajuan-spkl') }}"><i
                             class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
 {{--                    <a class="nav-link" href="{{ route('detail-spkl') }}"><i--}}

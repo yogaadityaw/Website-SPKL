@@ -15,7 +15,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Dashboard Hallo Admin</h1>
+                <h1>Dashboard Admin</h1>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -51,19 +51,19 @@
     <!-- Page Specific JS File -->
     <script>
         "use strict";
-    
+
         // Function to fetch data from the endpoint and update the chart
         async function fetchChartData() {
             try {
                 const response = await fetch('/admin/getChart');
                 const data = await response.json();
-    
+
                 // Assuming the response structure contains labels and data arrays
                 const labels = data.labels;
                 const chartData = data.data;
-    
+
                 var statistics_chart = document.getElementById("myChart").getContext('2d');
-    
+
                 var myChart = new Chart(statistics_chart, {
                     type: 'line',
                     data: {
@@ -106,7 +106,7 @@
                 console.error('Error fetching chart data:', error);
             }
         }
-    
+
         fetchChartData();
-    </script>    
+    </script>
 @endpush

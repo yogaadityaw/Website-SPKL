@@ -116,7 +116,7 @@
                                                 </textarea>
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
@@ -144,6 +144,15 @@
                                                 </p>
                                             @endforeach
                                         </div>
+                                        @if ($spkls->alasan_penolakan)
+                                        <div class="col-6">
+                                            <h5>Alasan Penolakan</h5>
+                                            <p>{{ $spkls->alasan_penolakan }}</p>
+                                            <a href="{{ route('ubah-informasi', ['id' => $spkls->id_spkl]) }}" class="btn btn-info">
+                                                Ubah Informasi
+                                            </a>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -178,10 +187,6 @@
                                 <input type="hidden" name="action" value="approve">
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">
-                                        <button type="submit" name="action" value="reject"
-                                            class="btn btn-outline-danger d-flex justify-content-end ml-2">
-                                            Tolak
-                                        </button>
                                         <button type="submit" name="action" value="approve"
                                             class="btn btn-primary d-flex justify-content-end ml-2">
                                             Setujui

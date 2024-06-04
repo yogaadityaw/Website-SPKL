@@ -38,12 +38,12 @@
                                                 <td>{{ $pt->pt_name }}</td>
                                                 <td>
                                                     <button type="button" value="{{ $pt->id_pt }}"
-                                                        class="btn btn-warning editButton" data-target="#editPtModal"
-                                                        data-toggle="modal">Edit
+                                                        class="btn btn-warning editButton fas fa-pencil" data-target="#editPtModal"
+                                                        data-toggle="modal">
                                                     </button>
-                                                    <button type="button" class="btn btn-danger deleteButton"
+                                                    <button type="button" class="btn btn-danger deleteButton fas fa-trash"
                                                         value="{{ $pt->id_pt }}" data-toggle="modal"
-                                                        data-target="#deleteModal">Hapus
+                                                        data-target="#deleteModal">
                                                     </button>
                                                 </td>
                                             </tr>

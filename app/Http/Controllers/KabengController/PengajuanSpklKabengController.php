@@ -166,7 +166,32 @@ class PengajuanSpklKabengController extends Controller
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Jam realisasi berhasil diinput');
         } catch (\Throwable $th) {
-            dd($th);
+            return redirect()->route('pengajuan-spkl')->with('gagal', $th->getMessage());
         }
+    }
+
+    public function ubahInformasi($id)
+    {
+        $spkl = Spkl::findOrFail($id);
+        $pts = Pt::all();
+        $proyeks = Proyek::all();
+
+        return view('kabeng-views.ubah-informasi', compact('spkl', 'pts', 'proyeks'));
+    }
+
+    public function fungsiUbahInformasi(Request $request, $id)
+    {
+        $spkl = Spkl::findOrFail($id);
+        $spkl->update([
+            'alasan_penolakan' => null,
+            'progres' => $request->progres,
+            'uraian_pekerjaan' => $request->uraian_pekerjaan,
+            'rencana' => $request->rencana,
+            'tanggal' => $request->tanggal,
+            'pt_id' => $request->pt_id,
+            'proyek_id' => $request->proyek_id
+        ]);
+
+        return redirect()->route('pengajuan-spkl')->with('success', 'berhasil mengubah data spkl');
     }
 }

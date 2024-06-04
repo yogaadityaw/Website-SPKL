@@ -33,7 +33,7 @@
                                 <button data-toggle="modal" data-target="#buatSPKLModal" type="button"
                                         class="btn btn-primary mr-2">+ BUAT SPKL
                                 </button>
-                                <button type="button" class="btn btn-light">FILTER</button>
+
                             </nav>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">Pengajuan SPKL</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -296,7 +296,7 @@
 {{--modal untuk delete spkl--}}
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="deleteUserForm" action="{{route('delete-spkl')}}" method="POST">

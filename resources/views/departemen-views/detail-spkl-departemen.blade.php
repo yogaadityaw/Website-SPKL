@@ -71,11 +71,12 @@
                                             <h5>Jam Realisasi</h5>
                                             @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
                                                 @foreach ($spkls->userSpkls as $karyawan)
-                                                    {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
+                                                    {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }}
+                                                    <br>
                                                 @endforeach
                                             @else
                                                 <p>belum acc</p>
-                                            @endif 
+                                            @endif
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
@@ -92,8 +93,8 @@
                                                 </label>
                                                 <textarea class="form-control" data-height="150" required="">
                                                     @foreach ($spkls->userSpkls as $karyawan)
-                                                        {{ $karyawan->user->user_fullname }},
-                                                    @endforeach
+{{ $karyawan->user->user_fullname }},
+@endforeach
                                                 </textarea>
                                             </div>
                                         </div>
@@ -160,8 +161,9 @@
                                 <input type="hidden" name="action" value="approve">
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">
-                                        <button type="submit" name="action" value="reject"
-                                            class="btn btn-outline-danger d-flex justify-content-end ml-2">
+                                        <button type="button"
+                                            class="btn btn-outline-danger d-flex justify-content-end ml-2"
+                                            data-bs-toggle="modal" data-bs-target="#tolakModal" id="buttonTolakModal">
                                             Tolak
                                         </button>
                                         <button type="submit" name="action" value="approve"
@@ -177,3 +179,44 @@
             </div>
         </section>
     @endsection
+
+    <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('tolak-spkl', ['id' => $spkls->id_spkl]) }}" method="post">
+                    <div class="modal-body">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="alasanPenolakan" class="form-label">Alasan Penolakan</label>
+                            <textarea class="form-control" id="alasanPenolakan" rows="5" col="5" name="alasanPenolakan"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+        <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+        <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
+        <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+        <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+        <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#buttonTolakModal').click(function() {
+                    $('#tolakModal').modal('show');
+                });
+            });
+        </script>
+    @endpush

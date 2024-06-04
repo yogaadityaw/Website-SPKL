@@ -43,11 +43,12 @@
                                             <td>{{ $bengkel->bengkel_name }}</td>
                                             <td> {{ $bengkel->user->user_fullname }} </td>
                                             <td>
-                                                <button type="button" value="{{ $bengkel->id_bengkel }}" class="btn btn-warning editButton"
-                                                        data-target="#editBengkelModal" data-toggle="modal">Edit</button>
-                                                <button type="button" class="btn btn-danger deleteButton"
+                                                <button type="button" value="{{ $bengkel->id_bengkel }}" class="btn btn-warning editButton fas fa-pencil"
+                                                        data-target="#editBengkelModal" data-toggle="modal">
+                                                </button>
+                                                <button type="button" class="btn btn-danger deleteButton fas fa-trash"
                                                         value="{{ $bengkel->id_bengkel }}" data-toggle="modal"
-                                                        data-target="#deleteModal">Hapus
+                                                        data-target="#deleteModal">
                                                 </button>
                                             </td>
                                         </tr>

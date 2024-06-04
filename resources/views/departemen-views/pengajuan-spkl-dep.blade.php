@@ -20,23 +20,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Buat SPKL Baru</h1>
+                <h1>Daftar Pengjuan SPKL</h1>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Buat SPKL Baru</h4>
-                        </div>
-                        <div class="card-body">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-white">
-                                <button data-toggle="modal" data-target="#buatSPKLModal" type="button"
-                                        class="btn btn-primary mr-2">+ BUAT SPKL
-                                </button>
-                                <button type="button" class="btn btn-light">FILTER</button>
-                            </nav>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -83,9 +71,7 @@
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
                                         <td>
-                                            <button type="button" class="btn btn-danger deleteButton fas fa-trash"
-                                                    value="{{$spkl->id_spkl}}" data-toggle="modal">
-                                            </button>
+
 
                                             <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
                                                 <button type="button" value=''

@@ -88,4 +88,27 @@ class PengajuanSpklDepartemenController extends Controller
             return redirect()->route('pengajuan-spkl-departemen')->with('error', 'Tidak ada aksi yang dipilih');
         }
     }
+
+    public function tolakSpkl(Request $request, $id)
+    {
+        try {
+            $spkl = Spkl::findOrFail($id);
+            $spkl->update([
+                'is_kabeng_acc' => false,
+                'is_departemen_acc' => null,
+                'is_kemenpro_acc' => null,
+                'alasan_penolakan' => $request->alasanPenolakan,
+            ]);
+
+            $qr_codes = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+            $qr_codes->update([
+                'workshop_head_qr_code' => null,
+                'department_head_qr_code' => null,
+                'pj_proyek_qr_code' => null,
+            ]);
+            return redirect()->route('pengajuan-spkl-departemen')->with('success', 'SPKL berhasil ditolak');
+        } catch (\Exception $e) {
+            return redirect()->route('pengajuan-spkl-departemen')->with('error', $e->getMessage());
+        }
+    }
 }

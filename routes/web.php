@@ -76,6 +76,8 @@ Route::prefix('kabeng')->group(function () {
     Route::delete('/pengajuan-spkl-delete', [PengajuanSpklKabengController::class, 'deleteSpkl'])->name('delete-spkl');
     Route::put('/pengajuan-spkl-audit', [PengajuanSpklKabengController::class, 'auditSpkl'])->name('audit-spkl-kabeng');
     Route::put('/input-jam-realisasi/{id}', [PengajuanSpklKabengController::class, 'inputJamRealisasi'])->name('input-jam-realisasi');
+    Route::get('/ubah-spkl/{id}', [PengajuanSpklKabengController::class, 'ubahInformasi'])->name('ubah-informasi');
+    Route::put('/ubah-spkl/{id}', [PengajuanSpklKabengController::class, 'fungsiUbahInformasi'])->name('fungsi-ubah-informasi');
 });
 
 Route::prefix('departemen')->group(function () {
@@ -83,6 +85,7 @@ Route::prefix('departemen')->group(function () {
     Route::get('/pengajuan-spkl-departemen', [PengajuanSpklDepartemenController::class, 'index'])->name('pengajuan-spkl-departemen');
     Route::get('/detail-spkl-departemen/{id}', [PengajuanSpklDepartemenController::class, 'getDetailSpkl'])->name('detail-spkl-departemen');
     Route::put('/pengajuan-spkl-audit', [PengajuanSpklDepartemenController::class, 'auditSpkl'])->name('audit-spkl-departemen');
+    Route::put('/tolak-spkl/{id}', [PengajuanSpklDepartemenController::class, 'tolakSpkl'])->name('tolak-spkl');
 });
 
 Route::prefix('kemenpro')->group(function () {

@@ -64,9 +64,7 @@
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
                                         <td>
-                                            <button type="button" class="btn btn-danger deleteButton fas fa-trash"
-                                                    value="{{$spkl->id_spkl}}" data-toggle="modal">
-                                            </button>
+
 
                                             <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
                                                 <button type="button" value=''

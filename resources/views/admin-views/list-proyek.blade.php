@@ -41,11 +41,12 @@
                                             <td>{{ $proyek->proyek_name }}</td>
                                             <td> {{ $proyek->user->user_fullname }} </td>
                                             <td>
-                                                <button type="button" value="{{ $proyek->id_proyek }}" class="btn btn-warning editButton"
-                                                        data-target="#updateSPKLModal" data-toggle="modal">Edit</button>
-                                                <button type="button" class="btn btn-danger deleteButton"
+                                                <button type="button" value="{{ $proyek->id_proyek }}" class="btn btn-warning editButton fas fa-pencil"
+                                                        data-target="#updateSPKLModal" data-toggle="modal">
+                                                </button>
+                                                <button type="button" class="btn btn-danger deleteButton fas fa-trash"
                                                         value="{{ $proyek->id_proyek }}" data-toggle="modal"
-                                                        data-target="#deleteModal">Hapus
+                                                        data-target="#deleteModal">
                                                 </button>
                                             </td>
                                         </tr>
