@@ -69,32 +69,22 @@
                                         </div>
                                         <div class="col-3">
                                             <h5>Jam Realisasi</h5>
-                                            @if ($spkl->userSpkls->every(fn($pegawai) => $pegawai->jam_realisasi != null))
-                                                @foreach ($spkl->userSpkls as $karyawan)
-                                                    {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
-                                                @endforeach
-                                            @elseif (!$spkl->is_kemenpro_acc)
-                                                <p>belum acc</p>
-                                            @else
-                                                <form
-                                                    action="{{ route('input-jam-realisasi', ['id' => $spkl->id_spkl]) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <table>
-                                                        @foreach ($spkl->userSpkls as $pegawai)
-                                                            <tr>
-                                                                <td>{{ $pegawai->user->user_fullname }}</td>
-                                                                <td>
-                                                                    <input type="text"
-                                                                        name="jam_realisasi_{{ $pegawai->id }}">
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </table>
-                                                    <input type="submit" value="Simpan">
-                                                </form>
-                                            @endif
+                                            <form action="{{ route('input-jam-realisasi-admin', ['id' => $spkl->id_spkl]) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('PUT')
+                                                <table>
+                                                    @foreach ($spkl->userSpkls as $pegawai)
+                                                        <tr>
+                                                            <td>{{ $pegawai->user->user_fullname }}</td>
+                                                            <td>
+                                                                <input type="text" name="jam_realisasi_{{ $pegawai->id }}" value="{{ $pegawai->jam_realisasi }}" class="col-12">
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </table>
+                                                <input type="submit" value="Simpan">
+                                            </form>
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
@@ -111,8 +101,8 @@
                                                 </label>
                                                 <textarea class="form-control" data-height="150" required="">
                                                     @foreach ($spkl->userSpkls as $karyawan)
-                                                        {{ $karyawan->user->user_fullname }},
-                                                    @endforeach
+{{ $karyawan->user->user_fullname }},
+@endforeach
                                                 </textarea>
                                             </div>
                                         </div>
@@ -155,40 +145,37 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <h5>Kepala Biro/Kabeng</h5>
-                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? 'Gak tau namanya' }}</p>
-                                            {!! $qr->workshop_head_qr_code ?? '' !!}
+                                            <p>{{ $spkl->bengkel->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            {!! $spkl->qr->workshop_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}</p>
-                                            {!! $qr->department_head_qr_code ?? '' !!}
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}
+                                            </p>
+                                            {!! $spkl->qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Manajemen</h5>
-                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
-                                            {!! $qr->pj_proyek_qr_code ?? '' !!}
+                                            <p>{{ $spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            {!! $spkl->qr->pj_proyek_qr_code ?? '' !!}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <form action="{{ route('audit-spkl-kabeng') }}" method="post">
+                            {{-- <form action="{{ route('audit-spkl-kabeng') }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="spkl_id" value="{{ $spkl->id_spkl }}">
                                 <input type="hidden" name="action" value="approve">
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">
-                                        {{-- <button type="submit" name="action" value="reject"
-                                            class="btn btn-outline-danger d-flex justify-content-end ml-2">
-                                            Tolak
-                                        </button> --}}
                                         <button type="submit" name="action" value="approve"
                                             class="btn btn-primary d-flex justify-content-end ml-2">
                                             Setujui
                                         </button>
                                     </div>
                                 </div>
-                            </form>
+                            </form> --}}
                         </div>
                     </div>
                 </div>

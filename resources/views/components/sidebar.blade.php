@@ -105,8 +105,8 @@
             <ul class="sidebar-menu">
                 <li class="menu-header">Dashboard</li>
                 <li class="nav-item">
-                    <a href="{{route('dashboard-pegawai')}}" class="nav-link"><i
-                            class="fas fa-home"></i><span>Dashboard</span></a>
+                    {{-- <a href="{{route('dashboard-pegawai')}}" class="nav-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a> --}}
                     <a class="nav-link" href="{{ route('list-spkl-pegawai') }}"><i
                             class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
                 </li>

@@ -44,7 +44,7 @@ class ProyekController extends Controller
 
             return redirect()->route('proyek-list')->with('success', 'Data proyek baru berhasil ditambahkan');
         } catch (\Exception $e) {
-            dd("Error $e");
+            return redirect()->route('proyek-list')->with('error', 'Nama Proyek Tidak Boleh Kosong');
         }
     }
 

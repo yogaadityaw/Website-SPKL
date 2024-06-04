@@ -40,7 +40,7 @@ class DepartemenController extends Controller
 
             return redirect()->route('departemen-list')->with('success', 'Data departemen baru berhasil ditambahkan');
         } catch (\Exception $e) {
-            dd("Error $e");
+            return redirect()->route('departemen-list')->with('error', 'Nama Departemen Tidak Boleh Kosong');
         }
     }
 

@@ -45,7 +45,7 @@ class BengkelController extends Controller
 
             return redirect()->route('bengkel-list')->with('success', 'Data bengkel baru berhasil ditambahkan');
         } catch (\Exception $e) {
-            dd("Error $e");
+            return redirect()->route('bengkel-list')->with('error', 'Nama Bengkel Tidak Boleh Kosong');
         }
     }
 

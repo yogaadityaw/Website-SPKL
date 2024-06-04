@@ -63,6 +63,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/list-spkl-admin', [DashboardAdminController::class, 'listSpklAdmin'])->name('list-spkl-admin');
     Route::get('/view-spkl-admin/{id}', [DashboardAdminController::class, 'viewSpklAdmin'])->name('view-spkl-admin');
     Route::get('/getChart', [DashboardAdminController::class, 'getChart'])->name('get-admin-chart');
+    Route::put('/input-jam-realisasi/{id}', [DashboardAdminController::class, 'inputJamRealisasi'])->name('input-jam-realisasi-admin');
 });
 
 Route::prefix('kabeng')->group(function () {

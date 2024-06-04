@@ -82,17 +82,25 @@ class PengajuanSpklKabengController extends Controller
                 'spkl_id' => $spkl->id_spkl,
             ]);
 
-            
+
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
         } catch (\Exception $e) {
-            dd("Error $e");
+            return redirect()->route('pengajuan-spkl')->with('error', 'Data Inputan Masih Ada Yang Kosong');
         }
     }
 
     public function deletespkl(Request $request)
     {
         try {
+            $qrs = QRCode::where('spkl_id', $request->spkl_id)->get();
+            foreach ($qrs as $qr) {
+                $qr->delete();
+            }
+            $userSpkls = UserSpkl::where('spkl_id', $request->spkl_id)->get();
+            foreach ($userSpkls as $userSpkl) {
+                $userSpkl->delete();
+            }
             $spkls = Spkl::findOrFail($request->spkl_id);
             $spkls->delete();
             return redirect()->route('pengajuan-spkl')->with('success', 'SPKL berhasil dihapus');

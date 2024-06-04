@@ -45,7 +45,7 @@
                                                         {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
                                                     </p>
                                                 @else
-                                                    <p>belum lembur</p>
+                                                    <p>-</p>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -75,8 +75,12 @@
                                                     <br>
                                                 @endforeach
                                             @else
-                                                <p>belum acc</p>
+                                                <p>-</p>
                                             @endif
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Proyek</h5>
+                                            <p> {{ $spkls->proyek->proyek_name }} </p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
@@ -93,8 +97,8 @@
                                                 </label>
                                                 <textarea class="form-control" data-height="150" required="">
                                                     @foreach ($spkls->userSpkls as $karyawan)
-{{ $karyawan->user->user_fullname }},
-@endforeach
+                                                                {{ $karyawan->user->user_fullname }},
+                                                                @endforeach
                                                 </textarea>
                                             </div>
                                         </div>
@@ -111,7 +115,7 @@
                                                         <p>Longitude: {{ $location['longitude'] }}</p>
                                                         <p>Latitude: {{ $location['latitude'] }}</p>
                                                     @else
-                                                        <p>Tidak ada lokasi Check In.</p>
+                                                        <p>-</p>
                                                     @endif
                                                     @if ($detail->lokasi_check_out)
                                                         @php
@@ -121,7 +125,7 @@
                                                         <p>Longitude: {{ $location['longitude'] }}</p>
                                                         <p>Latitude: {{ $location['latitude'] }}</p>
                                                     @else
-                                                        <p>Tidak ada lokasi Check Out.</p>
+                                                        <p>-</p>
                                                     @endif
                                                 </p>
                                             @endforeach
@@ -137,18 +141,18 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <h5>Kepala Biro/Kabeng</h5>
-                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? ' ' }}</p>
                                             {!! $qr->workshop_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? ' ' }}
                                             </p>
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Manajemen</h5>
-                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? ' ' }}</p>
                                             {!! $qr->pj_proyek_qr_code ?? '' !!}
                                         </div>
                                     </div>
@@ -190,12 +194,12 @@
 
                         <div class="mb-3">
                             <label for="alasanPenolakan" class="form-label">Alasan Penolakan</label>
-                            <textarea class="form-control" id="alasanPenolakan" rows="5" col="5" name="alasanPenolakan"></textarea>
+                            <textarea class="form-control" id="alasanPenolakan" rows="5" col="5" name="alasanPenolakan" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+
+                        <button type="submit" class="btn btn-danger">Tolak</button>
                     </div>
                 </form>
             </div>

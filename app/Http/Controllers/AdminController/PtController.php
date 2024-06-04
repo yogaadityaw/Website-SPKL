@@ -43,7 +43,7 @@ class PtController extends Controller
 
                 return redirect()->route('pt-list')->with('success', 'Data pt baru berhasil ditambahkan');
             } catch (\Exception $e) {
-                dd("Error $e");
+                return redirect()->route('pt-list')->with('error', 'input Nama PT tidak boleh kosong');
             }
         }
 

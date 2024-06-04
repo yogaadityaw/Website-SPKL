@@ -45,7 +45,7 @@
                                                         {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
                                                     </p>
                                                 @else
-                                                    <p>belum lembur</p>
+                                                    <p>-</p>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -74,7 +74,7 @@
                                                     {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
                                                 @endforeach
                                             @elseif (!$spkls->is_kemenpro_acc)
-                                                <p>belum acc</p>
+                                                <p>-</p>
                                             @else
                                                 <form
                                                     action="{{ route('input-jam-realisasi', ['id' => $spkls->id_spkl]) }}"
@@ -87,7 +87,7 @@
                                                                 <td>{{ $pegawai->user->user_fullname }}</td>
                                                                 <td>
                                                                     <input type="text"
-                                                                        name="jam_realisasi_{{ $pegawai->id }}">
+                                                                        name="jam_realisasi_{{ $pegawai->id }}" class = "col-12">
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -116,6 +116,10 @@
                                                 </textarea>
                                             </div>
                                         </div>
+                                        <div class="col-3">
+                                            <h5>Proyek</h5>
+                                            <p> {{ $spkls->proyek->proyek_name }} </p>
+                                        </div>
                                         <div class="col-6">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
@@ -129,7 +133,7 @@
                                                         <p>Longitude: {{ $location['longitude'] }}</p>
                                                         <p>Latitude: {{ $location['latitude'] }}</p>
                                                     @else
-                                                        <p>Tidak ada lokasi Check In.</p>
+                                                        <p>-</p>
                                                     @endif
                                                     @if ($detail->lokasi_check_out)
                                                         @php
@@ -139,7 +143,7 @@
                                                         <p>Longitude: {{ $location['longitude'] }}</p>
                                                         <p>Latitude: {{ $location['latitude'] }}</p>
                                                     @else
-                                                        <p>Tidak ada lokasi Check Out.</p>
+                                                        <p>-</p>
                                                     @endif
                                                 </p>
                                             @endforeach
@@ -155,6 +159,7 @@
                                         @endif
                                     </div>
                                 </div>
+
                             </div>
                             <div class="card border border-lg rounded-lg mx-4">
                                 <div class="card-header">
@@ -164,17 +169,17 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <h5>Kepala Biro/Kabeng</h5>
-                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->bengkel->user->user_fullname ?? ' ' }}</p>
                                             {!! $qr->workshop_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Departemen</h5>
-                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->bengkel->departemen->user->user_fullname ?? ' ' }}</p>
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
                                             <h5>Kepala Manajemen</h5>
-                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
+                                            <p>{{ $qr->spkl->proyek->user->user_fullname ?? ' ' }}</p>
                                             {!! $qr->pj_proyek_qr_code ?? '' !!}
                                         </div>
                                     </div>

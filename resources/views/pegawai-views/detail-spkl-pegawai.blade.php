@@ -45,7 +45,7 @@
                                                         {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
                                                     </p>
                                                 @else
-                                                    <p>belum lembur</p>
+                                                    <p>-</p>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -72,8 +72,12 @@
                                             @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->check_out != null) && $spkls->jam_realisasi != null)
                                                 <p>{!! $spkls->jam_realisasi !!}</p>
                                             @else
-                                                <p>belum acc</p>
+                                                <p>-</p>
                                             @endif
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Proyek</h5>
+                                            <p> {{ $spkls->proyek->proyek_name }} </p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
@@ -108,7 +112,7 @@
                                                         <p>Longitude: {{ $location['longitude'] }}</p>
                                                         <p>Latitude: {{ $location['latitude'] }}</p>
                                                     @else
-                                                        <p>Tidak ada lokasi Check In.</p>
+                                                        <p>-</p>
                                                     @endif
                                                     @if ($detail->lokasi_check_out)
                                                         @php
@@ -118,7 +122,7 @@
                                                         <p>Longitude: {{ $location['longitude'] }}</p>
                                                         <p>Latitude: {{ $location['latitude'] }}</p>
                                                     @else
-                                                        <p>Tidak ada lokasi Check Out.</p>
+                                                        <p>-</p>
                                                     @endif
                                                 </p>
                                             @endforeach
