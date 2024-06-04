@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/multi-choice.css') }}">
     <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 @endpush
 
 @include('components.sidebar')
@@ -20,21 +21,69 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Jadwal Lembur Hari Ini</h1>
+                <h1>Jadwal Lembur</h1>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Buat SPKL Baru</h4>
+                            <h4>Jadwal Lembur Hari Ini</h4>
                         </div>
                         <div class="card-body">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-white">
-                                <button data-toggle="modal" data-target="#buatSPKLModal" type="button"
-                                        class="btn btn-primary mr-2">+ BUAT SPKL
-                                </button>
-                                <button type="button" class="btn btn-light">FILTER</button>
-                            </nav>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table-bordered table">
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">No SPKL</th>
+                                            <th scope="col">Nama Proyek</th>
+                                            <th scope="col">Departemen</th>
+                                            <th scope="col">Bengkel</th>
+                                            <th scope="col">Tanggal Lembur</th>
+                                            <th scope="col">Aksi</th>
+                                        </tr>
+                                        @foreach ($filteredSpkls as $spkl)
+                                            <tr>
+                                                <td scope="col">{{ $loop->index + 1 }}</td>
+                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
+                                                <td scope="col">
+                                                    {{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
+                                                <td>
+                                                    <a
+                                                        href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
+                                                        <button type="button" class="btn btn-success fas fa-book"
+                                                            data-toggle="modal">
+                                                        </button>
+                                                    </a>
+                                                    <button type="button" value="{{ $spkl->id }}"
+                                                        data-spkl-id="{{ $spkl->id }}"
+                                                        class="btn btn-success checkinButton" data-toggle="modal"
+                                                        data-target="#checkinModal">
+                                                        Check-in
+                                                    </button>
+                                                    <button type="button" value="{{ $spkl->id }}"
+                                                        data-spkl-id="{{ $spkl->id }}"
+                                                        class="btn btn-danger checkoutButton" data-toggle="modal"
+                                                        data-target="#checkoutModal">
+                                                        Check-out
+                                                    </button>
+
+                                                    {{-- <form id="checkout-form" action="{{ route('checkout-spkl-pegawai') }}"
+                                                        method="POST" class="d-none">
+                                                        @csrf
+                                                        <input type="hidden" name="user_spkl_id"
+                                                            value="{{ $spkl->id }}">
+                                                    </form> --}}
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -45,7 +94,7 @@
             <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>List SPKL</h4>
+                        <h4>Riwayat SPKL</h4>
                     </div>
                     @if (session('error'))
                         <div class="alert alert-danger">
@@ -63,45 +112,34 @@
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">No SPKL</th>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Departemen</th>
                                     <th scope="col">Nama Proyek</th>
+                                    <th scope="col">Departemen</th>
                                     <th scope="col">Bengkel</th>
+                                    <th scope="col">Tanggal Lembur</th>
                                     <th scope="col">Aksi</th>
-
                                 </tr>
-{{--                                <tbody>--}}
-{{--                                @foreach ($spkls as $spkl)--}}
-{{--                                    @php--}}
-{{--                                        $index = 1;--}}
-{{--                                    @endphp--}}
-{{--                                    <tr>--}}
-{{--                                        <td>{{ $loop->iteration }}</td>--}}
-{{--                                        <td> {{ $spkl->spkl_number}} </td>--}}
-{{--                                        <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>--}}
-{{--                                        <td> {{ $spkl->departemen->departemen_name}} </td>--}}
-{{--                                        <td> {{ $spkl->proyek->proyek_name}} </td>--}}
-{{--                                        <td> {{ $spkl->bengkel->bengkel_name}} </td>--}}
-{{--                                        <td>--}}
-{{--                                            <button type="button" class="btn btn-danger deleteButton fas fa-trash"--}}
-{{--                                                    value="{{$spkl->id_spkl}}" data-toggle="modal">--}}
-{{--                                            </button>--}}
+                                @foreach ($finishedSpkls as $spkl)
+                                    <tr>
+                                        <td scope="col">{{ $loop->index + 1 }}</td>
+                                        <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}
+                                        </td>
+                                        <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
+                                        <td>
+                                            <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
+                                                <button type="button" class="btn btn-success fas fa-book">
 
-{{--                                            <button type="button" value="${{$spkl->id_spkl}}"--}}
-{{--                                                    class="btn btn-warning editButton fas fa-pencil"--}}
-{{--                                                    data-toggle="modal">--}}
-{{--                                            </button>--}}
-{{--                                            <a href="{{ route('detail-spkl', ['id' => $spkl->id_spkl]) }}">--}}
-{{--                                                <button type="button" value="${{$spkl->id_spkl}}"--}}
-{{--                                                        class="btn btn-success fas fa-book"--}}
-{{--                                                        data-toggle="modal">--}}
-{{--                                                </button>--}}
-{{--                                            </a>--}}
-
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
-{{--                                </tbody>--}}
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->id_spkl]) }}">
+                                                <button type="button" value='' class="btn btn-primary fas fa-print"
+                                                    data-toggle="modal">
+                                                </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </table>
                         </div>
                     </div>
@@ -112,108 +150,73 @@
     </div>
 @endsection
 
-{{-- modal untuk input data spkl --}}
+<div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="checkinForm" action="{{ route('absen-spkl-pegawai') }}" method="post"
+                enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="user_spkl_id" id="checkinUserSpklId">
+                <input type="hidden" name="user_name" id="checkinUserName"
+                    value="{{ Auth::user()->user_fullname }}">
+                <input type="hidden" name="lokasi_check_in" id="lokasi_check_in">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkinModalLabel">Absen Foto Check-in</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Foto checkin</p>
+                    <div class="justify-content-center d-flex align-items-center">
+                        <div  id="checkinCamera" ></div>
+                        <br />
+                        <input type="hidden" name="image" class="image-tag">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary"
+                        onClick="take_snapshot('checkinCamera', '#checkinForm')">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-{{--<div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buatSPKLModalLabel"--}}
-{{--     aria-hidden="true">--}}
-{{--    <div class="modal-dialog" role="document">--}}
-{{--        <div class="modal-content">--}}
-{{--            <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <h5 class="modal-title">Modal title</h5>--}}
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                        <span aria-hidden="true">&times;</span>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--                <div class="modal-body">--}}
-
-{{--                    <div class="form-row">--}}
-{{--                        @csrf--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label>Nomor Pengajuan</label>--}}
-{{--                            <input type="text" class="form-control" name="spkl_number" value="{{$spkl_id}}"--}}
-{{--                                   readonly>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group col-md-6">--}}
-{{--                            <label for="inputState">Nama PT</label>--}}
-{{--                            <select id="inputState" class="form-control" name="pt_id">--}}
-{{--                                @foreach($pts as $pt)--}}
-{{--                                    <option value="{{$pt->id_pt}}">{{$pt->pt_name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group col-md-6">--}}
-{{--                            <label for="inputState">Nama Proyek</label>--}}
-{{--                            <select id="inputState" class="form-control" name="proyek_id">--}}
-{{--                                @foreach($proyeks as $proyek)--}}
-{{--                                    <option value="{{$proyek->id_proyek}}">{{$proyek->proyek_name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group col-md-6">--}}
-{{--                            <label for="inputState">Departemen</label>--}}
-{{--                            <select id="inputState" class="form-control" name="departemen_id">--}}
-{{--                                @foreach($departemens as $departemen)--}}
-{{--                                    <option--}}
-{{--                                        value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group col-md-6">--}}
-{{--                            <label for="inputState">Bengkel</label>--}}
-{{--                            <select id="inputState" class="form-control" name="bengkel_id">--}}
-{{--                                @foreach($bengkels as $bengkel)--}}
-{{--                                    <option value="{{$bengkel->id_bengkel}}">{{$bengkel->bengkel_name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label for="tanggal">Tanggal:</label>--}}
-{{--                            <input type="date" class="form-control" id="tanggal" name="tanggal">--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group col-md-6">--}}
-{{--                            <label for="inputCity">Pelaksanaan</label>--}}
-{{--                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group">--}}
-{{--                        <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>--}}
-{{--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"--}}
-{{--                                  name="uraian_pekerjaan"></textarea>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group">--}}
-{{--                        <label for="exampleFormControlTextarea1">Rencana</label>--}}
-{{--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"--}}
-{{--                                  name="rencana"></textarea>--}}
-{{--                    </div>--}}
-{{--                    <section class="ftco-section ftco-no-pt ftco-no-pb">--}}
-{{--                        <div class="container">--}}
-{{--                            <div class="text-start">--}}
-{{--                                <p>Karyawan</p>--}}
-{{--                            </div>--}}
-{{--                            <div class="row justify-content-center">--}}
-{{--                                <div--}}
-{{--                                    class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">--}}
-{{--                                    <select class="js-select2" multiple="multiple" name="user_id">--}}
-{{--                                        @foreach($users as $user)--}}
-{{--                                            <option value="{{$user->id_user}}"--}}
-{{--                                                    data-badge="">{{$user->user_fullname}}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </section>--}}
-{{--                </div>--}}
-{{--                <div class="modal-footer">--}}
-{{--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>--}}
-{{--                    <button type="submit" class="btn btn-primary">Simpan</button>--}}
-{{--                </div>--}}
-{{--            </form>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
-{{--</div>--}}
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="checkoutForm" action="{{ route('checkout-spkl-pegawai') }}" method="post"
+                enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="user_spkl_id" id="checkoutUserSpklId">
+                <input type="hidden" name="user_name" id="checkoutUserName"
+                    value="{{ Auth::user()->user_fullname }}">
+                <input type="hidden" name="lokasi_check_out" id="lokasi_check_out">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">Absen Foto Check-out</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Foto Check out</p>
+                    <div class="justify-content-center d-flex align-items-center">
+                        <div id="checkoutCamera"></div>
+                        <br />
+                        <input type="hidden" name="image" class="image-tag">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary"
+                        onClick="take_snapshot('checkoutCamera', '#checkoutForm')">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @push('scripts')
     <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
@@ -222,51 +225,100 @@
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            $('#buatSPKLModalButton').click(function () {
-                $('#buatSPKLModal').modal('show');
+        $(document).ready(function() {
+            $('.checkinButton').click(function() {
+                var spklId = $(this).data('spkl-id');
+                $('#checkinUserSpklId').val(spklId);
+                $('#checkinModal').modal('show');
+            });
+            $('.checkoutButton').click(function() {
+                var spklId = $(this).data('spkl-id');
+                $('#checkoutUserSpklId').val(spklId);
+                $('#checkoutModal').modal('show');
             });
         });
     </script>
-    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+
+    <script language="JavaScript">
+        Webcam.set({
+            width: 490,
+            height: 350,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+
+        Webcam.attach('#checkinCamera');
+        Webcam.attach('#checkoutCamera');
+
+        function take_snapshot(cameraId, formId) {
+            Webcam.snap(function(data_uri) {
+                $(formId + " .image-tag").val(data_uri);
+                $('#image_preview').html('<img src="' + data_uri + '"/>');
+                submitForm(formId);
+            });
+        }
+
+        function submitForm(formId) {
+            $(formId).submit();
+        }
+
+        document.getElementById('image_file').onchange = function(evt) {
+            var tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
+
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function() {
+                    $(".image-tag").val(fr.result);
+                    $('#image_preview').html('<img src="' + fr.result + '"/>');
+                    submitForm('#myForm');
+                }
+                fr.readAsDataURL(files[0]);
+            }
+        };
+    </script>
     <script>
-        (function ($) {
-
-            "use strict";
-
-
-            $(".js-select2").select2({
-                closeOnSelect: false,
-                placeholder: "Click to select an option",
-                allowHtml: true,
-                allowClear: true,
-                tags: true
-            });
-
-            $('.icons_select2').select2({
-                width: "100%",
-                templateSelection: iformat,
-                templateResult: iformat,
-                allowHtml: true,
-                placeholder: "Click to select an option",
-                dropdownParent: $('.select-icon'),
-                allowClear: true,
-                multiple: false,
-            });
-
-
-            function iformat(icon, badge,) {
-                var originalOption = icon.element;
-                var originalOptionBadge = $(originalOption).data('badge');
-
-                return $('<span><i class="fa ' + $(originalOption).data('icon') + '"></i> ' + icon.text +
-                    '<span class="badge">' + originalOptionBadge + '</span></span>');
+        document.addEventListener('DOMContentLoaded', (event) => {
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                } else {
+                    lokasi_check_in.value = "Geolocation is not supported by this browser.";
+                }
             }
 
-        })(jQuery);
+            function showPosition(position) {
+                const locationData = {
+                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude
+                };
+                lokasi_check_in.value = JSON.stringify(locationData);
+                lokasi_check_out.value = JSON.stringify(locationData);
+            }
+
+            function showError(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        lokasi_check_in.value = "User denied the request for Geolocation.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        lokasi_check_in.value = "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        lokasi_check_in.value = "The request to get user location timed out.";
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        lokasi_check_in.value = "An unknown error occurred.";
+                        break;
+                }
+            }
+
+            $('#checkinModal').on('shown.bs.modal', function() {
+                getLocation();
+            });
+            $('#checkoutModal').on('shown.bs.modal', function() {
+                getLocation();
+            });
+        });
     </script>
 @endpush

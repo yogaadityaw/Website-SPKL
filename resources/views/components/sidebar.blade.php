@@ -17,8 +17,16 @@
                             class="fas fa-home"></i><span>Dashboard</span>
                         <a class="nav-link" href="{{ route('change-role') }}"><i
                                 class="fas fa-user"></i><span>Ubah Role</span></a>
+                        <a class="nav-link" href="{{ route('pt-list') }}"><i
+                                class="fas fa-building"></i><span>PT List</span></a>
                         <a class="nav-link" href="{{ route('proyek-list') }}"><i
                                 class="fas fa-ship"></i><span>Proyek List</span></a>
+                                <a class="nav-link" href="{{ route('bengkel-list') }}"><i
+                                        class="fas fa-wrench"></i><span>Bengkel List</span></a>
+                        <a class="nav-link" href="{{ route('departemen-list') }}"><i
+                                class="fas fa-black-tie"></i><span>Departemen List</span></a>
+                        <a class="nav-link" href="{{ route('list-spkl-admin') }}"><i
+                                class="fas fa-archive"></i><span>Rekap-SPKL</span></a>
                     </a>
                 </li>
             </ul>
@@ -39,9 +47,9 @@
                     <a class="nav-link" href="{{ route('dashboard-kabeng') }}"><i
                             class="fas fa-home"></i><span>Dashboard</span></a>
                     <a class="nav-link" href="{{ route('pegawai-bengkel') }}"><i
-                            class="fas fa-user"></i><span>List Pegawai</span></a>
-                    <a class="nav-link" href="{{ route('create-spkl') }}"><i
-                            class="fas fa-archive"></i><span>Create SPKL</span></a>
+                            class="fas fa-user"></i><span>List Pegawai Bengkel</span></a>
+{{--                    <a class="nav-link" href="{{ route('create-spkl') }}"><i--}}
+{{--                            class="fas fa-archive"></i><span>Create SPKL</span></a>--}}
                     <a class="nav-link" href="{{ route('pengajuan-spkl') }}"><i
                             class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
 {{--                    <a class="nav-link" href="{{ route('detail-spkl') }}"><i--}}
@@ -97,8 +105,8 @@
             <ul class="sidebar-menu">
                 <li class="menu-header">Dashboard</li>
                 <li class="nav-item">
-                    <a href="{{route('dashboard-pegawai')}}" class="nav-link"><i
-                            class="fas fa-home"></i><span>Dashboard</span></a>
+                    {{-- <a href="{{route('dashboard-pegawai')}}" class="nav-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a> --}}
                     <a class="nav-link" href="{{ route('list-spkl-pegawai') }}"><i
                             class="fas fa-archive"></i><span>Pengajuan SPKL</span></a>
                 </li>

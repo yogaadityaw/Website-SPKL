@@ -53,42 +53,38 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($users as $user)
-                                        {{-- @php
-                                        $index = 1;
-                                    @endphp --}}
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $user->user_nip }}</td>
-                                            <td>{{ $user->user_fullname }}</td>
-                                            <td>{{ $user->username }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->user_telephone }}</td>
-                                            <td>{{ $user->user_age }}</td>
-                                            <td>{{ $user->role->role_name }}</td>
-                                            <td>
-                                                {{ $user->pt ? $user->pt->pt_name : '' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->departemen ? $user->departemen->departemen_name:'' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->bengkel ? $user->bengkel->bengkel_name: '' }}
-                                            </td>
-                                            <td>
-                                                <button type="button" value="{{$user->id_user}}"
-                                                        class="btn btn-warning editButton"
-                                                        data-toggle="modal">
-                                                    Edit
-                                                </button>
+                                        @foreach ($users as $user)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $user->user_nip }}</td>
+                                                <td>{{ $user->user_fullname }}</td>
+                                                <td>{{ $user->username }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->user_telephone }}</td>
+                                                <td>{{ $user->user_age }}</td>
+                                                <td>{{ $user->role->role_name }}</td>
+                                                <td>
+                                                    {{ $user->pt->pt_name ?? ' '}}
+                                                </td>
+                                                <td>
+                                                    {{ $user->bengkel->departemen->departemen_name ?? ' ' }}
+                                                </td>
+                                                <td>
+                                                    {{ $user->bengkel ? $user->bengkel->bengkel_name : ' ' }}
+                                                </td>
+                                                <td>
+                                                    <button type="button" value="{{ $user->id_user }}"
+                                                        class="btn btn-warning editButton fas fa-pencil" data-toggle="modal">
 
-                                                <button type="button" class="btn btn-danger deleteButton"
-                                                        value="{{$user->id_user}}" data-toggle="modal">
-                                                    Hapus
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-danger deleteButton fas fa-trash"
+                                                        value="{{ $user->id_user }}" data-toggle="modal">
+
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -102,10 +98,10 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form id="updateUserForm" action="{{route('users-update')}}" method="POST">
+                <form id="updateUserForm" action="{{ route('users-update') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id_user" id="id_user" value="id_user">
@@ -117,35 +113,33 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label>Jabatan</label>
                                 <select class="form-control selectric" name="id_role">
+                                    <option value="" selected disabled>Pilih Jabatan</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label>PT</label>
                                 <select class="form-control selectric" name="id_pt">
+                                    <option value="" selected disabled>Pilih PT</option>
                                     @foreach ($pts as $pt)
                                         <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="form-group">
-                                <label>Departemen</label>
-                                <select class="form-control selectric" name="id_departemen">
-                                    @foreach ($departemens as $departemen)
-                                        <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>
-                                    @endforeach
-                                </select>
-
+                            </div>
+                                <div class="form-group col-md-12">
                                     <div class="form-group">
                                         <label>Bengkel</label>
                                         <select class="form-control selectric" name="id_bengkel">
+                                            <option value="" selected disabled>Pilih Bengkel</option>
                                             @foreach ($bengkels as $bengkel)
-                                                <option value="{{ $bengkel->id_bengkel }}">{{ $bengkel->bengkel_name }}</option>
+                                                <option value="{{ $bengkel->id_bengkel }}">
+                                                    {{ $bengkel->bengkel_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -153,11 +147,12 @@
 
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
+                   
                 </form>
             </div>
         </div>
@@ -166,15 +161,15 @@
 
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form id="deleteUserForm" action="{{route('users-delete')}}" method="POST">
+                <form id="deleteUserForm" action="{{ route('users-delete') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="user_id" id="user_id" value="user_id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">Delete</h5>
+                        <h5 class="modal-title" id="userModalLabel">Hapus User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -183,7 +178,6 @@
                         <p>Apakah anda yakin ingin menghapus user ini ? </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </div>
                 </form>
@@ -206,30 +200,29 @@
     <script src="{{ asset('library/prismjs/prism.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.editButton', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.editButton', function() {
                 let userId = $(this).val();
                 $('#editModal').modal('show');
                 $.ajax({
                     type: "GET",
                     url: "/admin/change-role/edit/" + userId,
-                    success: function (response) {
+                    success: function(response) {
                         $('#id_user').val(response.id_user);
                         $('#role_id').val(response.role_id);
                         $('#pt_id').val(response.pt_id);
-                        $('#departemen_id').val(response.departemen_id);
                         $('#bengkel_id').val(response.bengkel_id);
                     }
                 })
             });
 
-            $(document).on('click', '.deleteButton', function () {
+            $(document).on('click', '.deleteButton', function() {
                 let userId = $(this).val();
                 $('#deleteModal').modal('show');
                 $.ajax({
                     type: "GET",
                     url: "/admin/change-role/edit/" + userId,
-                    success: function (response) {
+                    success: function(response) {
                         $('#user_id').val(response.id_user);
                         $('#role_id').val(response.role_id);
                     }

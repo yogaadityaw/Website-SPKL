@@ -54,9 +54,6 @@
                                     </tr>
                                     <tbody>
                                     @foreach ($pegawaiBengkel as $pegawai)
-                                         @php
-                                        $index = 1;
-                                    @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $pegawai->user_nip }}</td>
@@ -70,23 +67,11 @@
                                                 {{ $pegawai->pt ? $pegawai->pt->pt_name : '' }}
                                             </td>
                                             <td>
-                                                {{ $pegawai->departemen ? $pegawai->departemen->departemen_name:'' }}
+                                                {{ $pegawai->bengkel->departemen->departemen_name }}
                                             </td>
                                             <td>
                                                 {{ $pegawai->bengkel ? $pegawai->bengkel->bengkel_name: '' }}
                                             </td>
-{{--                                            <td>--}}
-{{--                                                <button type="button" value="{{$user->id_user}}"--}}
-{{--                                                        class="btn btn-warning editButton"--}}
-{{--                                                        data-toggle="modal">--}}
-{{--                                                    Edit--}}
-{{--                                                </button>--}}
-
-{{--                                                <button type="button" class="btn btn-danger deleteButton"--}}
-{{--                                                        value="{{$user->id_user}}" data-toggle="modal">--}}
-{{--                                                    Hapus--}}
-{{--                                                </button>--}}
-{{--                                            </td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -99,99 +84,6 @@
         </section>
     </div>
 @endsection
-
-{{--<div class="col-12 col-md-6 col-lg-6">--}}
-{{--    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"--}}
-{{--         aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-md">--}}
-{{--            <div class="modal-content">--}}
-{{--                <form id="updateUserForm" action="{{route('users-update')}}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    @method('PUT')--}}
-{{--                    <input type="hidden" name="id_user" id="id_user" value="id_user">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <h5 class="modal-title" id="userModalLabel">Update User</h5>--}}
-{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                            <span aria-hidden="true">&times;</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <div class="form-row">--}}
-{{--                            <div class="form-group col-md-6">--}}
-{{--                                <label>Jabatan</label>--}}
-{{--                                <select class="form-control selectric" name="id_role">--}}
-{{--                                    @foreach ($roles as $role)--}}
-{{--                                        <option value="{{ $role->id_role }}">{{ $role->role_name }}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-
-{{--                            <div class="form-group">--}}
-{{--                                <label>PT</label>--}}
-{{--                                <select class="form-control selectric" name="id_pt">--}}
-{{--                                    @foreach ($pts as $pt)--}}
-{{--                                        <option value="{{ $pt->id_pt }}">{{ $pt->pt_name }}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label>Departemen</label>--}}
-{{--                                    <select class="form-control selectric" name="id_departemen">--}}
-{{--                                        @foreach ($departemens as $departemen)--}}
-{{--                                            <option value="{{ $departemen->id_departemen }}">{{ $departemen->departemen_name }}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-
-{{--                                    <div class="form-group">--}}
-{{--                                        <label>Bengkel</label>--}}
-{{--                                        <select class="form-control selectric" name="id_bengkel">--}}
-{{--                                            @foreach ($bengkels as $bengkel)--}}
-{{--                                                <option value="{{ $bengkel->id_bengkel }}">{{ $bengkel->bengkel_name }}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-{{--                        <button type="submit" class="btn btn-primary">Save Changes</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
-
-{{--<div class="col-12 col-md-6 col-lg-6">--}}
-{{--    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"--}}
-{{--         aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-md">--}}
-{{--            <div class="modal-content">--}}
-{{--                <form id="deleteUserForm" action="{{route('users-delete')}}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    @method('DELETE')--}}
-{{--                    <input type="hidden" name="user_id" id="user_id" value="user_id">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <h5 class="modal-title" id="userModalLabel">Delete</h5>--}}
-{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                            <span aria-hidden="true">&times;</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <p>Apakah anda yakin ingin menghapus user ini ? </p>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-{{--                        <button type="submit" class="btn btn-danger">Hapus</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
-
 
 @push('scripts')
     <!-- JS Libraies -->

@@ -74,7 +74,7 @@ class AuthController extends Controller
                     case 4:
                         return redirect()->route('dashboard-kemenpro');
                     case 5:
-                        return redirect()->route('dashboard-pegawai');
+                        return redirect()->route('list-spkl-pegawai');
                     case 6:
                         return redirect()->route('dashboard-user')->with('user', auth()->user());
                 }

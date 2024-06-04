@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('departemen', function (Blueprint $table) {
             $table->integer('id_departemen')->index()->autoIncrement();
             $table->string('departemen_name');
+            $table->integer('departemen_head');
             $table->timestamps();
         });
     }

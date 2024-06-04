@@ -21,22 +21,13 @@ class PegawaiBengkelController extends Controller
 
     public function index()
     {
-        // Mendapatkan ID bengkel dari user yang sedang login
         $bengkelId = Auth::user();
-
-        //
-
-
-        // Mengambil data pegawai yang memiliki id_bengkel yang sama
-        $pegawaiBengkel = User::with(['role','bengkel', 'pt', 'departemen',])
-            ->where('bengkel_id', $bengkelId->bengkel_id)->orderBy('id_user', 'desc')->get();
+        $pegawaiBengkel = User::where('bengkel_id', $bengkelId->kabeng->id_bengkel)->orderBy('id_user', 'desc')->get();
 
         $roles = Role::all();
         $pts = Pt::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-
-
 
         return view('kabeng-views.daftar-pegawai-bengkel', compact('pegawaiBengkel','roles', 'pts', 'departemens', 'bengkels'));
 

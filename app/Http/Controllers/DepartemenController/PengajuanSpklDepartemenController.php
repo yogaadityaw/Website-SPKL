@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\DepartemenController;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Jobs\sendSpkl;
 use App\Helper\GenerateRandomSpklNumber;
+use App\Helpers\GenerateQRCode;
 use App\Http\Controllers\Controller;
 use App\Models\Bengkel;
 use App\Models\Departemen;
@@ -10,7 +14,7 @@ use App\Models\Proyek;
 use App\Models\Pt;
 use App\Models\Spkl;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\QRCode;
 
 
 class PengajuanSpklDepartemenController extends Controller
@@ -28,7 +32,7 @@ class PengajuanSpklDepartemenController extends Controller
         $proyeks = Proyek::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->get();
+        $spkls = Spkl::where('is_kabeng_acc', true)->orderBy('id_spkl', 'desc')->get();
 
         return view('departemen-views.pengajuan-spkl-dep', compact('spkl_id', 'users', 'pts', 'proyeks', 'departemens', 'bengkels', 'spkls'));
     }
@@ -36,9 +40,10 @@ class PengajuanSpklDepartemenController extends Controller
     public function getDetailSpkl($id)
     {
 
-        $spkls = Spkl::with('pt', 'proyek', 'departemen', 'bengkel', 'user')->orderBy('id_spkl', 'desc')->findOrFail($id);
+        $spkls = Spkl::orderBy('id_spkl', 'desc')->findOrFail($id);
+        $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
-        return view('departemen-views.detail-spkl-departemen', compact('spkls'));
+        return view('departemen-views.detail-spkl-departemen', compact('spkls', 'qr'));
     }
 
     public function auditSpkl(Request $request)
@@ -52,6 +57,18 @@ class PengajuanSpklDepartemenController extends Controller
                 $spkl->update([
                     'is_departemen_acc' => true
                 ]);
+
+                $qr = GenerateQRCode::generate(Auth::user()->user_nip);
+                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+                $qr_data->update([
+                    'department_head_qr_code' => $qr
+                ]);
+
+                if ($spkl->bengkel->departemen->user->email) {
+                    $email = $spkl->proyek->user->email;
+                    sendSpkl::dispatch($spkl, $email);
+                }
+
                 return redirect()->route('pengajuan-spkl-departemen')->with('success', 'SPKL berhasil disetujui');
             } catch (\Exception $e) {
                 return redirect()->route('pengajuan-spkl-departemen')->with('error', $e->getMessage());
@@ -69,6 +86,29 @@ class PengajuanSpklDepartemenController extends Controller
             }
         } else {
             return redirect()->route('pengajuan-spkl-departemen')->with('error', 'Tidak ada aksi yang dipilih');
+        }
+    }
+
+    public function tolakSpkl(Request $request, $id)
+    {
+        try {
+            $spkl = Spkl::findOrFail($id);
+            $spkl->update([
+                'is_kabeng_acc' => false,
+                'is_departemen_acc' => null,
+                'is_kemenpro_acc' => null,
+                'alasan_penolakan' => $request->alasanPenolakan,
+            ]);
+
+            $qr_codes = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+            $qr_codes->update([
+                'workshop_head_qr_code' => null,
+                'department_head_qr_code' => null,
+                'pj_proyek_qr_code' => null,
+            ]);
+            return redirect()->route('pengajuan-spkl-departemen')->with('success', 'SPKL berhasil ditolak');
+        } catch (\Exception $e) {
+            return redirect()->route('pengajuan-spkl-departemen')->with('error', $e->getMessage());
         }
     }
 }

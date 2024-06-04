@@ -33,8 +33,18 @@
                                 <button data-toggle="modal" data-target="#buatSPKLModal" type="button"
                                         class="btn btn-primary mr-2">+ BUAT SPKL
                                 </button>
-                                <button type="button" class="btn btn-light">FILTER</button>
+
                             </nav>
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -79,7 +89,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td> {{ $spkl->spkl_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
-                                        <td> {{ $spkl->departemen->departemen_name}} </td>
+                                        <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
                                         <td>
@@ -87,8 +97,9 @@
                                                     value="{{$spkl->id_spkl}}" data-toggle="modal">
                                             </button>
 
-                                            <button type="button" value="${{$spkl->id_spkl}}"
-                                                    class="btn btn-warning editButton fas fa-pencil"
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
+                                            <button type="button" value=''
+                                                    class="btn btn-primary fas fa-print"
                                                     data-toggle="modal">
                                             </button>
                                             <a href="{{ route('detail-spkl', ['id' => $spkl->id_spkl]) }}">
@@ -120,7 +131,7 @@
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">Pengajuan SPKL</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -129,11 +140,6 @@
 
                     <div class="form-row">
                         @csrf
-                        <div class="form-group">
-                            <label>Nomor Pengajuan</label>
-                            <input type="text" class="form-control" name="spkl_number" value="{{$spkl_id}}"
-                                   readonly>
-                        </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama PT</label>
                             <select id="inputState" class="form-control" name="pt_id">
@@ -150,41 +156,24 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputState">Departemen</label>
-                            <select id="inputState" class="form-control" name="departemen_id">
-                                @foreach($departemens as $departemen)
-                                    <option
-                                        value="{{$departemen->id_departemen}}">{{$departemen->departemen_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputState">Bengkel</label>
-                            <select id="inputState" class="form-control" name="bengkel_id">
-                                @foreach($bengkels as $bengkel)
-                                    <option value="{{$bengkel->id_bengkel}}">{{$bengkel->bengkel_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label for="tanggal">Tanggal:</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputCity">Pelaksanaan</label>
-                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">
+                            <label for="inputCity">Rencana</label>
+                            <input type="text" class="form-control" id="inputRencana" name="rencana">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="uraian_pekerjaan"></textarea>
+                                name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Rencana</label>
+                        <label for="exampleFormControlTextarea1">Progres</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="rencana"></textarea>
+                                name="progres"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -194,7 +183,7 @@
                             <div class="row justify-content-center">
                                 <div
                                     class="col-lg-4 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
-                                    <select class="js-select2" multiple="multiple" name="user_id">
+                                    <select class="js-select2" multiple="multiple" name="user_id[]">
                                         @foreach($users as $user)
                                             <option value="{{$user->id_user}}"
                                                     data-badge="">{{$user->user_fullname}}</option>
@@ -218,7 +207,7 @@
 {{--modal untuk edit spkl--}}
 
 <div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
@@ -271,19 +260,19 @@
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputCity">Pelaksanaan</label>
-                            <input type="text" class="form-control" id="inputPelaksanaan" name="pelaksanaan">
+                            <label for="inputCity">Rencana</label>
+                            <input type="text" class="form-control" id="inputRencana" name="rencana">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="uraian_pekerjaan"></textarea>
+                                name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Rencana</label>
+                        <label for="exampleFormControlTextarea1">Progres</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="rencana"></textarea>
+                                name="progres"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -317,7 +306,7 @@
 {{--modal untuk delete spkl--}}
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="deleteUserForm" action="{{route('delete-spkl')}}" method="POST">
@@ -378,6 +367,7 @@
             // });
 
             $(document).on('click', '.deleteButton', function () {
+
                 let spklId = $(this).val();
                 $('#deleteModal').modal('show');
                 $.ajax({
@@ -392,10 +382,6 @@
         });
     </script>
 
-
-
-
-
     <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -405,7 +391,6 @@
         (function ($) {
 
             "use strict";
-
 
             $(".js-select2").select2({
                 closeOnSelect: false,
@@ -425,7 +410,6 @@
                 allowClear: true,
                 multiple: false,
             });
-
 
             function iformat(icon, badge,) {
                 var originalOption = icon.element;

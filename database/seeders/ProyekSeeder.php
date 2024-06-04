@@ -18,6 +18,7 @@ class ProyekSeeder extends Seeder
         for ($i = 0; $i < count($proyek); $i++) {
             DB::table('proyek')->insert([
                 'proyek_name' => $proyek[$i],
+                'pj_proyek' => rand(3, 4),
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
