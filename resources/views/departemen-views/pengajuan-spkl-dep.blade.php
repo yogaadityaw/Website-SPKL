@@ -59,12 +59,11 @@
 
                                 </tr>
                                 <tbody>
-                                @foreach ($spkls as $spkl)
-                                    @php
-                                        $index = 1;
+                                @foreach ($spkls as $index => $spkl)
+                                    @php  
                                     @endphp
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $index + $spkls->firstItem() }}</td>
                                         <td> {{ $spkl->spkl_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
@@ -91,6 +90,11 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <nav class="d-inline-block">
+                            {{ $spkls->links() }}
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -282,11 +286,8 @@
         });
     </script>
 
-
-
-
-
-    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
+    {{-- PROBLEM TOGGLE SIDEBAR --}}
+    {{-- <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>

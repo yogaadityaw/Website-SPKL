@@ -45,9 +45,9 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($departemens as $departemen)
+                                    @foreach ($departemens as $index => $departemen)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $index + $departemens->firstItem()  }}</td>
                                             <td>{{ $departemen->departemen_name }}</td>
                                             <td> {{ $departemen->user->user_fullname }} </td>
                                             <td>
@@ -61,9 +61,13 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <nav class="d-inline-block">
+                                {{ $departemens->links() }}
+                            </nav>
                         </div>
                     </div>
                 </div>

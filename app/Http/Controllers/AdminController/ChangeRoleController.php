@@ -16,9 +16,22 @@ class ChangeRoleController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('role')->orderBy('user_nip', 'desc')->get();
+
+        // $query = User::with('role');
+        // if ($request->has('search')) {
+        //     $search = $request->input('search');
+        //     $query->where(function($q) use ($search) {
+        //         $q->where('user_nip', 'LIKE', "%{$search}%")
+        //             ->orWhere('user_fullname', 'LIKE', "%{$search}%")
+        //             ->orWhere('username', 'LIKE', "%{$search}%")
+        //             ->orWhere('email', 'LIKE', "%{$search}%")
+        //             ->orWhere('user_telephone', 'LIKE', "%{$search}%");
+        //     });
+        // }
+        
+        $users = User::with('role')->orderBy('Created_at', 'desc')->paginate(10);
         $roles = Role::all();
         $pts = Pt::all();
         $bengkels = Bengkel::all();

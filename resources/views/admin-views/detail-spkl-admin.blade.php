@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'User Dashboard')
+@section('title', 'General Dashboard')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -101,8 +101,8 @@
                                                 </label>
                                                 <textarea class="form-control" data-height="150" required="">
                                                     @foreach ($spkl->userSpkls as $karyawan)
-{{ $karyawan->user->user_fullname }},
-@endforeach
+                                                    {{ $karyawan->user->user_fullname }},
+                                                    @endforeach
                                                 </textarea>
                                             </div>
                                         </div>
@@ -136,6 +136,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="card border border-lg rounded-lg mx-4">
                                 <div class="card-header">
@@ -181,4 +182,5 @@
                 </div>
             </div>
         </section>
-    @endsection
+    </div>
+@endsection

@@ -16,7 +16,7 @@ class DepartemenController extends Controller
 
     public function index()
     {
-        $departemens = Departemen::orderBy('id_departemen', 'desc')->get();
+        $departemens = Departemen::orderBy('Created_at', 'desc')->paginate(10);
         $roles = User::where('role_id', [3, 4   ])->get();
         return view('admin-views.list-departemen', compact('departemens','roles'));
     }

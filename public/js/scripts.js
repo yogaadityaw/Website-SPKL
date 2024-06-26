@@ -188,6 +188,8 @@ $(function() {
     var body = $("body"),
       w = $(window);
 
+      console.log('sidebar toggle');
+
     if(w.outerWidth() <= 1024) {
       body.removeClass('search-show search-gone');
       if(body.hasClass('sidebar-gone')) {

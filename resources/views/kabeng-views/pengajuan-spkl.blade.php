@@ -81,12 +81,11 @@
 
                                 </tr>
                                 <tbody>
-                                @foreach ($spkls as $spkl)
+                                @foreach ($spkls as $index => $spkl)
                                     @php
-                                        $index = 1;
                                     @endphp
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $index + $spkls->firstItem() }}</td>
                                         <td> {{ $spkl->spkl_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
@@ -115,6 +114,11 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <nav class="d-inline-block">
+                            {{ $spkls->links() }}
+                        </nav>
                     </div>
                 </div>
             </div>

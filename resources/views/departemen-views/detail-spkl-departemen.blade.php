@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
 
+
 @include('components.sidebar')
 
 @section('main')
@@ -198,8 +199,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-
-                        <button type="submit" class="btn btn-danger">Tolak</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger" >Tolak</button>
                     </div>
                 </form>
             </div>
@@ -207,7 +208,7 @@
     </div>
 
     @push('scripts')
-        <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+        {{-- <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
         <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
         <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
         <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
@@ -215,7 +216,7 @@
         <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-        <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+        <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script> --}}
         <script>
             $(document).ready(function() {
                 $('#buttonTolakModal').click(function() {

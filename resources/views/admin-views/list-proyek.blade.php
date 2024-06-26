@@ -45,9 +45,9 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($proyeks as $proyek)
+                                    @foreach ($proyeks as $index => $proyek)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $index+$proyeks->firstItem() }}</td>
                                             <td>{{ $proyek->proyek_name }}</td>
                                             <td> {{ $proyek->user->user_fullname }} </td>
                                             <td>
@@ -61,9 +61,13 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <nav class="d-inline-block">
+                                {{ $proyeks->links() }}
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -75,7 +79,7 @@
 {{--modal untuk tambah proyek--}}
 
 <div id="buatProyekModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('proyek-baru-post') }}" enctype="multipart/form-data" method="POST">

@@ -20,7 +20,7 @@ class BengkelController extends Controller
 
     public function index()
     {
-        $bengkels = Bengkel::orderBy('id_bengkel', 'desc')->get();
+        $bengkels = Bengkel::orderBy('Created_at', 'desc')->paginate(10);
         $users = User::where('role_id', 2)->get();
         $departemens = Departemen::all();
         return view('admin-views.list-bengkel', compact('bengkels','users','departemens'));

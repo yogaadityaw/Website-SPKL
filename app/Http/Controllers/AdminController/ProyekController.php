@@ -20,7 +20,7 @@ class ProyekController extends Controller
 
     public function index()
     {
-        $proyeks = Proyek::orderBy('id_proyek', 'desc')->get();
+        $proyeks = Proyek::orderBy('Created_at', 'desc')->paginate(10);
         $roles = User::where('role_id',4)->get();
         return view('admin-views.list-proyek', compact('proyeks','roles'));
     }

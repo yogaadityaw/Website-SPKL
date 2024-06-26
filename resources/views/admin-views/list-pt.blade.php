@@ -42,9 +42,9 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                        @foreach ($pts as $pt)
+                                        @foreach ($pts as $index=>$pt)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $index+$pts->firstItem() }}</td>
                                                 <td>{{ $pt->pt_name }}</td>
                                                 <td>
                                                     <button type="button" value="{{ $pt->id_pt }}"
@@ -61,6 +61,11 @@
 
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <nav class="d-inline-block">
+                                {{ $pts->links() }}
+                            </nav>
                         </div>
                     </div>
                 </div>

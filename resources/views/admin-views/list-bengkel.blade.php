@@ -47,9 +47,9 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                    @foreach ($bengkels as $bengkel)
+                                    @foreach ($bengkels as $index => $bengkel)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $index + $bengkels->firstItem() }}</td>
                                             <td>{{ $bengkel->departemen->departemen_name }}</td>
                                             <td>{{ $bengkel->bengkel_name }}</td>
                                             <td> {{ $bengkel->user->user_fullname }} </td>
@@ -64,9 +64,13 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <nav class="d-inline-block">
+                                {{ $bengkels->links() }}
+                            </nav>
                         </div>
                     </div>
                 </div>

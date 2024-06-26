@@ -21,11 +21,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Statistics</h4>
+                            <h4>Statistik</h4>
                             <div class="card-header-action">
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-primary">Week</a>
-                                    <a href="#" class="btn">Month</a>
+                                    
+                                    <a href="#" class="btn btn-primary">Bulan Ini</a>
                                 </div>
                             </div>
                         </div>

@@ -24,7 +24,7 @@ class DashboardAdminController extends Controller
 
     public function listSpklAdmin()
     {
-        $spkls = Spkl::all();
+        $spkls = Spkl::orderBy('Created_at','desc')->paginate(10);
         return view('admin-views.list-spkl-admin', compact('spkls'));
     }
 

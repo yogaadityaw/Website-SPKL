@@ -24,8 +24,7 @@
                             <h4>Statistics</h4>
                             <div class="card-header-action">
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-primary">Week</a>
-                                    <a href="#" class="btn">Month</a>
+                                    <a href="#" class="btn btn-primary">Month</a>
                                 </div>
                             </div>
                         </div>

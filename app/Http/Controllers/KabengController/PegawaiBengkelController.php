@@ -21,15 +21,20 @@ class PegawaiBengkelController extends Controller
 
     public function index()
     {
-        $bengkelId = Auth::user();
-        $pegawaiBengkel = User::where('bengkel_id', $bengkelId->kabeng->id_bengkel)->orderBy('id_user', 'desc')->get();
+        // Mendapatkan ID bengkel dari user yang sedang login
+        $bengkelId = Auth::user()->kabeng->id_bengkel;
 
+        // Mendapatkan data pegawai dengan paginasi dan diurutkan berdasarkan 'created_at'
+        $pegawaiBengkel = User::where('bengkel_id', $bengkelId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);  // Ganti angka 10 dengan jumlah data per halaman yang diinginkan
+
+        // Mengambil semua data roles, pts, departemens, dan bengkels
         $roles = Role::all();
         $pts = Pt::all();
         $departemens = Departemen::all();
         $bengkels = Bengkel::all();
 
-        return view('kabeng-views.daftar-pegawai-bengkel', compact('pegawaiBengkel','roles', 'pts', 'departemens', 'bengkels'));
-
+        return view('kabeng-views.daftar-pegawai-bengkel', compact('pegawaiBengkel', 'roles', 'pts', 'departemens', 'bengkels'));
     }
 }
