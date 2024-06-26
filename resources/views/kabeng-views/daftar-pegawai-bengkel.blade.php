@@ -53,9 +53,9 @@
 
                                     </tr>
                                     <tbody>
-                                    @foreach ($pegawaiBengkel as $pegawai)
+                                    @foreach ($pegawaiBengkel as $index => $pegawai)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $index + $pegawaiBengkel->firstItem() }}</td>
                                             <td>{{ $pegawai->user_nip }}</td>
                                             <td>{{ $pegawai->user_fullname }}</td>
                                             <td>{{ $pegawai->username }}</td>
@@ -77,6 +77,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <nav class="d-inline-block">
+                                {{ $pegawaiBengkel->links() }}
+                            </nav>
                         </div>
                     </div>
                 </div>

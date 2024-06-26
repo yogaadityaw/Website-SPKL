@@ -8,16 +8,59 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
+
+    <style>
+        .search-element {
+            display: flex;
+            align-items: center;
+            max-width: 400px;
+            margin: 10px 0;
+        }
+
+        .search-element .form-control {
+            flex: 1;
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .search-element .btn {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: #ddd;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .search-element .btn:hover {
+            background-color: #ccc;
+        }
+    </style>
+
 @endpush
 
 
 @include('components.sidebar')
 
+
 @section('main')
     <div class="main-content">
         <section class="section">
-            <div class="section-header">
+            <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Change Role</h1>
+
+                {{-- <div class="search-element">
+                    
+                    @csrf
+                    <form action="{{ route('change-role') }}" method="GET" class="search-element">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request('search') }}">
+                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div> --}}
+                
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
@@ -53,9 +96,9 @@
                                         <th scope="col">Aksi</th>
                                     </tr>
                                     <tbody>
-                                        @foreach ($users as $user)
+                                        @foreach ($users as $index => $user)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $index+$users->firstItem() }}</td>
                                                 <td>{{ $user->user_nip }}</td>
                                                 <td>{{ $user->user_fullname }}</td>
                                                 <td>{{ $user->username }}</td>
@@ -75,12 +118,9 @@
                                                 <td>
                                                     <button type="button" value="{{ $user->id_user }}"
                                                         class="btn btn-warning editButton fas fa-pencil" data-toggle="modal">
-
                                                     </button>
-
                                                     <button type="button" class="btn btn-danger deleteButton fas fa-trash"
                                                         value="{{ $user->id_user }}" data-toggle="modal">
-
                                                     </button>
                                                 </td>
                                             </tr>
@@ -88,6 +128,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <nav class="d-inline-block">
+                                {{ $users->links() }}
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -122,7 +167,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
                             <div class="form-group col-md-12">
                                 <label>PT</label>
                                 <select class="form-control selectric" name="id_pt">
@@ -144,15 +188,13 @@
                                         </select>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
-                    </div>
-                   
+                    </div>           
                 </form>
             </div>
         </div>

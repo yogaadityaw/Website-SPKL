@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('css/multi-choice.css') }}">
     <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
@@ -42,32 +42,32 @@
                                             <th scope="col">Tanggal Lembur</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
-                                        @foreach ($filteredSpkls as $spkl)
+                                        @foreach ($filteredSpkls as $index => $spkl)
                                             <tr>
-                                                <td scope="col">{{ $loop->index + 1 }}</td>
-                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
+                                                <td scope="col">{{ $index+$filteredSpkls->firstItem() }}</td>
+                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? ' ' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? ' ' }}</td>
                                                 <td scope="col">
-                                                    {{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
+                                                    {{ $spkl->spkl->bengkel->departemen->departemen_name ?? ' ' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? ' ' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                                 <td>
                                                     <a
                                                         href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
                                                         <button type="button" class="btn btn-success fas fa-book"
-                                                            data-toggle="modal">
+                                                                data-toggle="modal">
                                                         </button>
                                                     </a>
                                                     <button type="button" value="{{ $spkl->id }}"
-                                                        data-spkl-id="{{ $spkl->id }}"
-                                                        class="btn btn-success checkinButton" data-toggle="modal"
-                                                        data-target="#checkinModal">
+                                                            data-spkl-id="{{ $spkl->id }}"
+                                                            class="btn btn-success checkinButton" data-toggle="modal"
+                                                            data-target="#checkinModal">
                                                         Check-in
                                                     </button>
                                                     <button type="button" value="{{ $spkl->id }}"
-                                                        data-spkl-id="{{ $spkl->id }}"
-                                                        class="btn btn-danger checkoutButton" data-toggle="modal"
-                                                        data-target="#checkoutModal">
+                                                            data-spkl-id="{{ $spkl->id }}"
+                                                            class="btn btn-danger checkoutButton" data-toggle="modal"
+                                                            data-target="#checkoutModal">
                                                         Check-out
                                                     </button>
 
@@ -83,6 +83,11 @@
                                         @endforeach
                                     </table>
                                 </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <nav class="d-inline-block">
+                                    {{ $filteredSpkls->links() }}
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -135,13 +140,19 @@
                                             </a>
                                             <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->id_spkl]) }}">
                                                 <button type="button" value='' class="btn btn-primary fas fa-print"
-                                                    data-toggle="modal">
+                                                        data-toggle="modal">
                                                 </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <nav class="d-inline-block">
+                            {{ $finishedSpkls->links() }}
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -151,15 +162,15 @@
 @endsection
 
 <div class="modal fade" id="checkinModal" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel"
-    aria-hidden="true">
+     aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form id="checkinForm" action="{{ route('absen-spkl-pegawai') }}" method="post"
-                enctype="multipart/form-data">
+                  enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_spkl_id" id="checkinUserSpklId">
                 <input type="hidden" name="user_name" id="checkinUserName"
-                    value="{{ Auth::user()->user_fullname }}">
+                       value="{{ Auth::user()->user_fullname }}">
                 <input type="hidden" name="lokasi_check_in" id="lokasi_check_in">
                 <div class="modal-header">
                     <h5 class="modal-title" id="checkinModalLabel">Absen Foto Check-in</h5>
@@ -170,14 +181,15 @@
                 <div class="modal-body">
                     <p>Foto checkin</p>
                     <div class="justify-content-center d-flex align-items-center">
-                        <div  id="checkinCamera" ></div>
-                        <br />
+                        <div id="checkinCamera"></div>
+                        <br/>
                         <input type="hidden" name="image" class="image-tag">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="submit" class="btn btn-primary"
-                        onClick="take_snapshot('checkinCamera', '#checkinForm')">Simpan</button>
+                            onClick="take_snapshot('checkinCamera', '#checkinForm')">Simpan
+                    </button>
                 </div>
             </form>
         </div>
@@ -185,15 +197,15 @@
 </div>
 
 <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
-    aria-hidden="true">
+     aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form id="checkoutForm" action="{{ route('checkout-spkl-pegawai') }}" method="post"
-                enctype="multipart/form-data">
+                  enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_spkl_id" id="checkoutUserSpklId">
                 <input type="hidden" name="user_name" id="checkoutUserName"
-                    value="{{ Auth::user()->user_fullname }}">
+                       value="{{ Auth::user()->user_fullname }}">
                 <input type="hidden" name="lokasi_check_out" id="lokasi_check_out">
                 <div class="modal-header">
                     <h5 class="modal-title" id="checkoutModalLabel">Absen Foto Check-out</h5>
@@ -205,13 +217,14 @@
                     <p>Foto Check out</p>
                     <div class="justify-content-center d-flex align-items-center">
                         <div id="checkoutCamera"></div>
-                        <br />
+                        <br/>
                         <input type="hidden" name="image" class="image-tag">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="submit" class="btn btn-primary"
-                        onClick="take_snapshot('checkoutCamera', '#checkoutForm')">Simpan</button>
+                            onClick="take_snapshot('checkoutCamera', '#checkoutForm')">Simpan
+                    </button>
                 </div>
             </form>
         </div>
@@ -225,13 +238,13 @@
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $('.checkinButton').click(function() {
+        $(document).ready(function () {
+            $('.checkinButton').click(function () {
                 var spklId = $(this).data('spkl-id');
                 $('#checkinUserSpklId').val(spklId);
                 $('#checkinModal').modal('show');
             });
-            $('.checkoutButton').click(function() {
+            $('.checkoutButton').click(function () {
                 var spklId = $(this).data('spkl-id');
                 $('#checkoutUserSpklId').val(spklId);
                 $('#checkoutModal').modal('show');
@@ -251,7 +264,7 @@
         Webcam.attach('#checkoutCamera');
 
         function take_snapshot(cameraId, formId) {
-            Webcam.snap(function(data_uri) {
+            Webcam.snap(function (data_uri) {
                 $(formId + " .image-tag").val(data_uri);
                 $('#image_preview').html('<img src="' + data_uri + '"/>');
                 submitForm(formId);
@@ -262,13 +275,13 @@
             $(formId).submit();
         }
 
-        document.getElementById('image_file').onchange = function(evt) {
+        document.getElementById('image_file').onchange = function (evt) {
             var tgt = evt.target || window.event.srcElement,
                 files = tgt.files;
 
             if (FileReader && files && files.length) {
                 var fr = new FileReader();
-                fr.onload = function() {
+                fr.onload = function () {
                     $(".image-tag").val(fr.result);
                     $('#image_preview').html('<img src="' + fr.result + '"/>');
                     submitForm('#myForm');
@@ -281,7 +294,11 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             function getLocation() {
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                    navigator.geolocation.getCurrentPosition(showPosition, showError, {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0
+                    });
                 } else {
                     lokasi_check_in.value = "Geolocation is not supported by this browser.";
                 }
@@ -313,10 +330,10 @@
                 }
             }
 
-            $('#checkinModal').on('shown.bs.modal', function() {
+            $('#checkinModal').on('shown.bs.modal', function () {
                 getLocation();
             });
-            $('#checkoutModal').on('shown.bs.modal', function() {
+            $('#checkoutModal').on('shown.bs.modal', function () {
                 getLocation();
             });
         });

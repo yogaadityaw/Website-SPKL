@@ -20,7 +20,7 @@ class PtController extends Controller
 
     public function index()
     {
-        $pts = Pt::orderBy('id_pt', 'desc')->get();
+        $pts = Pt::orderBy('Created_at','desc')->paginate(10);
 //
         return view('admin-views.list-pt', compact('pts',));
     }

@@ -146,7 +146,7 @@
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
-                                            <h5>Kepala Manajemen</h5>
+                                            <h5>Kepala Manajer Proyek</h5>
                                             <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->pj_proyek_qr_code ?? '' !!}
                                         </div>
@@ -194,7 +194,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Tolak</button>
                 </div>
             </form>
@@ -203,7 +203,7 @@
 </div>
 
 @push('scripts')
-    <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+    {{-- <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
@@ -211,7 +211,7 @@
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
             $('#buttonTolakModal').click(function() {
