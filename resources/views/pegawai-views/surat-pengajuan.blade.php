@@ -42,14 +42,14 @@
                                             <th scope="col">Tanggal Lembur</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
-                                        @foreach ($filteredSpkls as $spkl)
+                                        @foreach ($filteredSpkls as $index => $spkl)
                                             <tr>
-                                                <td scope="col">{{ $loop->index + 1 }}</td>
-                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
+                                                <td scope="col">{{ $index+$filteredSpkls->firstItem() }}</td>
+                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? ' ' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? ' ' }}</td>
                                                 <td scope="col">
-                                                    {{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}</td>
-                                                <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
+                                                    {{ $spkl->spkl->bengkel->departemen->departemen_name ?? ' ' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? ' ' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                                 <td>
                                                     <a
@@ -83,6 +83,11 @@
                                         @endforeach
                                     </table>
                                 </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <nav class="d-inline-block">
+                                    {{ $filteredSpkls->links() }}
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -137,11 +142,17 @@
                                                 <button type="button" value='' class="btn btn-primary fas fa-print"
                                                         data-toggle="modal">
                                                 </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <nav class="d-inline-block">
+                            {{ $finishedSpkls->links() }}
+                        </nav>
                     </div>
                 </div>
             </div>

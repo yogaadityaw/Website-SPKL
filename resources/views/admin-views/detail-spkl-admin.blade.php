@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="card border border-lg rounded-lg mx-4">
                                 <div class="card-header">
@@ -156,7 +156,7 @@
                                             {!! $spkl->qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
-                                            <h5>Kepala Manajemen</h5>
+                                            <h5>Kepala Manajer Proyek</h5>
                                             <p>{{ $spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $spkl->qr->pj_proyek_qr_code ?? '' !!}
                                         </div>

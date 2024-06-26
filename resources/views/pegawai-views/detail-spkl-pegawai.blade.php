@@ -148,7 +148,7 @@
                                             {!! $qr->department_head_qr_code ?? '' !!}
                                         </div>
                                         <div class="col-4">
-                                            <h5>Kepala Manajemen</h5>
+                                            <h5>Kepala Manajer Proyek</h5>
                                             <p>{{ $qr->spkl->proyek->user->user_fullname ?? 'Gak tau namanya' }}</p>
                                             {!! $qr->pj_proyek_qr_code ?? '' !!}
                                         </div>
