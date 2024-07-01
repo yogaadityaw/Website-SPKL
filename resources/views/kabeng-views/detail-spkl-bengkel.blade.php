@@ -42,7 +42,8 @@
                                             @foreach ($spkls->userSpkls as $pegawai)
                                                 @if ($pegawai->check_in && $pegawai->check_out)
                                                     <p>{{ $pegawai->user->user_fullname }} :
-                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
+                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
                                                     </p>
                                                 @else
                                                     <p>-</p>
@@ -71,7 +72,8 @@
                                             <h5>Jam Realisasi</h5>
                                             @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->jam_realisasi != null))
                                                 @foreach ($spkls->userSpkls as $karyawan)
-                                                    {{ $karyawan->user->user_fullname }} : {{ $karyawan->jam_realisasi }} <br>
+                                                    {{ $karyawan->user->user_fullname }}
+                                                    : {{ $karyawan->jam_realisasi }} <br>
                                                 @endforeach
                                             @elseif (!$spkls->is_kemenpro_acc)
                                                 <p>-</p>
@@ -87,7 +89,8 @@
                                                                 <td>{{ $pegawai->user->user_fullname }}</td>
                                                                 <td>
                                                                     <input type="text"
-                                                                        name="jam_realisasi_{{ $pegawai->id }}" class = "col-12">
+                                                                           name="jam_realisasi_{{ $pegawai->id }}"
+                                                                           class="col-12">
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -124,38 +127,52 @@
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
-                                                    {{ $detail->user->user_fullname }}
-                                                    @if ($detail->lokasi_check_in)
-                                                        @php
-                                                            $location = json_decode($detail->lokasi_check_in, true);
-                                                        @endphp
-                                                        <p>Lokasi Check In</p>
-                                                        <p>Longitude: {{ $location['longitude'] }}</p>
-                                                        <p>Latitude: {{ $location['latitude'] }}</p>
-                                                    @else
-                                                        <p>-</p>
+                                                {{ $detail->user->user_fullname }}
+                                                @if ($detail->lokasi_check_in)
+                                                    @php
+                                                        $location = json_decode($detail->lokasi_check_in, true);
+                                                    @endphp
+                                                    <p>Lokasi Check In</p>
+                                                    <div class="coordinate-container">
+                                                        <p class="coordinates"
+                                                           data-latitude="{{ $location['latitude'] }}"
+                                                           data-longitude="{{ $location['longitude'] }}">
+                                                        </p>
+                                                        <p class="address" id="address-{{ $loop->index }}-in">Mendapatkan
+                                                            alamat...</p>
+                                                    </div>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+
+                                                @if ($detail->lokasi_check_out)
+                                                    @php
+                                                        $location = json_decode($detail->lokasi_check_out, true);
+                                                    @endphp
+                                                    <p>Lokasi Check Out</p>
+                                                    <div class="coordinate-container">
+                                                        <p class="coordinates"
+                                                           data-latitude="{{ $location['latitude'] }}"
+                                                           data-longitude="{{ $location['longitude'] }}">
+                                                        </p>
+                                                        <p class="address" id="address-{{ $loop->index }}-out">Mendapatkan
+                                                            alamat...</p>
+                                                    </div>
+                                                @else
+                                                    <p>-</p>
                                                     @endif
-                                                    @if ($detail->lokasi_check_out)
-                                                        @php
-                                                            $location = json_decode($detail->lokasi_check_out, true);
-                                                        @endphp
-                                                        <p>Lokasi Check Out</p>
-                                                        <p>Longitude: {{ $location['longitude'] }}</p>
-                                                        <p>Latitude: {{ $location['latitude'] }}</p>
-                                                    @else
-                                                        <p>-</p>
-                                                    @endif
-                                                </p>
-                                            @endforeach
+                                                    </p>
+                                                    @endforeach
                                         </div>
                                         @if ($spkls->alasan_penolakan)
-                                        <div class="col-6">
-                                            <h5>Alasan Penolakan</h5>
-                                            <p>{{ $spkls->alasan_penolakan }}</p>
-                                            <a href="{{ route('ubah-informasi', ['id' => $spkls->id_spkl]) }}" class="btn btn-info">
-                                                Ubah Informasi
-                                            </a>
-                                        </div>
+                                            <div class="col-6">
+                                                <h5>Alasan Penolakan</h5>
+                                                <p>{{ $spkls->alasan_penolakan }}</p>
+                                                <a href="{{ route('ubah-informasi', ['id' => $spkls->id_spkl]) }}"
+                                                   class="btn btn-info">
+                                                    Ubah Informasi
+                                                </a>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
@@ -193,7 +210,7 @@
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">
                                         <button type="submit" name="action" value="approve"
-                                            class="btn btn-primary d-flex justify-content-end ml-2">
+                                                class="btn btn-primary d-flex justify-content-end ml-2">
                                             Setujui
                                         </button>
                                     </div>
@@ -204,4 +221,19 @@
                 </div>
             </div>
         </section>
-    @endsection
+    </div>
+@endsection
+<script src="{{asset("/js/reverse_geolocator.js")}}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const coordinateElements = document.querySelectorAll('.coordinates');
+
+        coordinateElements.forEach((element, index) => {
+            const latitude = element.dataset.latitude;
+            const longitude = element.dataset.longitude;
+            const addressElement = element.nextElementSibling;
+
+            getAddressFromCoordinates(latitude, longitude, addressElement);
+        });
+    });
+</script>
