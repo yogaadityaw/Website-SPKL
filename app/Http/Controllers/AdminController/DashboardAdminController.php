@@ -39,7 +39,8 @@ class DashboardAdminController extends Controller
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        $workshops = Bengkel::with(['spkls' => function($query) use ($currentMonth, $currentYear) {
+        $workshops = Bengkel::with(['spkls' => function($query) use ($currentMonth, $currentYear) 
+        {
             $query->whereMonth('tanggal', $currentMonth)->whereYear('tanggal', $currentYear);
         }])->get();
 

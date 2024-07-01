@@ -42,7 +42,8 @@
                                             @foreach ($spkls->userSpkls as $pegawai)
                                                 @if ($pegawai->check_in && $pegawai->check_out)
                                                     <p>{{ $pegawai->user->user_fullname }} :
-                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}-{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
+                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
                                                     </p>
                                                 @else
                                                     <p>-</p>
@@ -103,29 +104,44 @@
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
-                                                    {{ $detail->user->user_fullname }}
-                                                    @if ($detail->lokasi_check_in)
-                                                        @php
-                                                            $location = json_decode($detail->lokasi_check_in, true);
-                                                        @endphp
-                                                        <p>Lokasi Check In</p>
-                                                        <p>Longitude: {{ $location['longitude'] }}</p>
-                                                        <p>Latitude: {{ $location['latitude'] }}</p>
-                                                    @else
-                                                        <p>-</p>
+                                                {{ $detail->user->user_fullname }}
+                                                @if ($detail->lokasi_check_in)
+                                                    @php
+                                                        $location = json_decode($detail->lokasi_check_in, true);
+                                                    @endphp
+                                                    <p>Lokasi Check In</p>
+                                                    <div class="coordinate-container">
+                                                        <p class="coordinates"
+                                                           data-latitude="{{ $location['latitude'] }}"
+                                                           data-longitude="{{ $location['longitude'] }}">
+                                                        </p>
+                                                        <p class="address" id="address-{{ $loop->index }}-in">
+                                                            Mendapatkan
+                                                            alamat...</p>
+                                                    </div>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+
+                                                @if ($detail->lokasi_check_out)
+                                                    @php
+                                                        $location = json_decode($detail->lokasi_check_out, true);
+                                                    @endphp
+                                                    <p>Lokasi Check Out</p>
+                                                    <div class="coordinate-container">
+                                                        <p class="coordinates"
+                                                           data-latitude="{{ $location['latitude'] }}"
+                                                           data-longitude="{{ $location['longitude'] }}">
+                                                        </p>
+                                                        <p class="address" id="address-{{ $loop->index }}-out">
+                                                            Mendapatkan
+                                                            alamat...</p>
+                                                    </div>
+                                                @else
+                                                    <p>-</p>
                                                     @endif
-                                                    @if ($detail->lokasi_check_out)
-                                                        @php
-                                                            $location = json_decode($detail->lokasi_check_out, true);
-                                                        @endphp
-                                                        <p>Lokasi Check Out</p>
-                                                        <p>Longitude: {{ $location['longitude'] }}</p>
-                                                        <p>Latitude: {{ $location['latitude'] }}</p>
-                                                    @else
-                                                        <p>-</p>
-                                                    @endif
-                                                </p>
-                                            @endforeach
+                                                    </p>
+                                                    @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -160,4 +176,21 @@
                 </div>
             </div>
         </section>
-    @endsection
+        @endsection
+
+        @push('scripts')
+            <script src="{{asset("/js/reverse_geolocator.js")}}"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const coordinateElements = document.querySelectorAll('.coordinates');
+
+                    coordinateElements.forEach((element, index) => {
+                        const latitude = element.dataset.latitude;
+                        const longitude = element.dataset.longitude;
+                        const addressElement = element.nextElementSibling;
+
+                        getAddressFromCoordinates(latitude, longitude, addressElement);
+                    });
+                });
+            </script>
+    @endpush

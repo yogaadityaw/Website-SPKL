@@ -55,7 +55,7 @@ class PengajuanSpklKabengController extends Controller
             $logged_user = Auth::user();
             $bengkel = Bengkel::where('bengkel_head', $logged_user->id_user)->first();
             $countSpklThisMonth = Spkl::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
-            $spkl_number = $countSpklThisMonth+1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
+            $spkl_number = $countSpklThisMonth + 1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
             $spklRandNumber = GenerateRandomSpklNumber::generate();
             $qrSpkl = GenerateQRCode::generate($spklRandNumber);
 
@@ -81,7 +81,6 @@ class PengajuanSpklKabengController extends Controller
             QRCode::create([
                 'spkl_id' => $spkl->id_spkl,
             ]);
-
 
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
@@ -159,7 +158,8 @@ class PengajuanSpklKabengController extends Controller
         }
     }
 
-    public function inputJamRealisasi(Request $request, $id) {
+    public function inputJamRealisasi(Request $request, $id)
+    {
         try {
             $inputData = $request->except(['_token', '_method']);
             foreach ($inputData as $key => $value) {

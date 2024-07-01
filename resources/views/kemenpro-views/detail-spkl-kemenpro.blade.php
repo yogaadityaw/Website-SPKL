@@ -41,7 +41,8 @@
                                             <h5>Pelaksanaan</h5>
                                             @foreach ($spkls->userSpkls as $pegawai)
                                                 @if ($pegawai->check_in && $pegawai->check_out)
-                                                    {{ $pegawai->user->user_fullname }} : {{ $pegawai->jam_realisasi }} <br>
+                                                    {{ $pegawai->user->user_fullname }} : {{ $pegawai->jam_realisasi }}
+                                                    <br>
                                                 @else
                                                     <p>-</p>
                                                 @endif
@@ -102,29 +103,44 @@
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
-                                                    {{ $detail->user->user_fullname }}
-                                                    @if ($detail->lokasi_check_in)
-                                                        @php
-                                                            $location = json_decode($detail->lokasi_check_in, true);
-                                                        @endphp
-                                                        <p>Lokasi Check In</p>
-                                                        <p>Longitude: {{ $location['longitude'] }}</p>
-                                                        <p>Latitude: {{ $location['latitude'] }}</p>
-                                                    @else
-                                                        <p>-</p>
+                                                {{ $detail->user->user_fullname }}
+                                                @if ($detail->lokasi_check_in)
+                                                    @php
+                                                        $location = json_decode($detail->lokasi_check_in, true);
+                                                    @endphp
+                                                    <p>Lokasi Check In</p>
+                                                    <div class="coordinate-container">
+                                                        <p class="coordinates"
+                                                           data-latitude="{{ $location['latitude'] }}"
+                                                           data-longitude="{{ $location['longitude'] }}">
+                                                        </p>
+                                                        <p class="address" id="address-{{ $loop->index }}-in">
+                                                            Mendapatkan
+                                                            alamat...</p>
+                                                    </div>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+
+                                                @if ($detail->lokasi_check_out)
+                                                    @php
+                                                        $location = json_decode($detail->lokasi_check_out, true);
+                                                    @endphp
+                                                    <p>Lokasi Check Out</p>
+                                                    <div class="coordinate-container">
+                                                        <p class="coordinates"
+                                                           data-latitude="{{ $location['latitude'] }}"
+                                                           data-longitude="{{ $location['longitude'] }}">
+                                                        </p>
+                                                        <p class="address" id="address-{{ $loop->index }}-out">
+                                                            Mendapatkan
+                                                            alamat...</p>
+                                                    </div>
+                                                @else
+                                                    <p>-</p>
                                                     @endif
-                                                    @if ($detail->lokasi_check_out)
-                                                        @php
-                                                            $location = json_decode($detail->lokasi_check_out, true);
-                                                        @endphp
-                                                        <p>Lokasi Check Out</p>
-                                                        <p>Longitude: {{ $location['longitude'] }}</p>
-                                                        <p>Latitude: {{ $location['latitude'] }}</p>
-                                                    @else
-                                                        <p>-</p>
-                                                    @endif
-                                                </p>
-                                            @endforeach
+                                                    </p>
+                                                    @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -161,8 +177,9 @@
                                 <div class="row-12 mx-4 mb-4">
                                     <div class="d-flex justify-content-end">
                                         <button type="button"
-                                            class="btn btn-outline-danger d-flex justify-content-end ml-2"
-                                            data-bs-toggle="modal" data-bs-target="#tolakModal" id="buttonTolakModal">
+                                                class="btn btn-outline-danger d-flex justify-content-end ml-2"
+                                                data-bs-toggle="modal" data-bs-target="#tolakModal"
+                                                id="buttonTolakModal">
                                             Tolak
                                         </button>
                                         <button type="submit" name="action" value="approve"
@@ -177,46 +194,62 @@
                 </div>
             </div>
         </section>
-@endsection
+        @endsection
 
 
-<div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ route('tolak-spkl', ['id' => $spkls->id_spkl]) }}" method="post">
-                <div class="modal-body">
-                    @csrf
-                    @method('PUT')
+        <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('tolak-spkl', ['id' => $spkls->id_spkl]) }}" method="post">
+                        <div class="modal-body">
+                            @csrf
+                            @method('PUT')
 
-                    <div class="mb-3">
-                        <label for="alasanPenolakan" class="form-label">Alasan Penolakan</label>
-                        <textarea class="form-control" id="alasanPenolakan" rows="5" col="5" name="alasanPenolakan" required></textarea>
-                    </div>
+                            <div class="mb-3">
+                                <label for="alasanPenolakan" class="form-label">Alasan Penolakan</label>
+                                <textarea class="form-control" id="alasanPenolakan" rows="5" col="5"
+                                          name="alasanPenolakan" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Tolak</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-danger">Tolak</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
 
-@push('scripts')
-    {{-- <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
-    <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script> --}}
-    <script>
-        $(document).ready(function() {
-            $('#buttonTolakModal').click(function() {
-                $('#tolakModal').modal('show');
-            });
-        });
-    </script>
-@endpush
+        @push('scripts')
+            {{-- <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+            <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+            <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
+            <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+            <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
+            <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+            <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script> --}}
+            <script>
+                $(document).ready(function () {
+                    $('#buttonTolakModal').click(function () {
+                        $('#tolakModal').modal('show');
+                    });
+                });
+            </script>
+
+            <script src="{{asset("/js/reverse_geolocator.js")}}"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const coordinateElements = document.querySelectorAll('.coordinates');
+
+                    coordinateElements.forEach((element, index) => {
+                        const latitude = element.dataset.latitude;
+                        const longitude = element.dataset.longitude;
+                        const addressElement = element.nextElementSibling;
+
+                        getAddressFromCoordinates(latitude, longitude, addressElement);
+                    });
+                });
+            </script>
+    @endpush
