@@ -20,7 +20,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Daftar Pengjuan SPKL</h1>
+                <h1>Daftar Pengajuan SPKL</h1>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
@@ -60,7 +60,7 @@
                                 </tr>
                                 <tbody>
                                 @foreach ($spkls as $index => $spkl)
-                                    @php  
+                                    @php
                                     @endphp
                                     <tr>
                                         <td>{{ $index + $spkls->firstItem() }}</td>

@@ -167,7 +167,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputCity">Rencana</label>
-                            <input type="text" class="form-control" id="inputRencana" name="rencana">
+                            <input type="time" class="form-control" id="inputRencana" name="rencana">
                         </div>
                     </div>
                     <div class="form-group">
