@@ -13,6 +13,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+
+
         $role = array('Admin', 'Kepala Bengkel', "Kepala Departemen", "Kepala Manajer Proyek", "Pegawai", "User");
         for ($i = 1; $i <= count($role); $i++) {
             DB::table('role')->insert([
@@ -21,4 +23,5 @@ class RoleSeeder extends Seeder
             ]);
         }
     }
+
 }

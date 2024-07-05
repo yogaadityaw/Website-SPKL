@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,7 +20,8 @@ return new class extends Migration
             $table->string('uraian_pekerjaan');
             $table->string('pelaksanaan')->nullable();
             $table->string('progres')->nullable();
-            $table->string('rencana');
+            $table->time('rencana_mulai')->default('00:00:00');
+            $table->time('rencana_selesai')->default('00:00:00');
             $table->dateTime('tanggal');
             $table->boolean('is_kabeng_acc')->default(false);
             $table->boolean('is_departemen_acc')->default(false);

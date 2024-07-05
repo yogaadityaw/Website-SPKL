@@ -17,7 +17,6 @@ class Spkl extends Model
         'uraian_pekerjaan',
         'progres',
         'tanggal',
-        'rencana',
         'pelaksanaan',
         'status',
         'pt_id',
@@ -28,6 +27,8 @@ class Spkl extends Model
         'is_departemen_acc',
         'is_kemenpro_acc',
         'alasan_penolakan',
+        'rencana_mulai',
+        'rencana_selesai'
     ];
     protected $dates = ['tanggal'];
 

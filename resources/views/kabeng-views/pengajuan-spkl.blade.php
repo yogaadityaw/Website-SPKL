@@ -161,25 +161,40 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal:</label>
+                        <div class="form-group col-md-4">
+                            <label for="tanggal">Tanggal</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="inputCity">Rencana</label>
-                            <input type="text" class="form-control" id="inputRencana" name="rencana">
+{{--                        <div class="form-group col-md-6">--}}
+{{--                            <label for="inputCity">Rencana</label>--}}
+{{--                            <input type="text" class="form-control" id="inputRencana" name="rencana">--}}
+{{--                        </div>--}}
+
+                        <div class="form-group col-md-4">
+                            <label for="inputRencana">Rencana_Mulai</label>
+                            <input type="time" class="form-control" id="inputRencana" name="rencana_mulai">
                         </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="inputRencana">Rencana_Selesai</label>
+                            <input type="time" class="form-control" id="inputRencana" name="rencana_selesai">
+                        </div>
+
+
                     </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Progres</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="progres"></textarea>
+                    </div>
+
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                 name="uraian_pekerjaan"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Progres</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                name="progres"></textarea>
-                    </div>
+
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
                             <div class="text-start">
