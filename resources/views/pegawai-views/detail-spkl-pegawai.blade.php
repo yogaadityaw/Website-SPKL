@@ -6,6 +6,14 @@
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
+    <style>
+        .location-image {
+            max-width: 30%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
 @endpush
 
 @include('components.sidebar')
@@ -48,7 +56,7 @@
                                             <h5>Rencana Selesai</h5>
                                             <p>{{ $spkls->rencana_selesai }}</p>
                                         </div>
-{{--proyek--}}
+                                        {{--proyek--}}
                                         <div class="col-3">
                                             <h5>Proyek</h5>
                                             <p> {{ $spkls->proyek->proyek_name }} </p>
@@ -113,7 +121,7 @@
                                                 </textarea>
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
@@ -122,7 +130,7 @@
                                                     @php
                                                         $location = json_decode($detail->lokasi_check_in, true);
                                                     @endphp
-                                                    <p>Lokasi Check In</p>
+                                                    <h5>Lokasi Check In</h5>
                                                     <div class="coordinate-container">
                                                         <p class="coordinates"
                                                            data-latitude="{{ $location['latitude'] }}"
@@ -132,15 +140,25 @@
                                                             Mendapatkan
                                                             alamat...</p>
                                                     </div>
+
+                                                    @if ($detail->foto_check_in)
+                                                        <img
+                                                            src="{{ \App\Helpers\ImageHelper::getImageUrl('images/' . $detail->foto_check_in)  }}"
+                                                            alt="Location Image"
+                                                            class="location-image img-fluid">
+                                                        @else
+                                                        <p> </p>
+                                                    @endif
                                                 @else
                                                     <p>-</p>
                                                 @endif
+                                                <br>
 
                                                 @if ($detail->lokasi_check_out)
                                                     @php
                                                         $location = json_decode($detail->lokasi_check_out, true);
                                                     @endphp
-                                                    <p>Lokasi Check Out</p>
+                                                    <h5>Lokasi Check Out</h5>
                                                     <div class="coordinate-container">
                                                         <p class="coordinates"
                                                            data-latitude="{{ $location['latitude'] }}"
@@ -150,12 +168,22 @@
                                                             Mendapatkan
                                                             alamat...</p>
                                                     </div>
+                                                    @if ($detail->foto_check_out)
+                                                        <img
+                                                            src="{{ \App\Helpers\ImageHelper::getImageUrl('images/' . $detail->foto_check_out)  }}"
+                                                            alt="Location Image"
+                                                            class="location-image img-fluid">
+                                                    @else
+                                                        <p> </p>
+                                                    @endif
                                                 @else
                                                     <p>-</p>
                                                     @endif
                                                     </p>
                                                     @endforeach
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
