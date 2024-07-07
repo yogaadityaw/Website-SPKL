@@ -77,6 +77,7 @@
                                                         class="btn btn-primary fas fa-print"
                                                         data-toggle="modal">
                                                 </button>
+                                                </a>
                                             <a href="{{ route('detail-spkl-departemen', ['id' => $spkl->id_spkl]) }}">
                                                 <button type="button" value="${{$spkl->id_spkl}}"
                                                         class="btn btn-success fas fa-book"

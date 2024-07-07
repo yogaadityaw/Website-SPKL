@@ -38,12 +38,12 @@
                                             <p>{{ $spkls->bengkel->bengkel_name }}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Rencana_mulai</h5>
+                                            <h5>Rencana Mulai</h5>
                                             <p>{{ $spkls->rencana_mulai }}</p>
                                         </div>
 
                                         <div class="col-3">
-                                            <h5>Rencana_selesai</h5>
+                                            <h5>Rencana Selesai</h5>
                                             <p>{{ $spkls->rencana_selesai }}</p>
                                         </div>
 
@@ -59,13 +59,51 @@
                                             <p>{{ $spkls->spkl_number }}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Departemen</h5>
-                                            <p>{{ $spkls->bengkel->departemen->departemen_name }}</p>
+                                            <h5>Progress</h5>
+                                            <p> {{ $spkls->progres }} </p>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <h5>Uraian Target Lembur</h5>
+                                            <p>{{ $spkls->uraian_pekerjaan }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Tanggal</h5>
                                             <p>{{ date('d-m-Y', strtotime($spkls->tanggal)) }}</p>
                                         </div>
+                                        <div class="col-3">
+                                            <h5>Departemen</h5>
+                                            <p>{{ $spkls->bengkel->departemen->departemen_name }}</p>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <h5>Pelaksanaan</h5>
+                                            @foreach ($spkls->userSpkls as $pegawai)
+                                                @if ($pegawai->check_in && $pegawai->check_out)
+                                                    <p>{{ $pegawai->user->user_fullname }} :
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
+                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                    </p>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+                                            @endforeach
+                                        </div>
+
+
+                                        <div class="row ml-1 mr-1">
+                                            <div class="col-9">
+                                                <label>
+                                                    <h5>Karyawan</h5>
+                                                </label>
+                                                <textarea class="form-control" data-height="150" required="">
+                                                    @foreach ($spkls->userSpkls as $karyawan)
+                                                        {{ $karyawan->user->user_fullname }},
+                                                    @endforeach
+                                                </textarea>
+                                            </div>
+                                        </div>
+{{--jam realisasi--}}
                                         <div class="col-3">
                                             <h5>Jam Realisasi</h5>
                                             @if ($spkls->userSpkls->every(fn($pegawai) => $pegawai->jam_realisasi != null))
@@ -96,40 +134,6 @@
                                                     <input type="submit" value="Simpan">
                                                 </form>
                                             @endif
-                                        </div>
-                                        <div class="col-3">
-                                            <h5>Uraian Target Lembur</h5>
-                                            <p>{{ $spkls->uraian_pekerjaan }}</p>
-                                        </div>
-                                        <div class="col-3">
-                                            <h5>Progress</h5>
-                                            <p> {{ $spkls->progres }} </p>
-                                        </div>
-                                        <div class="row ml-1 mr-1">
-                                            <div class="col-9">
-                                                <label>
-                                                    <h5>Karyawan</h5>
-                                                </label>
-                                                <textarea class="form-control" data-height="150" required="">
-                                                    @foreach ($spkls->userSpkls as $karyawan)
-                                                        {{ $karyawan->user->user_fullname }},
-                                                    @endforeach
-                                                </textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <h5>Pelaksanaan</h5>
-                                            @foreach ($spkls->userSpkls as $pegawai)
-                                                @if ($pegawai->check_in && $pegawai->check_out)
-                                                    <p>{{ $pegawai->user->user_fullname }} :
-                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
-                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
-                                                    </p>
-                                                @else
-                                                    <p>-</p>
-                                                @endif
-                                            @endforeach
                                         </div>
 
                                         <div class="col-6">

@@ -51,8 +51,13 @@
                                             @endforeach
                                         </div>
                                         <div class="col-3">
-                                            <h5>Rencana</h5>
-                                            <p>{{ $spkl->rencana }}</p>
+                                            <h5>Rencana Mulai</h5>
+                                            <p>{{ $spkl->rencana_mulai }}</p>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <h5>Rencana Selesai</h5>
+                                            <p>{{ $spkl->rencana_selesai }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -96,7 +101,7 @@
                                             <p>{{ $spkl->uraian_pekerjaan }}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Progress</h5>
+                                            <h5>Progres</h5>
                                             <p> {{ $spkl->progres }} </p>
                                         </div>
                                         <div class="row ml-1 mr-1">
