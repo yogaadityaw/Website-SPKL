@@ -41,9 +41,16 @@
                                                 </select>
                                             </div>
                                             <div class="col-3 my-3">
-                                                <h5>Rencana</h5>
-                                                <input type="text" name="rencana" class="form-control" value="{{ $spkl->rencana }}">
+                                                <label for="inputRencana"></label>
+                                                <h5>Rencana Mulai</h5>
+                                                <input type="time" class="form-control" id="inputRencana" name="rencana_mulai" value="{{ $spkl->rencana_mulai }}">
                                             </div>
+                                            <div class="col-3 my-3">
+                                                <label for="inputRencana"></label>
+                                                <h5>Rencana Selesai</h5>
+                                                <input type="time" class="form-control" id="inputRencana" name="rencana_selesai" value="{{ $spkl->rencana_selesai }}">
+                                            </div>
+
                                             <div class="col-3 my-3">
                                                 <h5>Tanggal</h5>
                                                 <input type="date" name="tanggal" class="form-control" value="{{ $spkl->tanggal ? date('Y-m-d', strtotime($spkl->tanggal)) : '' }}">
@@ -64,10 +71,10 @@
                                                         @foreach($proyeks as $proyek)
                                                             <option value="{{$proyek->id_proyek}}" {{ $spkl->proyek_id == $proyek->id_proyek ? 'selected' : '' }}>{{$proyek->proyek_name}}</option>
                                                         @endforeach
-                                                    </select>   
+                                                    </select>
                                             </div>
                                             @if ($spkl->alasan_penolakan)
-                                            <div class="col-6">
+                                            <div class="col-12">
                                                 <h5>Alasan Penolakan</h5>
                                                 <p>{{ $spkl->alasan_penolakan }}</p>
                                             </div>
