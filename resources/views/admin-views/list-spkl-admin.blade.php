@@ -52,7 +52,7 @@
                                 @foreach ($spkls as $index => $spkl)
                                     <tr>
                                         <td>{{ $index +$spkls->firstItem() }}</td>
-                                        <td> {{ $spkl->spkl_number}} </td>
+                                        <td> {{ $spkl->ref_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
@@ -60,18 +60,18 @@
                                         <td>
 
 
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
                                                 <button type="button" value=''
                                                         class="btn btn-primary fas fa-print"
                                                         data-toggle="modal">
                                                 </button>
-                                                <a href="{{ route('view-spkl-admin', ['id' => $spkl->id_spkl]) }}">
-                                                    <button type="button" value="${{$spkl->id_spkl}}"
+                                                <a href="{{ route('view-spkl-admin', ['id' => $spkl->spkl_number]) }}">
+                                                    <button type="button" value="${{$spkl->spkl_number}}"
                                                             class="btn btn-success fas fa-book"
                                                             data-toggle="modal">
                                                     </button>
                                                 </a>
-
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -340,7 +340,7 @@
                 $('#deleteModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url:"/kabeng/deletespkl/" + spklId,
+                    url: "/kabeng/deletespkl/" + spklId,
                     success: function (response) {
                         $('#spkl_id').val(response.id_spkl);
                         // $('#role_id').val(response.role_id);
@@ -356,37 +356,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script> --}}
-        {{-- (function ($) {
+    {{-- (function ($) {
 
-            "use strict";
+        "use strict";
 
-            $(".js-select2").select2({
-                closeOnSelect: false,
-                placeholder: "Click to select an option",
-                allowHtml: true,
-                allowClear: true,
-                tags: true
-            });
+        $(".js-select2").select2({
+            closeOnSelect: false,
+            placeholder: "Click to select an option",
+            allowHtml: true,
+            allowClear: true,
+            tags: true
+        });
 
-            $('.icons_select2').select2({
-                width: "100%",
-                templateSelection: iformat,
-                templateResult: iformat,
-                allowHtml: true,
-                placeholder: "Click to select an option",
-                dropdownParent: $('.select-icon'),
-                allowClear: true,
-                multiple: false,
-            });
+        $('.icons_select2').select2({
+            width: "100%",
+            templateSelection: iformat,
+            templateResult: iformat,
+            allowHtml: true,
+            placeholder: "Click to select an option",
+            dropdownParent: $('.select-icon'),
+            allowClear: true,
+            multiple: false,
+        });
 
-            function iformat(icon, badge,) {
-                var originalOption = icon.element;
-                var originalOptionBadge = $(originalOption).data('badge');
+        function iformat(icon, badge,) {
+            var originalOption = icon.element;
+            var originalOptionBadge = $(originalOption).data('badge');
 
-                return $('<span><i class="fa ' + $(originalOption).data('icon') + '"></i> ' + icon.text +
-                    '<span class="badge">' + originalOptionBadge + '</span></span>');
-            }
+            return $('<span><i class="fa ' + $(originalOption).data('icon') + '"></i> ' + icon.text +
+                '<span class="badge">' + originalOptionBadge + '</span></span>');
+        }
 
-        })(jQuery);
-    </script> --}}
+    })(jQuery);
+</script> --}}
 @endpush

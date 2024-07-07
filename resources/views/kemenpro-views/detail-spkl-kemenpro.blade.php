@@ -58,7 +58,7 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Nomor Pengajuan</h5>
-                                            <p>{{$spkls->spkl_number}}</p>
+                                            <p>{{$spkls->ref_number}}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Departemen</h5>

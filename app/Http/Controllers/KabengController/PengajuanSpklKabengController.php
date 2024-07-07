@@ -44,7 +44,7 @@ class PengajuanSpklKabengController extends Controller
 
     public function getDetailSpkl($id)
     {
-        $spkls = Spkl::orderBy('id_spkl', 'desc')->findOrFail($id);
+        $spkls = Spkl::where('spkl_number', $id)->first();
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('kabeng-views.detail-spkl-bengkel', compact('spkls', 'qr'));
@@ -56,14 +56,15 @@ class PengajuanSpklKabengController extends Controller
             $logged_user = Auth::user();
             $bengkel = Bengkel::where('bengkel_head', $logged_user->id_user)->first();
             $countSpklThisMonth = Spkl::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
-            $spkl_number = $countSpklThisMonth + 1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
-            $spklRandNumber = GenerateRandomSpklNumber::generate();
-            $qrSpkl = GenerateQRCode::generate($spklRandNumber);
+            $refNumber = $countSpklThisMonth + 1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
+            $spklNumber = GenerateRandomSpklNumber::generate();
+            $qrSpkl = GenerateQRCode::generate($spklNumber);
             $rencanaMulai = Carbon::parse($request->input('rencana_mulai'));
             $rencanaSelesai = Carbon::parse($request->input('rencana_selesai'));
 
             $spkl = Spkl::create([
-                'spkl_number' => $spkl_number,
+                'ref_number' => $refNumber,
+                'spkl_number' => $spklNumber,
                 'qr_code' => $qrSpkl,
                 'uraian_pekerjaan' => $request->input('uraian_pekerjaan'),
                 'rencana_mulai' => $rencanaMulai,
@@ -88,8 +89,6 @@ class PengajuanSpklKabengController extends Controller
 
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
         } catch (\Exception $e) {
-
-            dd($e->getMessage());
             return redirect()->route('pengajuan-spkl')->with('error', 'Data Inputan Masih Ada Yang Kosong');
         }
     }

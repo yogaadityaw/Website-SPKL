@@ -40,7 +40,7 @@
                                 @foreach ($spkls as $spkl)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td> {{ $spkl->spkl_number}} </td>
+                                        <td> {{ $spkl->ref_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>

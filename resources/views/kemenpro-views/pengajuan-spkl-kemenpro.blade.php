@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('css/multi-choice.css') }}">
     <link rel="stylesheet" href="{{ asset('library/prismjs/themes/prism.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
@@ -59,34 +59,34 @@
 
                                 </tr>
                                 <tbody>
-                                    @foreach ($spkls as $index => $spkl)
-                                        @php
-                                            
+                                @foreach ($spkls as $index => $spkl)
+                                    @php
+
                                         @endphp
-                                        <tr>
-                                            <td>{{ $index + $spkls->firstItem() }}</td>
-                                            <td> {{ $spkl->spkl_number }} </td>
-                                            <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
-                                            <td> {{ $spkl->bengkel->departemen->departemen_name }} </td>
-                                            <td> {{ $spkl->proyek->proyek_name }} </td>
-                                            <td> {{ $spkl->bengkel->bengkel_name }} </td>
-                                            <td>
+                                    <tr>
+                                        <td>{{ $index + $spkls->firstItem() }}</td>
+                                        <td> {{ $spkl->ref_number }} </td>
+                                        <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
+                                        <td> {{ $spkl->bengkel->departemen->departemen_name }} </td>
+                                        <td> {{ $spkl->proyek->proyek_name }} </td>
+                                        <td> {{ $spkl->bengkel->bengkel_name }} </td>
+                                        <td>
 
 
-                                                <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
-                                                    <button type="button" value=''
-                                                            class="btn btn-primary fas fa-print"
-                                                            data-toggle="modal">
-                                                    </button>
-                                                <a href="{{ route('detail-spkl-kemenpro', ['id' => $spkl->id_spkl]) }}">
-                                                    <button type="button" value="${{ $spkl->id_spkl }}"
-                                                        class="btn btn-success fas fa-book" data-toggle="modal">
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
+                                                <button type="button" value=''
+                                                        class="btn btn-primary fas fa-print"
+                                                        data-toggle="modal">
+                                                </button>
+                                                <a href="{{ route('detail-spkl-kemenpro', ['id' => $spkl->spkl_number]) }}">
+                                                    <button type="button" value="${{ $spkl->spkl_number }}"
+                                                            class="btn btn-success fas fa-book" data-toggle="modal">
                                                     </button>
                                                 </a>
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -106,7 +106,7 @@
 {{-- modal untuk input data spkl --}}
 
 <div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buatSPKLModalLabel"
-    aria-hidden="true">
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
@@ -122,8 +122,8 @@
                         @csrf
                         <div class="form-group">
                             <label>Nomor Pengajuan</label>
-                            <input type="text" class="form-control" name="spkl_number" value="{{ $spkl_id }}"
-                                readonly>
+                            <input type="text" class="form-control" name="ref_number" value="{{ $spkl_id }}"
+                                   readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Nama PT</label>
@@ -169,11 +169,13 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="uraian_pekerjaan"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Rencana</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rencana"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="rencana"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -209,7 +211,7 @@
 {{-- modal untuk delete spkl --}}
 <div class="col-12 col-md-6 col-lg-6">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <form id="deleteUserForm" action="{{ route('delete-spkl') }}" method="POST">
@@ -244,15 +246,15 @@
 
     {{--    script untuk modal buat spkl baru --}}
     <script>
-        $(document).ready(function() {
-            $('#buatSPKLModalButton').click(function() {
+        $(document).ready(function () {
+            $('#buatSPKLModalButton').click(function () {
                 $('#buatSPKLModal').modal('show');
             });
         });
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // $(document).on('click', '.editButton', function () {
             //     let userId = $(this).val();
             //     $('#editModal').modal('show');
@@ -269,13 +271,13 @@
             //     })
             // });
 
-            $(document).on('click', '.deleteButton', function() {
+            $(document).on('click', '.deleteButton', function () {
                 let spklId = $(this).val();
                 $('#deleteModal').modal('show');
                 $.ajax({
                     type: "GET",
                     url: "/kabeng/deletespkl/" + spklId,
-                    success: function(response) {
+                    success: function (response) {
                         $('#spkl_id').val(response.id_spkl);
                         // $('#role_id').val(response.role_id);
                     }
@@ -294,7 +296,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script>
-        (function($) {
+        (function ($) {
 
             "use strict";
 
@@ -319,7 +321,7 @@
             });
 
 
-            function iformat(icon, badge, ) {
+            function iformat(icon, badge,) {
                 var originalOption = icon.element;
                 var originalOptionBadge = $(originalOption).data('badge');
 

@@ -1,29 +1,29 @@
 <?php
 
-use App\Helper\GenerateRandomSpklNumber;
 use App\Http\Controllers\AdminController\BengkelController;
+use App\Http\Controllers\AdminController\ChangeRoleController;
+use App\Http\Controllers\AdminController\DashboardAdminController;
 use App\Http\Controllers\AdminController\DepartemenController;
 use App\Http\Controllers\AdminController\ProyekController;
 use App\Http\Controllers\AdminController\PtController;
-use App\Http\Controllers\DepartemenController\PengajuanSpklDepartemenController;
-use App\Http\Controllers\KabengController\PegawaiBengkelController;
-use App\Http\Controllers\KemenproController\PengajuanSpklKemenproController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\CommonSpklController;
 use App\Http\Controllers\DashboardUserController;
-use App\Http\Controllers\AdminController\ChangeRoleController;
-use App\Http\Controllers\KabengController\ManageSpklController;
-use App\Http\Controllers\KabengController\PengajuanSpklKabengController;
-use App\Http\Controllers\AdminController\DashboardAdminController;
-use App\Http\Controllers\KabengController\DashboardKabengController;
-use App\Http\Controllers\PegawaiController\DashboardPegawaiController;
-use App\Http\Controllers\KemenproController\DashboardKemenproController;
 use App\Http\Controllers\DepartemenController\DashboardDepartemenController;
+use App\Http\Controllers\DepartemenController\PengajuanSpklDepartemenController;
+use App\Http\Controllers\KabengController\DashboardKabengController;
+use App\Http\Controllers\KabengController\ManageSpklController;
+use App\Http\Controllers\KabengController\PegawaiBengkelController;
+use App\Http\Controllers\KabengController\PengajuanSpklKabengController;
+use App\Http\Controllers\KemenproController\DashboardKemenproController;
+use App\Http\Controllers\KemenproController\PengajuanSpklKemenproController;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PegawaiController\DashboardPegawaiController;
+use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::get('test-view', function () {
-    return view('pages.forms-advanced-form');
+    return view('pages.error-404');
 });
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('home');
@@ -34,32 +34,36 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/print-spkl/{id_spkl}', [DashboardKabengController::class, 'printSpkl'])->name('print-spkl');
 
 
+Route::prefix('common')->group(function () {
+    Route::get('/get-spkl/{id}', [CommonSpklController::class, 'getSpkl'])->name('get-spkl');
+});
+
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
     Route::get('/change-role', [ChangeRoleController::class, 'index'])->name('change-role');
     Route::get('/change-role/edit/{id}', [ChangeRoleController::class, 'getUserData']);
     Route::put('/change-role/update', [ChangeRoleController::class, 'updateRole'])->name('users-update');
     Route::delete('/change-role/delete', [ChangeRoleController::class, 'deleteUser'])->name('users-delete');
-    Route::get('/proyek-list',[ProyekController::class, 'index'])->name('proyek-list');
-    Route::post('/proyek-list/baru',[ProyekController::class, 'TambahProyek'])->name('proyek-baru-post');
-    Route::get('/proyek-list/edit/{id_proyek}',[ProyekController::class, 'getProyekData']);
-    Route::put('/poyek-list/update',[ProyekController::class, 'updateProyek'])->name('proyek-update');
-    Route::delete('/proyek-list/delete',[ProyekController::class, 'deleteProyek'])->name('proyek-delete');
-    Route::get('/pt-list',[PtController::class, 'index'])->name('pt-list');
-    Route::post('/pt-list/baru',[PtController::class, 'TambahPt'])->name('pt-baru-post');
-    Route::get('/pt-list/edit/{id_pt}',[PtController::class,'getPtData']);
-    Route::put('/pt-list/update',[PtController::class,'updatePt'])->name('pt-update');
-    Route::delete('/pt-list/delete',[PtController::class, 'deletePt'])->name('pt-delete');
-    Route::get('/bengkel-list',[BengkelController::class, 'index'])->name('bengkel-list');
-    Route::post('/bengkel-list/baru',[BengkelController::class, 'TambahBengkel'])->name('bengkel-baru-post');
-    Route::get('/bengkel-list/edit/{id_bengkel}',[BengkelController::class,'getBengkelData']);
-    Route::put('/bengkel-list/update',[BengkelController::class,'updateBengkel'])->name('bengkel-update');
-    Route::delete('/bengkel-list/delete',[BengkelController::class, 'deleteBengkel'])->name('bengkel-delete');
-    Route::get('/departemen-list',[DepartemenController::class,'index'])->name('departemen-list');
-    Route::post('/departemen-list/baru',[DepartemenController::class,'TambahDepartemen'])->name('departemen-baru-post');
-    Route::get('/departemen-list/edit/{id_departemen}',[DepartemenController::class,'getDepartemenData']);
-    Route::put('/departemen-list/update',[DepartemenController::class,'updateDepartemen'])->name('departemen-update');
-    Route::delete('/departemen-list/delete',[DepartemenController::class, 'deleteDepartemen'])->name('departemen-delete');
+    Route::get('/proyek-list', [ProyekController::class, 'index'])->name('proyek-list');
+    Route::post('/proyek-list/baru', [ProyekController::class, 'TambahProyek'])->name('proyek-baru-post');
+    Route::get('/proyek-list/edit/{id_proyek}', [ProyekController::class, 'getProyekData']);
+    Route::put('/poyek-list/update', [ProyekController::class, 'updateProyek'])->name('proyek-update');
+    Route::delete('/proyek-list/delete', [ProyekController::class, 'deleteProyek'])->name('proyek-delete');
+    Route::get('/pt-list', [PtController::class, 'index'])->name('pt-list');
+    Route::post('/pt-list/baru', [PtController::class, 'TambahPt'])->name('pt-baru-post');
+    Route::get('/pt-list/edit/{id_pt}', [PtController::class, 'getPtData']);
+    Route::put('/pt-list/update', [PtController::class, 'updatePt'])->name('pt-update');
+    Route::delete('/pt-list/delete', [PtController::class, 'deletePt'])->name('pt-delete');
+    Route::get('/bengkel-list', [BengkelController::class, 'index'])->name('bengkel-list');
+    Route::post('/bengkel-list/baru', [BengkelController::class, 'TambahBengkel'])->name('bengkel-baru-post');
+    Route::get('/bengkel-list/edit/{id_bengkel}', [BengkelController::class, 'getBengkelData']);
+    Route::put('/bengkel-list/update', [BengkelController::class, 'updateBengkel'])->name('bengkel-update');
+    Route::delete('/bengkel-list/delete', [BengkelController::class, 'deleteBengkel'])->name('bengkel-delete');
+    Route::get('/departemen-list', [DepartemenController::class, 'index'])->name('departemen-list');
+    Route::post('/departemen-list/baru', [DepartemenController::class, 'TambahDepartemen'])->name('departemen-baru-post');
+    Route::get('/departemen-list/edit/{id_departemen}', [DepartemenController::class, 'getDepartemenData']);
+    Route::put('/departemen-list/update', [DepartemenController::class, 'updateDepartemen'])->name('departemen-update');
+    Route::delete('/departemen-list/delete', [DepartemenController::class, 'deleteDepartemen'])->name('departemen-delete');
     Route::get('/list-spkl-admin', [DashboardAdminController::class, 'listSpklAdmin'])->name('list-spkl-admin');
     Route::get('/view-spkl-admin/{id}', [DashboardAdminController::class, 'viewSpklAdmin'])->name('view-spkl-admin');
     Route::get('/getChart', [DashboardAdminController::class, 'getChart'])->name('get-admin-chart');

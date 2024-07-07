@@ -26,41 +26,45 @@ class DashboardPegawaiController extends Controller
 
     public function listSpklPegawai()
     {
-        $logged_user = Auth::user();
-        $unfinishedSpkls = UserSpkl::where('user_id', $logged_user->id_user)
-            ->where('check_out', null)
-            ->get();
+        try {
+            $logged_user = Auth::user();
+            $unfinishedSpkls = UserSpkl::where('user_id', $logged_user->id_user)
+                ->where('check_out', null)
+                ->get();
 
-        $filteredSpkls = new Collection();
+            $filteredSpkls = new Collection();
 
-        foreach ($unfinishedSpkls as $userSpkl) {
-            if ($userSpkl->spkl->is_kabeng_acc && $userSpkl->spkl->is_departemen_acc && $userSpkl->spkl->is_kemenpro_acc) {
-                $filteredSpkls->push($userSpkl);
+            foreach ($unfinishedSpkls as $userSpkl) {
+                if ($userSpkl->spkl->is_kabeng_acc && $userSpkl->spkl->is_departemen_acc && $userSpkl->spkl->is_kemenpro_acc) {
+                    $filteredSpkls->push($userSpkl);
+                }
             }
+
+            // Paginate the filtered collection
+            $perPage = 10;
+            $page = request()->get('page', 1);
+            $filteredSpkls = new LengthAwarePaginator(
+                $filteredSpkls->forPage($page, $perPage),
+                $filteredSpkls->count(),
+                $perPage,
+                $page,
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+
+            $finishedSpkls = UserSpkl::where('user_id', $logged_user->id_user)
+                ->where('check_out', '!=', null)
+                ->with('spkl')
+                ->orderBy('check_out', 'desc')
+                ->paginate(10);
+
+
+            if ($filteredSpkls->isEmpty() && $finishedSpkls->isEmpty()) {
+                return view('pegawai-views.surat-pengajuan', compact('filteredSpkls', 'finishedSpkls'))->with('error', 'gagal menampilkan data spkl');
+            }
+            return view('pegawai-views.surat-pengajuan', compact('filteredSpkls', 'finishedSpkls'));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-
-        // Paginate the filtered collection
-        $perPage = 10;
-        $page = request()->get('page', 1);
-        $filteredSpkls = new LengthAwarePaginator(
-            $filteredSpkls->forPage($page, $perPage),
-            $filteredSpkls->count(),
-            $perPage,
-            $page,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
-
-        $finishedSpkls = UserSpkl::where('user_id', $logged_user->id_user)
-            ->where('check_out', '!=', null)
-            ->with('spkl')
-            ->orderBy('check_out', 'desc')
-            ->paginate(10);
-
-        if ($filteredSpkls->isEmpty() && $finishedSpkls->isEmpty()) {
-            return view('pegawai-views.surat-pengajuan')->with('error', 'gagal menampilkan data spkl');
-        }
-
-        return view('pegawai-views.surat-pengajuan', compact('filteredSpkls', 'finishedSpkls'));
     }
 
     public function absen(Request $request)
@@ -111,7 +115,7 @@ class DashboardPegawaiController extends Controller
 
     public function getDetailSpkl($id)
     {
-        $spkls = Spkl::findOrFail($id);
+        $spkls = Spkl::where('spkl_number', $id)->first();
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('pegawai-views.detail-spkl-pegawai', compact('spkls', 'qr'));

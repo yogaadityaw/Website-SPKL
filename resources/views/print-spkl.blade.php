@@ -92,110 +92,111 @@
 </head>
 
 <body>
-    <div class="main-content center-card">
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-                    <div class="card center-table">
-                        <div class="card-header">
-                            <h4 class="header-title"></h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="header-content">
-                                <img src="{{ asset('img/logo-pal-spkl.png') }}" height="72">
-                                <div class="header-table">
-                                    <div class="text-center">
-                                        <h4>
-                                            Surat Perintah Kerja Lembur Labour Supply Divisi Harkan
-                                        </h4>
+<div class="main-content center-card">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+                <div class="card center-table">
+                    <div class="card-header">
+                        <h4 class="header-title"></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="header-content">
+                            <img src="{{ asset('img/logo-pal-spkl.png') }}" height="72">
+                            <div class="header-table">
+                                <div class="text-center">
+                                    <h4>
+                                        Surat Perintah Kerja Lembur Labour Supply Divisi Harkan
+                                    </h4>
 
-                                    </div>
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>Nama PT:</td>
-                                            <td>{{ $spkl->pt->pt_name }}</td>
-                                            <td>Dept:</td>
-                                            <td>{{ $spkl->bengkel->departemen->departemen_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>NOMOR:</td>
-                                            <td>{{ $spkl->spkl_number }}</td>
-                                            <td>BENGKEL:</td>
-                                            <td>{{ $spkl->bengkel->bengkel_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>TANGGAL:</td>
-                                            <td>{{ $spkl->tanggal }}</td>
-                                            <td>HARI:</td>
-                                            @php
-                                                $dayNameEng = date('l', strtotime($spkl->tanggal));
-                                                $days = [
-                                                    'Sunday' => 'Minggu',
-                                                    'Monday' => 'Senin',
-                                                    'Tuesday' => 'Selasa',
-                                                    'Wednesday' => 'Rabu',
-                                                    'Thursday' => 'Kamis',
-                                                    'Friday' => 'Jumat',
-                                                    'Saturday' => 'Sabtu',
-                                                ];
-                                                $dayNameInd = $days[$dayNameEng];
-                                            @endphp
-                                            <td>{{ $dayNameInd }}</td>
-                                        </tr>
-                                    </table>
                                 </div>
-                                <div class="qr-code">
-                                    {!! $spkl->qr_code !!}
-                                </div>
-                            </div>
-                            <table class="table table-bordered mt-4">
-                                <thead>
+                                <table class="table table-borderless">
                                     <tr>
-                                        <td>No</td>
-                                        <td>Nama</td>
-                                        <td>Rencana</td>
-                                        <td>Pelaksaan</td>
-                                        <td>Jam</td>
-                                        <td>Uraian Target Lembur</td>
-                                        <td>Proyek</td>
-                                        <td>Progress</td>
+                                        <td>Nama PT:</td>
+                                        <td>{{ $spkl->pt->pt_name }}</td>
+                                        <td>Dept:</td>
+                                        <td>{{ $spkl->bengkel->departemen->departemen_name }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($spkl->userSpkls as $key => $detail)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $detail->user->user_fullname }}</td>
-                                            <td>{{ $spkl->rencana }}</td>
-                                            <td>{{ date('H:i', strtotime($detail->check_in)) }}-{{ date('H:i', strtotime($detail->check_out)) }}</td>
-                                            <td>{!! $detail->jam_realisasi !!}</td>
-                                            <td>{{ $spkl->uraian_pekerjaan }}</td>
-                                            <td>{{ $spkl->proyek->proyek_name }}</td>
-                                            <td>{{ $spkl->progres }}</td>
-                                            <td></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
                                     <tr>
-                                        <td colspan="2">
-                                            <div>Distribusi:</div>
-                                            <div>1. Kadep Rendalhar</div>
-                                            <div>2. KAM</div>
-                                            <div>3. PT</div>
-                                            <div>4. Arsip</div>
-                                        </td>
-                                        <td colspan="2" class="text-center">
-                                            KEMENPROAN
-                                            {!! $spkl->qr->pj_proyek_qr_code ?? '' !!}
-                                        </td>
-                                        <td colspan="2" class="text-center">
-                                            KEPALA DEPARTEMEN
-                                            {!! $spkl->qr->department_head_qr_code ?? '' !!}
-                                        </td>
-                                        <td colspan="4" class="text-center">
-                                            KEPALA BENGKEL
-                                            {!! $spkl->qr->workshop_head_qr_code ?? '' !!}
+                                        <td>NOMOR:</td>
+                                        <td>{{ $spkl->ref_number }}</td>
+                                        <td>BENGKEL:</td>
+                                        <td>{{ $spkl->bengkel->bengkel_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TANGGAL:</td>
+                                        <td>{{ $spkl->tanggal }}</td>
+                                        <td>HARI:</td>
+                                        @php
+                                            $dayNameEng = date('l', strtotime($spkl->tanggal));
+                                            $days = [
+                                                'Sunday' => 'Minggu',
+                                                'Monday' => 'Senin',
+                                                'Tuesday' => 'Selasa',
+                                                'Wednesday' => 'Rabu',
+                                                'Thursday' => 'Kamis',
+                                                'Friday' => 'Jumat',
+                                                'Saturday' => 'Sabtu',
+                                            ];
+                                            $dayNameInd = $days[$dayNameEng];
+                                        @endphp
+                                        <td>{{ $dayNameInd }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="qr-code">
+                                {!! $qrCode !!}
+                            </div>
+                        </div>
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                            <tr>
+                                <td>No</td>
+                                <td>Nama</td>
+                                <td>Rencana</td>
+                                <td>Pelaksaan</td>
+                                <td>Jam</td>
+                                <td>Uraian Target Lembur</td>
+                                <td>Proyek</td>
+                                <td>Progress</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($spkl->userSpkls as $key => $detail)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $detail->user->user_fullname }}</td>
+                                    <td>{{ $spkl->rencana }}</td>
+                                    <td>{{ date('H:i', strtotime($detail->check_in)) }}
+                                        -{{ date('H:i', strtotime($detail->check_out)) }}</td>
+                                    <td>{!! $detail->jam_realisasi !!}</td>
+                                    <td>{{ $spkl->uraian_pekerjaan }}</td>
+                                    <td>{{ $spkl->proyek->proyek_name }}</td>
+                                    <td>{{ $spkl->progres }}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    <div>Distribusi:</div>
+                                    <div>1. Kadep Rendalhar</div>
+                                    <div>2. KAM</div>
+                                    <div>3. PT</div>
+                                    <div>4. Arsip</div>
+                                </td>
+                                <td colspan="2" class="text-center">
+                                    KEMENPROAN
+                                    {!! $spkl->qr->pj_proyek_qr_code ?? '' !!}
+                                </td>
+                                <td colspan="2" class="text-center">
+                                    KEPALA DEPARTEMEN
+                                    {!! $spkl->qr->department_head_qr_code ?? '' !!}
+                                </td>
+                                <td colspan="4" class="text-center">
+                                    KEPALA BENGKEL
+                                    {!! $spkl->qr->workshop_head_qr_code ?? '' !!}
                                         </td>
                                     </tr>
                                 </tfoot>

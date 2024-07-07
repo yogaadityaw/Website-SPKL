@@ -61,10 +61,10 @@
                                 <tbody>
                                 @foreach ($spkls as $index => $spkl)
                                     @php
-                                    @endphp
+                                        @endphp
                                     <tr>
                                         <td>{{ $index + $spkls->firstItem() }}</td>
-                                        <td> {{ $spkl->spkl_number}} </td>
+                                        <td> {{ $spkl->ref_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
@@ -72,19 +72,18 @@
                                         <td>
 
 
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
                                                 <button type="button" value=''
                                                         class="btn btn-primary fas fa-print"
                                                         data-toggle="modal">
                                                 </button>
+                                                <a href="{{ route('detail-spkl-departemen', ['id' => $spkl->spkl_number]) }}">
+                                                    <button type="button" value="${{$spkl->spkl_number}}"
+                                                            class="btn btn-success fas fa-book"
+                                                            data-toggle="modal">
+                                                    </button>
                                                 </a>
-                                            <a href="{{ route('detail-spkl-departemen', ['id' => $spkl->id_spkl]) }}">
-                                                <button type="button" value="${{$spkl->id_spkl}}"
-                                                        class="btn btn-success fas fa-book"
-                                                        data-toggle="modal">
-                                                </button>
                                             </a>
-
                                         </td>
                                     </tr>
                                 @endforeach
@@ -123,7 +122,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Nomor Pengajuan</label>
-                            <input type="text" class="form-control" name="spkl_number" value="{{$spkl_id}}"
+                            <input type="text" class="form-control" name="ref_number" value="{{$spkl_id}}"
                                    readonly>
                         </div>
                         <div class="form-group col-md-6">
@@ -277,7 +276,7 @@
                 $('#deleteModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url:"/kabeng/deletespkl/" + spklId,
+                    url: "/kabeng/deletespkl/" + spklId,
                     success: function (response) {
                         $('#spkl_id').val(response.id_spkl);
                         // $('#role_id').val(response.role_id);

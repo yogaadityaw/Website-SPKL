@@ -119,7 +119,7 @@
                                         </tr>
                                         <tr>
                                             <td>NOMOR:</td>
-                                            <td>{{ $spkl->spkl_number }}</td>
+                                            <td>{{ $spkl->ref_number }}</td>
                                             <td>BENGKEL:</td>
                                             <td>{{ $spkl->bengkel->bengkel_name }}</td>
                                         </tr>

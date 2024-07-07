@@ -39,7 +39,7 @@ class PengajuanSpklKemenproController extends Controller
     public function getDetailSpkl($id)
     {
 
-        $spkls = Spkl::orderBy('id_spkl', 'desc')->findOrFail($id);
+        $spkls = Spkl::where('spkl_number', $id)->first();
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('kemenpro-views.detail-spkl-kemenpro', compact('spkls', 'qr'));

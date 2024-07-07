@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\KabengController;
 
+use App\Helpers\GenerateQRCode;
 use App\Http\Controllers\Controller;
 use App\Models\Spkl;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class DashboardKabengController extends Controller
 {
@@ -20,9 +21,19 @@ class DashboardKabengController extends Controller
 
     public function printSpkl($id_spkl)
     {
-        $spkl = Spkl::findOrFail($id_spkl);
-
-        return view('print-spkl', compact('spkl'));
+        try {
+            $spkl = Spkl::where('spkl_number', $id_spkl)->first();
+            $qrLink = Url::temporarySignedRoute(
+                'get-spkl',
+                now()->addMinutes(5),
+                ['id' => $spkl->spkl_number]
+            );
+            $qrCode = GenerateQRCode::generate($qrLink);
+            return view('print-spkl', compact('spkl', 'qrCode'));
+        } catch (\Exception $e) {
+            $errorMessage = "Data yang anda cari tidak ditemukan!";
+            return view('pages.error-404', compact("errorMessage"));
+        }
     }
 
 }

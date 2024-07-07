@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->integer('pt_id');
             $table->integer('proyek_id');
             $table->integer('bengkel_id');
+            $table->string('ref_number');
             $table->string('spkl_number');
             $table->text('qr_code')->nullable();
             $table->string('uraian_pekerjaan');

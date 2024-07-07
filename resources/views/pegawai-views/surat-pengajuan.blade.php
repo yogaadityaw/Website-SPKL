@@ -45,7 +45,7 @@
                                         @foreach ($filteredSpkls as $index => $spkl)
                                             <tr>
                                                 <td scope="col">{{ $index+$filteredSpkls->firstItem() }}</td>
-                                                <td scope="col">{{ $spkl->spkl->spkl_number ?? ' ' }}</td>
+                                                <td scope="col">{{ $spkl->spkl->ref_number ?? ' ' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? ' ' }}</td>
                                                 <td scope="col">
                                                     {{ $spkl->spkl->bengkel->departemen->departemen_name ?? ' ' }}</td>
@@ -126,19 +126,19 @@
                                 @foreach ($finishedSpkls as $spkl)
                                     <tr>
                                         <td scope="col">{{ $loop->index + 1 }}</td>
-                                        <td scope="col">{{ $spkl->spkl->spkl_number ?? '' }}</td>
+                                        <td scope="col">{{ $spkl->spkl->ref_number ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->proyek->proyek_name ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->bengkel->departemen->departemen_name ?? '' }}
                                         </td>
                                         <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
                                         <td>
-                                            <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
+                                            <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->spkl_number]) }}">
                                                 <button type="button" class="btn btn-success fas fa-book">
 
                                                 </button>
                                             </a>
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->id_spkl]) }}">
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->spkl_number]) }}">
                                                 <button type="button" value='' class="btn btn-primary fas fa-print"
                                                         data-toggle="modal">
                                                 </button>

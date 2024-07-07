@@ -26,15 +26,15 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // $this->validate($request, [
-        //     'username' => 'required|max:255',
-        //     'nip' => 'required|numeric|max:255',
-        //     'fullname' => 'required|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'telephone' => 'required|numeric|max:255',
-        //     'age' => 'required|numeric|max:255',
-        //     'password' => 'required|min:6'
-        // ]);
+//        $this->validate($request, [
+//            'username' => 'required|max:255',
+//            'nip' => 'required|numeric|max:255',
+//            'fullname' => 'required|max:255',
+//            'email' => 'required|email|max:255',
+//            'telephone' => 'required|numeric|max:255',
+//            'age' => 'required|numeric|max:255',
+//            'password' => 'required|min:6'
+//        ]);
         try {
             // ketika pertama kali melakukan register maka user mendapatkan role ke 6 yaitu sebagai user biasa untuk menunggu konfirmasi dari admin
             $user = User::create([

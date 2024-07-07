@@ -86,7 +86,7 @@
                                     @endphp
                                     <tr>
                                         <td>{{ $index + $spkls->firstItem() }}</td>
-                                        <td> {{ $spkl->spkl_number}} </td>
+                                        <td> {{ $spkl->ref_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
@@ -96,13 +96,13 @@
                                                     value="{{$spkl->id_spkl}}" data-toggle="modal">
                                             </button>
 
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->id_spkl])}}">
+                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
                                             <button type="button" value=''
                                                     class="btn btn-primary fas fa-print"
                                                     data-toggle="modal">
                                             </button>
                                             </a>
-                                            <a href="{{ route('detail-spkl', ['id' => $spkl->id_spkl]) }}">
+                                            <a href="{{ route('detail-spkl', ['id' => $spkl->spkl_number]) }}">
                                                 <button type="button" value="${{$spkl->id_spkl}}"
                                                         class="btn btn-success fas fa-book"
                                                         data-toggle="modal">

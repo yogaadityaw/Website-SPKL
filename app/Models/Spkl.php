@@ -12,6 +12,7 @@ class Spkl extends Model
     protected $table = 'spkl';
     protected $primaryKey = 'id_spkl';
     protected $fillable = [
+        'ref_number',
         'spkl_number',
         'qr_code',
         'uraian_pekerjaan',
