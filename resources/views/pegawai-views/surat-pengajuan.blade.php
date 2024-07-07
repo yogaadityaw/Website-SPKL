@@ -40,7 +40,9 @@
                                             <th scope="col">Departemen</th>
                                             <th scope="col">Bengkel</th>
                                             <th scope="col">Tanggal Lembur</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col">Aksi</th>
+                                            <th scope="col">Presensi</th>
                                         </tr>
                                         @foreach ($filteredSpkls as $index => $spkl)
                                             <tr>
@@ -51,16 +53,50 @@
                                                     {{ $spkl->spkl->bengkel->departemen->departemen_name ?? ' ' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? ' ' }}</td>
                                                 <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
-                                                <td>
-                                                    <a
-                                                        href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
-                                                        <button type="button" class="btn btn-success fas fa-book"
-                                                                data-toggle="modal">
+                                                <td class="text-center">
+                                                    @switch($spkl->spkl->status)
+                                                        @case("approved")
+                                                            <div class="badge badge-pill badge-success mb-1">
+                                                                Disetujui
+                                                            </div>
+                                                            @break
+                                                        @case("process")
+                                                            <div class="badge badge-pill badge-warning mb-1">Dalam
+                                                                Proses
+                                                            </div>
+                                                            @break
+                                                        @case("rejected")
+                                                            <div class="badge badge-pill badge-danger mb-1">Ditolak
+                                                            </div>
+                                                            @break
+                                                        @default
+                                                            <div class="badge badge-pill badge-danger mb-1">Tidak
+                                                                Diketahui
+                                                            </div>
+                                                    @endswitch
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-outlined-info dropdown-toggle"
+                                                                type="button"
+                                                                id="dropdownMenuButton-{{$spkl->id_spkl}}"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
                                                         </button>
-                                                    </a>
+                                                        <div class="dropdown-menu"
+                                                             aria-labelledby="dropdownMenuButton-{{$spkl->id_spkl}}">
+                                                            <a class="dropdown-item"
+                                                               href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl])}}">
+                                                                <i class="fas fa-book"></i> Detail
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
                                                     <button type="button" value="{{ $spkl->id }}"
                                                             data-spkl-id="{{ $spkl->id }}"
-                                                            class="btn btn-success checkinButton" data-toggle="modal"
+                                                            class="btn btn-success checkinButton mb-2" data-toggle="modal"
                                                             data-target="#checkinModal">
                                                         Check-in
                                                     </button>
@@ -132,17 +168,26 @@
                                         </td>
                                         <td scope="col">{{ $spkl->spkl->bengkel->bengkel_name ?? '' }}</td>
                                         <td scope="col">{{ $spkl->spkl->tanggal ?? '' }}</td>
-                                        <td>
-                                            <a href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->spkl_number]) }}">
-                                                <button type="button" class="btn btn-success fas fa-book">
-
+                                        <td class="text-center">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outlined-info dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton-{{$spkl->id_spkl}}"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
-                                            </a>
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->spkl_number]) }}">
-                                                <button type="button" value='' class="btn btn-primary fas fa-print"
-                                                        data-toggle="modal">
-                                                </button>
-                                            </a>
+                                                <div class="dropdown-menu"
+                                                     aria-labelledby="dropdownMenuButton-{{$spkl->id_spkl}}">
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
+                                                        <i class="fas fa-print"></i> Print
+                                                    </a>
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl_number]) }}">
+                                                        <i class="fas fa-book"></i> Detail
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

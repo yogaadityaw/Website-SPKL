@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\DepartemenController;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Jobs\sendSpkl;
 use App\Helper\GenerateRandomSpklNumber;
 use App\Helpers\GenerateQRCode;
 use App\Http\Controllers\Controller;
+use App\Jobs\sendSpkl;
 use App\Models\Bengkel;
 use App\Models\Departemen;
 use App\Models\Proyek;
 use App\Models\Pt;
+use App\Models\QRCode;
 use App\Models\Spkl;
 use App\Models\User;
-use App\Models\QRCode;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class PengajuanSpklDepartemenController extends Controller
@@ -41,7 +41,7 @@ class PengajuanSpklDepartemenController extends Controller
     {
 
         $spkls = Spkl::where('spkl_number', $id)->first();
-        $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
+        $qr = QRCode::where('spkl_id', $spkls->spkl_number)->first();
 
         return view('departemen-views.detail-spkl-departemen', compact('spkls', 'qr'));
     }
@@ -55,11 +55,12 @@ class PengajuanSpklDepartemenController extends Controller
                     return redirect()->route('pengajuan-spkl-departemen')->with('error', 'SPKL sudah disetujui');
                 }
                 $spkl->update([
-                    'is_departemen_acc' => true
+                    'is_departemen_acc' => true,
+                    'status' => 'process'
                 ]);
 
                 $qr = GenerateQRCode::generate(Auth::user()->user_nip);
-                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+                $qr_data = QRCode::where('spkl_id', $spkl->spkl_number)->first();
                 $qr_data->update([
                     'department_head_qr_code' => $qr
                 ]);
@@ -78,7 +79,7 @@ class PengajuanSpklDepartemenController extends Controller
                 $spkl = Spkl::findOrFail($request->spkl_id);
                 $spkl->update([
                     'is_departemen_acc' => false,
-                    'status' => 'Reject'
+                    'status' => 'rejected'
                 ]);
                 return redirect()->route('pengajuan-spkl-departemen')->with('success', 'SPKL berhasil ditolak');
             } catch (\Exception $e) {
@@ -93,7 +94,7 @@ class PengajuanSpklDepartemenController extends Controller
     {
 
         $request->validate([
-            'alasanPenolakan' => 'required|string|min:1',
+            'alasanPenolakan' => 'required|string|min:1'
         ]);
 
         try {
@@ -103,9 +104,10 @@ class PengajuanSpklDepartemenController extends Controller
                 'is_departemen_acc' => null,
                 'is_kemenpro_acc' => null,
                 'alasan_penolakan' => $request->alasanPenolakan,
+                'status' => 'rejected'
             ]);
 
-            $qr_codes = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+            $qr_codes = QRCode::where('spkl_id', $spkl->spkl_number)->first();
             $qr_codes->update([
                 'workshop_head_qr_code' => null,
                 'department_head_qr_code' => null,

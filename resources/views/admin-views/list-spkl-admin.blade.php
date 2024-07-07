@@ -45,33 +45,61 @@
                                     <th scope="col">Departemen</th>
                                     <th scope="col">Nama Proyek</th>
                                     <th scope="col">Bengkel</th>
+                                    <th scope="col"> Status</th>
                                     <th scope="col">Aksi</th>
 
                                 </tr>
                                 <tbody>
                                 @foreach ($spkls as $index => $spkl)
                                     <tr>
-                                        <td>{{ $index +$spkls->firstItem() }}</td>
+                                        <td>{{ $index + $spkls->firstItem() }}</td>
                                         <td> {{ $spkl->ref_number}} </td>
                                         <td> {{ \App\Helper\DateTimeParser::parse($spkl->tanggal) }} </td>
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
-                                        <td>
-
-
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
-                                                <button type="button" value=''
-                                                        class="btn btn-primary fas fa-print"
-                                                        data-toggle="modal">
+                                        <td class="text-center">
+                                            @switch($spkl->status)
+                                                @case("approved")
+                                                    <div class="badge badge-pill badge-success mb-1">
+                                                        Disetujui
+                                                    </div>
+                                                    @break
+                                                @case("process")
+                                                    <div class="badge badge-pill badge-warning mb-1">Dalam
+                                                        Proses
+                                                    </div>
+                                                    @break
+                                                @case("rejected")
+                                                    <div class="badge badge-pill badge-danger mb-1">Ditolak
+                                                    </div>
+                                                    @break
+                                                @default
+                                                    <div class="badge badge-pill badge-danger mb-1">Tidak
+                                                        Diketahui
+                                                    </div>
+                                            @endswitch
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton-{{$spkl->id_spkl}}"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
-                                                <a href="{{ route('view-spkl-admin', ['id' => $spkl->spkl_number]) }}">
-                                                    <button type="button" value="${{$spkl->spkl_number}}"
-                                                            class="btn btn-success fas fa-book"
-                                                            data-toggle="modal">
-                                                    </button>
-                                                </a>
-                                            </a>
+                                                <div class="dropdown-menu"
+                                                     aria-labelledby="dropdownMenuButton-{{$spkl->id_spkl}}">
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
+                                                        <i class="fas fa-print"></i> Print
+                                                    </a>
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('view-spkl-admin', ['id' => $spkl->spkl_number]) }}">
+                                                        <i class="fas fa-book"></i> Detail
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -87,7 +115,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 

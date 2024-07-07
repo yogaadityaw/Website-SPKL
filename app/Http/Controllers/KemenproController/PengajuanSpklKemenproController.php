@@ -3,8 +3,6 @@
 
 namespace App\Http\Controllers\KemenproController;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Helper\GenerateRandomSpklNumber;
 use App\Helpers\GenerateQRCode;
 use App\Http\Controllers\Controller;
@@ -12,9 +10,11 @@ use App\Models\Bengkel;
 use App\Models\Departemen;
 use App\Models\Proyek;
 use App\Models\Pt;
+use App\Models\QRCode;
 use App\Models\Spkl;
 use App\Models\User;
-use App\Models\QRCode;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengajuanSpklKemenproController extends Controller
 {
@@ -54,15 +54,15 @@ class PengajuanSpklKemenproController extends Controller
                     return redirect()->route('pengajuan-spkl-kemenpro')->with('error', 'SPKL sudah disetujui');
                 }
                 $spkl->update([
-                    'is_kemenpro_acc' => true
+                    'is_kemenpro_acc' => true,
+                    'status' => 'approved'
                 ]);
 
                 $qr = GenerateQRCode::generate(Auth::user()->user_nip);
-                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
+                $qr_data = QRCode::where('spkl_id', $spkl->spkl_number)->first();
                 $qr_data->update([
                     'pj_proyek_qr_code' => $qr
                 ]);
-
                 return redirect()->route('pengajuan-spkl-kemenpro')->with('success', 'SPKL berhasil disetujui');
             } catch (\Exception $e) {
                 return redirect()->route('pengajuan-spkl-kemenpro')->with('error', $e->getMessage());
@@ -72,7 +72,7 @@ class PengajuanSpklKemenproController extends Controller
                 $spkl = Spkl::findOrFail($request->spkl_id);
                 $spkl->update([
                     'is_kemenpro_acc' => false,
-                    'status' => 'Reject'
+                    'status' => 'rejected'
                 ]);
                 return redirect()->route('pengajuan-spkl-kemenpro')->with('success', 'SPKL berhasil ditolak');
             } catch (\Exception $e) {

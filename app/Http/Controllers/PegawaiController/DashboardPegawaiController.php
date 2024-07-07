@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\PegawaiController;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use App\Models\QRCode;
 use App\Models\Spkl;
 use App\Models\UserSpkl;
-use App\Models\QRCode;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardPegawaiController extends Controller
 {
@@ -115,7 +115,7 @@ class DashboardPegawaiController extends Controller
 
     public function getDetailSpkl($id)
     {
-        $spkls = Spkl::where('spkl_number', $id)->first();
+        $spkls = Spkl::where('id_spkl', $id)->first();
         $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('pegawai-views.detail-spkl-pegawai', compact('spkls', 'qr'));

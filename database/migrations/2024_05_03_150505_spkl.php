@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->boolean('is_kabeng_acc')->default(false);
             $table->boolean('is_departemen_acc')->default(false);
             $table->boolean('is_kemenpro_acc')->default(false);
+            $table->enum('status', ['rejected', 'approved', 'process'])->default('process');
             $table->timestamps();
 
             $table->foreign('pt_id')->references('id_pt')->on('pt');

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-
-use App\Models\Spkl;
 use App\Models\Bengkel;
+use App\Models\Spkl;
 use App\Models\UserSpkl;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class DashboardAdminController extends Controller
 {
@@ -24,9 +23,10 @@ class DashboardAdminController extends Controller
 
     public function listSpklAdmin()
     {
-        $spkls = Spkl::orderBy('Created_at','desc')->paginate(10);
+        $spkls = Spkl::orderBy('created_at', 'desc')->paginate(10);
         return view('admin-views.list-spkl-admin', compact('spkls'));
     }
+
 
     public function viewSpklAdmin($id)
     {
@@ -39,13 +39,12 @@ class DashboardAdminController extends Controller
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        $workshops = Bengkel::with(['spkls' => function($query) use ($currentMonth, $currentYear)
-        {
+        $workshops = Bengkel::with(['spkls' => function ($query) use ($currentMonth, $currentYear) {
             $query->whereMonth('tanggal', $currentMonth)->whereYear('tanggal', $currentYear);
         }])->get();
 
         $labels = $workshops->pluck('bengkel_name');
-        $data = $workshops->map(function($workshop) {
+        $data = $workshops->map(function ($workshop) {
             return $workshop->spkls->count();
         });
 
@@ -55,7 +54,8 @@ class DashboardAdminController extends Controller
         ]);
     }
 
-    public function inputJamRealisasi(Request $request, $id) {
+    public function inputJamRealisasi(Request $request, $id)
+    {
         try {
             $inputData = $request->except(['_token', '_method']);
             foreach ($inputData as $key => $value) {

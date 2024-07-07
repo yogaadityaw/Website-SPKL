@@ -77,13 +77,14 @@
                                     <th scope="col">Departemen</th>
                                     <th scope="col">Nama Proyek</th>
                                     <th scope="col">Bengkel</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Aksi</th>
 
                                 </tr>
                                 <tbody>
                                 @foreach ($spkls as $index => $spkl)
                                     @php
-                                    @endphp
+                                        @endphp
                                     <tr>
                                         <td>{{ $index + $spkls->firstItem() }}</td>
                                         <td> {{ $spkl->ref_number}} </td>
@@ -91,24 +92,52 @@
                                         <td> {{ $spkl->bengkel->departemen->departemen_name}} </td>
                                         <td> {{ $spkl->proyek->proyek_name}} </td>
                                         <td> {{ $spkl->bengkel->bengkel_name}} </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger deleteButton fas fa-trash"
-                                                    value="{{$spkl->id_spkl}}" data-toggle="modal">
-                                            </button>
-
-                                            <a href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
-                                            <button type="button" value=''
-                                                    class="btn btn-primary fas fa-print"
-                                                    data-toggle="modal">
-                                            </button>
-                                            </a>
-                                            <a href="{{ route('detail-spkl', ['id' => $spkl->spkl_number]) }}">
-                                                <button type="button" value="${{$spkl->id_spkl}}"
-                                                        class="btn btn-success fas fa-book"
-                                                        data-toggle="modal">
+                                        <td class="text-center">
+                                            @switch($spkl->status)
+                                                @case("approved")
+                                                    <div class="badge badge-pill badge-success mb-1">
+                                                        Disetujui
+                                                    </div>
+                                                    @break
+                                                @case("process")
+                                                    <div class="badge badge-pill badge-warning mb-1">Dalam
+                                                        Proses
+                                                    </div>
+                                                    @break
+                                                @case("rejected")
+                                                    <div class="badge badge-pill badge-danger mb-1">Ditolak
+                                                    </div>
+                                                    @break
+                                                @default
+                                                    <div class="badge badge-pill badge-danger mb-1">Tidak
+                                                        Diketahui
+                                                    </div>
+                                            @endswitch
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outlined-info dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton-{{$spkl->id_spkl}}"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
-                                            </a>
-
+                                                <div class="dropdown-menu"
+                                                     aria-labelledby="dropdownMenuButton-{{$spkl->id_spkl}}">
+                                                    <a class="dropdown-item deleteButton" href="#"
+                                                       data-id="{{$spkl->id_spkl}}">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </a>
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
+                                                        <i class="fas fa-print"></i> Print
+                                                    </a>
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('detail-spkl', ['id' => $spkl->spkl_number]) }}">
+                                                        <i class="fas fa-book"></i> Detail
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -165,10 +194,10 @@
                             <label for="tanggal">Tanggal</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
-{{--                        <div class="form-group col-md-6">--}}
-{{--                            <label for="inputCity">Rencana</label>--}}
-{{--                            <input type="text" class="form-control" id="inputRencana" name="rencana">--}}
-{{--                        </div>--}}
+                        {{--                        <div class="form-group col-md-6">--}}
+                        {{--                            <label for="inputCity">Rencana</label>--}}
+                        {{--                            <input type="text" class="form-control" id="inputRencana" name="rencana">--}}
+                        {{--                        </div>--}}
 
                         <div class="form-group col-md-4">
                             <label for="inputRencana">Rencana_Mulai</label>
@@ -192,7 +221,7 @@
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                name="uraian_pekerjaan"></textarea>
+                                  name="uraian_pekerjaan"></textarea>
                     </div>
 
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
@@ -227,7 +256,7 @@
 {{--modal untuk edit spkl--}}
 
 <div id="buatSPKLModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editSPKLModalLabel"
-    aria-hidden="true">
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('pengajuan-spkl-post') }}" enctype="multipart/form-data" method="POST">
@@ -287,12 +316,12 @@
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Uraian Target Lembur</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                name="uraian_pekerjaan"></textarea>
+                                  name="uraian_pekerjaan"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Progres</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                name="progres"></textarea>
+                                  name="progres"></textarea>
                     </div>
                     <section class="ftco-section ftco-no-pt ftco-no-pb">
                         <div class="container">
@@ -324,30 +353,28 @@
 </div>
 
 {{--modal untuk delete spkl--}}
-<div class="col-12 col-md-6 col-lg-6">
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <form id="deleteUserForm" action="{{route('delete-spkl')}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="spkl_id" id="spkl_id" value="spkl_id">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="spklModalLabel">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus spkl ini ini ? </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </div>
-                </form>
-            </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="spklModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="deleteUserForm" action="{{route('delete-spkl')}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <input type="hidden" name="spkl_id" id="spkl_id">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="spklModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus spkl ini ? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -359,7 +386,7 @@
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-{{--    script untuk modal buat spkl baru--}}
+    {{--    script untuk modal buat spkl baru--}}
     <script>
         $(document).ready(function () {
             $('#buatSPKLModalButton').click(function () {
@@ -386,18 +413,24 @@
             //     })
             // });
 
-            $(document).on('click', '.deleteButton', function () {
+            /*$(document).on('click', '.deleteButton', function () {
 
                 let spklId = $(this).val();
                 $('#deleteModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url:"/kabeng/deletespkl/" + spklId,
+                    url: "/kabeng/deletespkl/" + spklId,
                     success: function (response) {
                         $('#spkl_id').val(response.id_spkl);
                         // $('#role_id').val(response.role_id);
                     }
                 })
+            });*/
+            $(document).on('click', '.deleteButton', function (e) {
+                e.preventDefault();
+                let spklId = $(this).data('id');
+                $('#deleteModal').modal('show');
+                $('#spkl_id').val(spklId);
             });
         });
     </script>
@@ -405,12 +438,12 @@
     <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('library/popper.js/dist/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script>
         (function ($) {
 
             "use strict";
+            $('[data-toggle="dropdown"]').dropdown();
 
             $(".js-select2").select2({
                 closeOnSelect: false,

@@ -29,7 +29,8 @@ class Spkl extends Model
         'is_kemenpro_acc',
         'alasan_penolakan',
         'rencana_mulai',
-        'rencana_selesai'
+        'rencana_selesai',
+        'status'
     ];
     protected $dates = ['tanggal'];
 
