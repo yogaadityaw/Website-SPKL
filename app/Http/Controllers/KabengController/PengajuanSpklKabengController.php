@@ -5,6 +5,7 @@ namespace App\Http\Controllers\KabengController;
 use App\Helpers\GenerateQRCode;
 use App\Helper\GenerateRandomSpklNumber;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -58,12 +59,15 @@ class PengajuanSpklKabengController extends Controller
             $spkl_number = $countSpklThisMonth + 1 . '/' . $bengkel->bengkel_name . '/' . date('m/Y');
             $spklRandNumber = GenerateRandomSpklNumber::generate();
             $qrSpkl = GenerateQRCode::generate($spklRandNumber);
+            $rencanaMulai = Carbon::parse($request->input('rencana_mulai'));
+            $rencanaSelesai = Carbon::parse($request->input('rencana_selesai'));
 
             $spkl = Spkl::create([
                 'spkl_number' => $spkl_number,
                 'qr_code' => $qrSpkl,
                 'uraian_pekerjaan' => $request->input('uraian_pekerjaan'),
-                'rencana' => $request->input('rencana'),
+                'rencana_mulai' => $rencanaMulai,
+                'rencana_selesai' => $rencanaSelesai,
                 'progres' => $request->input('progres'),
                 'tanggal' => $request->input('tanggal'),
                 'pt_id' => $request->input('pt_id'),
@@ -82,9 +86,10 @@ class PengajuanSpklKabengController extends Controller
                 'spkl_id' => $spkl->id_spkl,
             ]);
 
-
             return redirect()->route('pengajuan-spkl')->with('success', 'Data SPKL berhasil diajukan');
         } catch (\Exception $e) {
+
+            dd($e->getMessage());
             return redirect()->route('pengajuan-spkl')->with('error', 'Data Inputan Masih Ada Yang Kosong');
         }
     }

@@ -38,22 +38,20 @@
                                             <p>{{ $spkls->bengkel->bengkel_name }}</p>
                                         </div>
                                         <div class="col-3">
-                                            <h5>Pelaksanaan</h5>
-                                            @foreach ($spkls->userSpkls as $pegawai)
-                                                @if ($pegawai->check_in && $pegawai->check_out)
-                                                    <p>{{ $pegawai->user->user_fullname }} :
-                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
-                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
-                                                    </p>
-                                                @else
-                                                    <p>-</p>
-                                                @endif
-                                            @endforeach
+                                            <h5>Rencana_mulai</h5>
+                                            <p>{{ $spkls->rencana_mulai }}</p>
                                         </div>
+
                                         <div class="col-3">
-                                            <h5>Rencana</h5>
-                                            <p>{{ $spkls->rencana }}</p>
+                                            <h5>Rencana_selesai</h5>
+                                            <p>{{ $spkls->rencana_selesai }}</p>
                                         </div>
+
+                                        <div class="col-3">
+                                            <h5>Proyek</h5>
+                                            <p> {{ $spkls->proyek->proyek_name }} </p>
+                                        </div>
+
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
@@ -119,10 +117,21 @@
                                                 </textarea>
                                             </div>
                                         </div>
+
                                         <div class="col-3">
-                                            <h5>Proyek</h5>
-                                            <p> {{ $spkls->proyek->proyek_name }} </p>
+                                            <h5>Pelaksanaan</h5>
+                                            @foreach ($spkls->userSpkls as $pegawai)
+                                                @if ($pegawai->check_in && $pegawai->check_out)
+                                                    <p>{{ $pegawai->user->user_fullname }} :
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
+                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                    </p>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+                                            @endforeach
                                         </div>
+
                                         <div class="col-6">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)

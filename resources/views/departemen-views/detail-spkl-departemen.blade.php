@@ -38,23 +38,31 @@
                                             <h5>Bengkel</h5>
                                             <p>{{ $spkls->bengkel->bengkel_name }}</p>
                                         </div>
+
                                         <div class="col-3">
-                                            <h5>Pelaksanaan</h5>
-                                            @foreach ($spkls->userSpkls as $pegawai)
-                                                @if ($pegawai->check_in && $pegawai->check_out)
-                                                    <p>{{ $pegawai->user->user_fullname }} :
-                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
-                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
-                                                    </p>
-                                                @else
-                                                    <p>-</p>
-                                                @endif
-                                            @endforeach
+                                            <h5>Rencana_mulai</h5>
+                                            <p>{{ $spkls->rencana_mulai }}</p>
                                         </div>
+
                                         <div class="col-3">
-                                            <h5>Rencana</h5>
-                                            <p>{{ $spkls->rencana }}</p>
+                                            <h5>Rencana_selesai</h5>
+                                            <p>{{ $spkls->rencana_selesai }}</p>
                                         </div>
+
+                                        <div class="col-3">
+                                            <h5>Progress</h5>
+                                            <p> {{ $spkls->progres }} </p>
+                                        </div>
+
+
+{{--                                        <div class="col-3">--}}
+{{--                                            <h5>Rencana</h5>--}}
+{{--                                            <p>{{ $spkls->rencana }}</p>--}}
+{{--                                        </div>--}}
+
+
+
+
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
@@ -67,7 +75,7 @@
                                         </div>
                                         <div class="col-3">
                                             <h5>Tanggal</h5>
-                                            <p> {{ $spkls->tanggal }} </p>
+                                            <p>{{ date('d-m-Y', strtotime($spkls->tanggal)) }}</p>
                                         </div>
                                         <div class="col-3">
                                             <h5>Jam Realisasi</h5>
@@ -89,9 +97,20 @@
                                             <h5>Uraian Target Lembur</h5>
                                             <p>{{ $spkls->uraian_pekerjaan }}</p>
                                         </div>
+{{--                                      progres--}}
+
                                         <div class="col-3">
-                                            <h5>Progress</h5>
-                                            <p> {{ $spkls->progres }} </p>
+                                            <h5>Pelaksanaan</h5>
+                                            @foreach ($spkls->userSpkls as $pegawai)
+                                                @if ($pegawai->check_in && $pegawai->check_out)
+                                                    <p>{{ $pegawai->user->user_fullname }} :
+                                                        {{ date('H:i', strtotime($pegawai->check_in)) }}
+                                                        -{{ date('H:i', strtotime($pegawai->check_out)) }}
+                                                    </p>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+                                            @endforeach
                                         </div>
                                         <div class="row ml-1 mr-1">
                                             <div class="col-9">
