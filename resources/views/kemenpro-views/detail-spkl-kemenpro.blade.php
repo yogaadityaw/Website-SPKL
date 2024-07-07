@@ -39,20 +39,19 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <h5>Rencana_mulai</h5>
+                                            <h5>Rencana Mulai</h5>
                                             <p>{{ $spkls->rencana_mulai }}</p>
                                         </div>
 
                                         <div class="col-3">
-                                            <h5>Rencana_selesai</h5>
+                                            <h5>Rencana Selesai</h5>
                                             <p>{{ $spkls->rencana_selesai }}</p>
                                         </div>
 
                                         <div class="col-3">
-                                            <h5>Progress</h5>
-                                            <p> {{$spkls->progres}} </p>
+                                            <h5>Proyek</h5>
+                                            <p> {{ $spkls->proyek->proyek_name }} </p>
                                         </div>
-
 
 
                                     </div>
@@ -65,17 +64,20 @@
                                             <h5>Departemen</h5>
                                             <p>{{$spkls->bengkel->departemen->departemen_name}}</p>
                                         </div>
-                                        <div class="col-3">
-                                            <h5>Tanggal</h5>
-                                            <p> {{$spkls->tanggal}} </p>
-                                        </div>
-                                        <div class="col-3">
-                                            <h5>Proyek</h5>
-                                            <p> {{ $spkls->proyek->proyek_name }} </p>
-                                        </div>
+
                                         <div class="col-3">
                                             <h5>Uraian Target Lembur</h5>
                                             <p>{{$spkls->uraian_pekerjaan}}</p>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <h5>Progres</h5>
+                                            <p> {{$spkls->progres}} </p>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <h5>Tanggal</h5>
+                                            <p>{{ date('d-m-Y', strtotime($spkls->tanggal)) }}</p>
                                         </div>
 
                                         <div class="col-3">
@@ -88,7 +90,7 @@
                                         </div>
 
 
-{{--                                        progres--}}
+
                                         <div class="col-3">
                                             <h5>Pelaksanaan</h5>
                                             @foreach ($spkls->userSpkls as $pegawai)

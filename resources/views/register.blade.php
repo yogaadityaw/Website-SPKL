@@ -12,6 +12,16 @@
         <div class="card-header">
             <h4>Register</h4>
         </div>
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
         <div class="card-body">
             <form method="post" action="/register">

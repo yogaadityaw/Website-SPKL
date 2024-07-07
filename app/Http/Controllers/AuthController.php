@@ -50,7 +50,7 @@ class AuthController extends Controller
 
             return redirect('/')->with('success', 'Akun berhasil dibuat, silahkan login');
         } catch (\Exception $error) {
-            return dd($error);
+            return redirect ()->back()->with('error', 'Terjadi kesalahan: data tidak boleh ada yang kosong');
         }
     }
 
