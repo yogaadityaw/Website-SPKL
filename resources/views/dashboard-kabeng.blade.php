@@ -24,7 +24,6 @@
                             <h4>Statistics</h4>
                             <div class="card-header-action">
                                 <div class="btn-group">
-
                                     <a href="#" class="btn btn-primary">Bulan Ini</a>
                                 </div>
                             </div>
@@ -65,7 +64,7 @@
                 var statistics_chart = document.getElementById("myChart").getContext('2d');
 
                 var myChart = new Chart(statistics_chart, {
-                    type: 'line',
+                    type: 'bar', // Ganti 'line' menjadi 'bar'
                     data: {
                         labels: labels,
                         datasets: [{
@@ -73,10 +72,10 @@
                             data: chartData,
                             borderWidth: 5,
                             borderColor: '#6777ef',
-                            backgroundColor: 'transparent',
-                            pointBackgroundColor: '#fff',
-                            pointBorderColor: '#6777ef',
-                            pointRadius: 4
+                            backgroundColor: '#6777ef', // Ubah backgroundColor sesuai keinginan
+                            pointBackgroundColor: '#fff', // Ini bisa dihapus untuk bar chart
+                            pointBorderColor: '#6777ef', // Ini bisa dihapus untuk bar chart
+                            pointRadius: 4 // Ini bisa dihapus untuk bar chart
                         }]
                     },
                     options: {

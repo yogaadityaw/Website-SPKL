@@ -15,7 +15,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Dashboard Kemenpro</h1>
+                <h1>Dashboard Kepala Bengkel</h1>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -64,7 +64,7 @@
                 var statistics_chart = document.getElementById("myChart").getContext('2d');
 
                 var myChart = new Chart(statistics_chart, {
-                    type: 'line',
+                    type: 'bar', // Ganti 'line' menjadi 'bar'
                     data: {
                         labels: labels,
                         datasets: [{
@@ -72,10 +72,10 @@
                             data: chartData,
                             borderWidth: 5,
                             borderColor: '#6777ef',
-                            backgroundColor: 'transparent',
-                            pointBackgroundColor: '#fff',
-                            pointBorderColor: '#6777ef',
-                            pointRadius: 4
+                            backgroundColor: '#6777ef', // Ubah backgroundColor sesuai keinginan
+                            pointBackgroundColor: '#fff', // Ini bisa dihapus untuk bar chart
+                            pointBorderColor: '#6777ef', // Ini bisa dihapus untuk bar chart
+                            pointRadius: 4 // Ini bisa dihapus untuk bar chart
                         }]
                     },
                     options: {
