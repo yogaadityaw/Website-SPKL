@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            BengkelSeeder::class,
-            PtSeeder::class,
-            ProyekSeeder::class,
-//            RoleSeeder::class,
-            DepartemenSeeder::class,
+//            BengkelSeeder::class,
+//            PtSeeder::class,
+//            ProyekSeeder::class,
+////            RoleSeeder::class,
+//            DepartemenSeeder::class,
         ]);
     }
 }
