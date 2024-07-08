@@ -57,7 +57,6 @@ class DashboardPegawaiController extends Controller
                 ->orderBy('check_out', 'desc')
                 ->paginate(10);
 
-
             if ($filteredSpkls->isEmpty() && $finishedSpkls->isEmpty()) {
                 return view('pegawai-views.surat-pengajuan', compact('filteredSpkls', 'finishedSpkls'))->with('error', 'gagal menampilkan data spkl');
             }

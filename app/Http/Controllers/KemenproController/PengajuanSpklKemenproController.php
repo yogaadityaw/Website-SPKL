@@ -59,7 +59,7 @@ class PengajuanSpklKemenproController extends Controller
                 ]);
 
                 $qr = GenerateQRCode::generate(Auth::user()->user_nip);
-                $qr_data = QRCode::where('spkl_id', $spkl->spkl_number)->first();
+                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
                 $qr_data->update([
                     'pj_proyek_qr_code' => $qr
                 ]);

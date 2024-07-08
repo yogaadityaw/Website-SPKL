@@ -195,14 +195,14 @@ class PengajuanSpklKabengController extends Controller
     {
         $spkl = Spkl::findOrFail($id);
         $spkl->update([
-            'alasan_penolakan' => null,
             'progres' => $request->progres,
             'uraian_pekerjaan' => $request->uraian_pekerjaan,
             'rencana_mulai' => $request->rencana_mulai,
             'rencana_selesai' => $request->rencana_selesai,
             'tanggal' => $request->tanggal,
             'pt_id' => $request->pt_id,
-            'proyek_id' => $request->proyek_id
+            'proyek_id' => $request->proyek_id,
+            'status' => 'process'
         ]);
 
         return redirect()->route('pengajuan-spkl')->with('success', 'berhasil mengubah data spkl');
