@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <style>
         .location-image {
-            max-width: 30%;
+            max-width: 50%;
             height: auto;
             display: block;
             margin-top: 10px;
@@ -144,7 +144,7 @@
                                             @endif
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-md-3">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
@@ -169,7 +169,7 @@
                                                             alt="Location Image"
                                                             class="location-image img-fluid">
                                                     @else
-                                                        <p> </p>
+                                                        <p></p>
                                                     @endif
                                                 @else
                                                     <p>-</p>
@@ -197,7 +197,7 @@
                                                             alt="Location Image"
                                                             class="location-image img-fluid">
                                                     @else
-                                                        <p> </p>
+                                                        <p></p>
                                                     @endif
                                                 @else
                                                     <p>-</p>
@@ -205,19 +205,19 @@
                                                     </p>
                                                     @endforeach
                                         </div>
-                                        @if ($spkls->alasan_penolakan)
-                                            <div class="col-6">
-                                                <h5>Alasan Penolakan</h5>
-                                                <p>{{ $spkls->alasan_penolakan }}</p>
+                                        <div class="col-3">
+                                            <h5>Alasan Penolakan</h5>
+                                            <p>{{ $spkls->alasan_penolakan ?: '-' }}</p>
+                                            @if ($spkls->status == 'rejected')
                                                 <a href="{{ route('ubah-informasi', ['id' => $spkls->id_spkl]) }}"
                                                    class="btn btn-info">
                                                     Ubah Informasi
                                                 </a>
-                                            </div>
-                                        @endif
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-{{--                                {{//TODO: kerjakan setelah status sudah selesai}}--}}
+
                             </div>
                             <div class="card border border-lg rounded-lg mx-4">
                                 <div class="card-header">

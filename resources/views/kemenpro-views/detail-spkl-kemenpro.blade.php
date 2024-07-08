@@ -124,7 +124,7 @@
                                                 </textarea>
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkls->userSpkls as $detail)
                                                 <p>
@@ -182,6 +182,10 @@
                                                     @endif
                                                     </p>
                                                     @endforeach
+                                        </div>
+                                        <div class="col-3">
+                                            <h5>Alasan Penolakan</h5>
+                                            <p>{{ $spkls->alasan_penolakan ?: '-' }}</p>
                                         </div>
                                     </div>
                                 </div>

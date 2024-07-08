@@ -41,7 +41,7 @@ class PengajuanSpklDepartemenController extends Controller
     {
 
         $spkls = Spkl::where('spkl_number', $id)->first();
-        $qr = QRCode::where('spkl_id', $spkls->spkl_number)->first();
+        $qr = QRCode::where('spkl_id', $spkls->id_spkl)->first();
 
         return view('departemen-views.detail-spkl-departemen', compact('spkls', 'qr'));
     }
@@ -60,7 +60,7 @@ class PengajuanSpklDepartemenController extends Controller
                 ]);
 
                 $qr = GenerateQRCode::generate(Auth::user()->user_nip);
-                $qr_data = QRCode::where('spkl_id', $spkl->spkl_number)->first();
+                $qr_data = QRCode::where('spkl_id', $spkl->id_spkl)->first();
                 $qr_data->update([
                     'department_head_qr_code' => $qr
                 ]);
@@ -107,7 +107,7 @@ class PengajuanSpklDepartemenController extends Controller
                 'status' => 'rejected'
             ]);
 
-            $qr_codes = QRCode::where('spkl_id', $spkl->spkl_number)->first();
+            $qr_codes = QRCode::where('spkl_id', $spkl->id_spkl)->first();
             $qr_codes->update([
                 'workshop_head_qr_code' => null,
                 'department_head_qr_code' => null,

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
     <style>
         .location-image {
-            max-width: 30%;
+            max-width: 40%;
             height: auto;
             display: block;
             margin-top: 10px;
@@ -104,7 +104,7 @@
                                                 <input type="submit" value="Simpan">
                                             </form>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-md-3">
                                             <h5>Uraian Target Lembur</h5>
                                             <p>{{ $spkl->uraian_pekerjaan }}</p>
                                         </div>
@@ -124,7 +124,7 @@
                                                 </textarea>
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-md-4">
                                             <h5>Lokasi :</h5>
                                             @foreach ($spkl->userSpkls as $detail)
                                                 <p>
@@ -182,6 +182,10 @@
                                                     @endif
                                                     </p>
                                                     @endforeach
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5>Alasan Penolakan</h5>
+                                            <p>{{ $spkl->alasan_penolakan ?: '-' }}</p>
                                         </div>
                                     </div>
                                 </div>

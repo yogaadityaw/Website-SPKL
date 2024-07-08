@@ -177,13 +177,13 @@
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </button>
                                                 <div class="dropdown-menu"
-                                                     aria-labelledby="dropdownMenuButton-{{$spkl->id_spkl}}">
+                                                     aria-labelledby="dropdownMenuButton-{{$spkl->spkl->id_spkl}}">
                                                     <a class="dropdown-item"
-                                                       href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl_number])}}">
+                                                       href="{{ route('print-spkl', ['id_spkl' => $spkl->spkl->spkl_number])}}">
                                                         <i class="fas fa-print"></i> Print
                                                     </a>
                                                     <a class="dropdown-item"
-                                                       href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl_number]) }}">
+                                                       href="{{ route('detail-spkl-pegawai', ['id' => $spkl->spkl->id_spkl]) }}">
                                                         <i class="fas fa-book"></i> Detail
                                                     </a>
                                                 </div>
